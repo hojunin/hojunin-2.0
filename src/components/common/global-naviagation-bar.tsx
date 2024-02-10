@@ -12,10 +12,6 @@ import { DarkMode } from './dark-mode-button';
 import { cn } from '@/lib/utils';
 
 const MENU_LINKS = [
-  {
-    label: '테크',
-    link: '/tech',
-  },
   { label: '컨텐츠', link: '/contents' },
   {
     label: '내 소개',

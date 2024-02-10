@@ -2,7 +2,7 @@ import React from 'react';
 import TechPostListItem from './tech-post-list-item';
 import { createClient } from '@/lib/supabase/server';
 import { cookies } from 'next/headers';
-import CommonError from '../common/common-error';
+import CommonError from '../../common/common-error';
 
 const TechPostList = async () => {
   const cookieStore = cookies();
