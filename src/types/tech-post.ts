@@ -6,4 +6,5 @@ export interface TechPostListItemInterface {
   title: string;
   description: string;
   thumbnail: string;
+  slug: string;
 }
