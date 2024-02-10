@@ -9,9 +9,9 @@ const TechPostList = async () => {
   const supabase = createClient(cookieStore);
   const { data: techPostList, error } = await supabase
     .from('tech_post')
-    .select();
+    .select('id, title, description, thumbnail, slug');
 
-  if (error) {
+  if (error || !techPostList) {
     return <CommonError />;
   }
 

@@ -3,7 +3,11 @@ import { cookies } from 'next/headers';
 import React from 'react';
 
 const ContentsDetailLayout = ({ children }: { children: React.ReactNode }) => {
-  return <div>{children}</div>;
+  return (
+    <article className="bg-white dark:bg-gray-900 dark:text-white p-5 sm:p-10 rounded-lg shadow-lg w-full max-w-2xl mx-auto my-6 sm:my-12">
+      {children}
+    </article>
+  );
 };
 
 export default ContentsDetailLayout;
@@ -26,10 +30,10 @@ export async function generateMetadata({
   }
 
   return {
-    title: `HJINN | ${post.title}`,
+    title: `컨텐츠 | ${post.title}`,
     description: post.description,
     openGraph: {
-      title: `HJINN | ${post.title}`,
+      title: `컨텐츠 | ${post.title}`,
       description: post.description,
       images: [post.thumbnail],
     },

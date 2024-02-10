@@ -23,7 +23,7 @@ const ContentsDetail = async ({ slug }: Props) => {
   }
   return (
     <div>
-      <MDXRemote source={data.body} components={MDXComponents} />
+      <MDXRemote source={data.body} components={MDXComponents()} />
     </div>
   );
 };
