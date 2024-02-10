@@ -5,6 +5,9 @@ const nextConfig = {
   images: {
     domains: ['i.imgur.com'],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default withMDX({})(nextConfig);

@@ -1,20 +1,18 @@
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
+import { TechPostListItemInterface } from '@/types/tech-post';
 
-const TechPostListItem = () => {
+interface Props {
+  techPostItem: TechPostListItemInterface;
+}
+
+const TechPostListItem = ({ techPostItem }: Props) => {
   return (
     <Card className="cursor-pointer hover:opacity-70">
       <CardHeader className="block">
         <Image
-          src="https://i.imgur.com/HdCGCgV.png"
+          src={techPostItem.thumbnail}
           alt="image-test"
           className="rounded-lg"
           layout="responsive"
@@ -25,8 +23,8 @@ const TechPostListItem = () => {
       </CardHeader>
 
       <CardHeader>
-        <CardTitle>기술 타이틀</CardTitle>
-        <CardDescription>기술 타이틀</CardDescription>
+        <CardTitle>{techPostItem.title}</CardTitle>
+        <CardDescription>{techPostItem.description}</CardDescription>
       </CardHeader>
     </Card>
   );
