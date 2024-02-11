@@ -4,6 +4,7 @@ import './globals.css';
 import Layout from '@/components/common/layout';
 import { ThemeProvider } from '@/components/common/theme-provider';
 import SupabaseProvider from '@/context/supabase-provider';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
             <Layout>{children}</Layout>
           </SupabaseProvider>
         </ThemeProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
