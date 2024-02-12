@@ -10,30 +10,19 @@ import {
 } from '@/components/ui/carousel';
 import { useEffect, useRef, useState } from 'react';
 import { Badge } from '../ui/badge';
+import { HomeRollingBanner } from '@/types/banner';
+import { useRouter } from 'next/navigation';
 
-const bannerDummy = [
-  {
-    label: '새로운 컨텐츠',
-  },
-  {
-    label: '새로운 콜라보',
-  },
-  {
-    label: '5월 2주차 독후감',
-  },
-  {
-    label: '5월 2주차 회고록',
-  },
-  {
-    label: '개발이란 무엇인가?',
-  },
-];
+interface Props {
+  banners: HomeRollingBanner[];
+}
 
-const HomeCarousel = () => {
+const HomeCarousel = ({ banners = [] }: Props) => {
   const [api, setApi] = useState<CarouselApi>();
   const [currentIndex, setCurrentIndex] = useState(0);
   // https://www.embla-carousel.com/plugins/autoplay/
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: false }));
+  const router = useRouter();
 
   useEffect(() => {
     if (!api) {
@@ -54,12 +43,17 @@ const HomeCarousel = () => {
         setApi={setApi}
       >
         <CarouselContent>
-          {bannerDummy.map(({ label }, index) => (
-            <CarouselItem key={index}>
+          {banners.map((banner, index) => (
+            <CarouselItem
+              key={index}
+              onClick={() => router.push(banner.click_path)}
+            >
               <div className="p-1">
                 <Card>
                   <CardContent className="flex aspect-[97/28] items-center justify-center p-6">
-                    <span className="text-4xl font-semibold">{label}</span>
+                    <span className="text-4xl font-semibold">
+                      {banner.title}
+                    </span>
                   </CardContent>
                 </Card>
               </div>
@@ -69,7 +63,7 @@ const HomeCarousel = () => {
       </Carousel>
       <Badge variant="outline" className="absolute bottom-4 right-4">{`${
         currentIndex + 1
-      }/${bannerDummy.length}`}</Badge>
+      }/${banners.length}`}</Badge>
     </div>
   );
 };

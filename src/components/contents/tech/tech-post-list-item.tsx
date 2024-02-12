@@ -8,7 +8,6 @@ import {
   CardTitle,
 } from '../../ui/card';
 import Image from 'next/image';
-import { TechPostListItemInterface } from '@/types/tech-post';
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 
@@ -18,14 +17,15 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
+import { PostListItemInterface } from '@/types/contents';
 
 interface Props {
-  techPostItem: TechPostListItemInterface;
+  techPostItem: PostListItemInterface;
 }
 
 const TechPostListItem = ({ techPostItem }: Props) => {
   const { push } = useRouter();
-  const onClickItem = (item: TechPostListItemInterface) => {
+  const onClickItem = (item: PostListItemInterface) => {
     push(`/contents/dev/${item.slug}`);
   };
   return (

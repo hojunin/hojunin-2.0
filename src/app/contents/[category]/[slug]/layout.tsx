@@ -29,7 +29,6 @@ export async function generateMetadata({
   }
 
   const post = await response.json();
-  console.log('🚀 ~ post:', post);
 
   return {
     title: `컨텐츠 | ${post.title}`,
