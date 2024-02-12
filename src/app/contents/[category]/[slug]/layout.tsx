@@ -1,4 +1,7 @@
+import { BASE_URL } from '@/api/path';
 import { createClient } from '@/lib/supabase/server';
+import { ValueOf } from '@/types/common';
+import { ContentsCategory } from '@/types/contents';
 import { cookies } from 'next/headers';
 import React from 'react';
 
@@ -13,21 +16,20 @@ const ContentsDetailLayout = ({ children }: { children: React.ReactNode }) => {
 export default ContentsDetailLayout;
 
 export async function generateMetadata({
-  params: { slug },
+  params: { category, slug },
 }: {
-  params: { slug: string };
+  params: { category: ValueOf<typeof ContentsCategory>; slug: string };
 }) {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-  const { data: post, error } = await supabase
-    .from('tech_post')
-    .select()
-    .eq('slug', slug)
-    .single();
-
-  if (error || !post) {
-    return {};
+  const response = await fetch(`${BASE_URL}contents/${category}/${slug}`);
+  if (!response.ok) {
+    return {
+      title: '컨텐츠 | HJINN',
+      description: '프론트엔드 개발자 인호준의 개인 사이트',
+    };
   }
+
+  const post = await response.json();
+  console.log('🚀 ~ post:', post);
 
   return {
     title: `컨텐츠 | ${post.title}`,
