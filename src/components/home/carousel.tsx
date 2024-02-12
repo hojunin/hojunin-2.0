@@ -32,6 +32,7 @@ const bannerDummy = [
 const HomeCarousel = () => {
   const [api, setApi] = useState<CarouselApi>();
   const [currentIndex, setCurrentIndex] = useState(0);
+  // https://www.embla-carousel.com/plugins/autoplay/
   const plugin = useRef(Autoplay({ delay: 3000, stopOnInteraction: false }));
 
   useEffect(() => {

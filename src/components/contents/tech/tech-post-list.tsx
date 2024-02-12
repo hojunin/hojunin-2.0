@@ -1,17 +1,12 @@
 import React from 'react';
 import TechPostListItem from './tech-post-list-item';
-import { createClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
 import CommonError from '../../common/common-error';
 
 const TechPostList = async () => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-  const { data: techPostList, error } = await supabase
-    .from('tech_post')
-    .select('id, title, description, thumbnail, slug');
+  const response = await fetch('http://localhost:3000/api/contents/dev');
+  const techPostList = await response.json();
 
-  if (error || !techPostList) {
+  if (!techPostList) {
     return <CommonError />;
   }
 
