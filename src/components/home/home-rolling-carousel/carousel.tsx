@@ -37,6 +37,7 @@ const HomeCarousel = ({ banners = [] }: Props) => {
   const onClickBanner = (path: string) => {
     if (path.includes('https://')) {
       window.open(path);
+      return;
     }
     router.push(path);
   };
