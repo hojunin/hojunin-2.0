@@ -7,12 +7,12 @@ const TechPostList = async () => {
   const response = await fetch(`${BASE_URL}contents/dev`);
 
   if (!response.ok) {
-    return <CommonError />;
+    return <CommonError message="api 요청에 실패했어요" />;
   }
   const techPostList = await response.json();
 
   if (!techPostList) {
-    return <CommonError />;
+    return <CommonError message="데이터가 없어요" />;
   }
 
   return (
