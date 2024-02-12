@@ -1,7 +1,10 @@
 import React from 'react';
 import ContentsDetail from '@/components/contents/contents-detail';
 import { ValueOf } from '@/types/common';
-import { ContentsCategory } from '@/types/contents';
+import { ContentsCategory, PostListItemInterface } from '@/types/contents';
+import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
+import { fetcher } from '@/api/fetcher';
 
 const ContentsPage = async ({
   params: { category, slug },
@@ -17,9 +20,15 @@ const ContentsPage = async ({
 
 export default ContentsPage;
 
-export async function generateStaticParams() {
-  return [
-    { category: 'dev', slug: 'common-mistake-using-useeffect' },
-    { category: 'dev', slug: 'thumbhash' },
-  ];
-}
+// export async function generateStaticParams() {
+//   const contents = await fetcher<PostListItemInterface[]>({
+//     path: 'contents',
+//   });
+//   if (!contents) {
+//     return [];
+//   }
+//   return contents.map(({ category, slug }) => ({
+//     category,
+//     slug,
+//   }));
+// }

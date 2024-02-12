@@ -18,7 +18,7 @@ const categories = [
   },
   {
     label: '제테크',
-    path: 'dev',
+    path: 'money',
   },
 ];
 
