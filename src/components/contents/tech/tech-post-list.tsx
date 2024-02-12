@@ -1,9 +1,10 @@
 import React from 'react';
 import TechPostListItem from './tech-post-list-item';
 import CommonError from '../../common/common-error';
+import { BASE_URL } from '@/api/path';
 
 const TechPostList = async () => {
-  const response = await fetch('http://localhost:3000/api/contents/dev');
+  const response = await fetch(`${BASE_URL}contents/dev`);
   const techPostList = await response.json();
 
   if (!techPostList) {

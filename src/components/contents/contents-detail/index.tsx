@@ -1,3 +1,4 @@
+import { BASE_URL } from '@/api/path';
 import CommonError from '@/components/common/common-error';
 import { createClient } from '@/lib/supabase/server';
 import { MDXComponents } from '@/mdx-components';
@@ -13,12 +14,9 @@ interface Props {
 }
 
 const ContentsDetail = async ({ category, slug }: Props) => {
-  const response = await fetch(
-    `http://localhost:3000/api/contents/${category}/${slug}`,
-    {
-      cache: 'force-cache',
-    },
-  );
+  const response = await fetch(`${BASE_URL}contents/${category}/${slug}`, {
+    cache: 'force-cache',
+  });
   const contentDetail = await response.json();
 
   if (!contentDetail) {
