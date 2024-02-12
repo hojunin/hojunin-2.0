@@ -1,7 +1,5 @@
 import { fetcher } from '@/api/fetcher';
-import { BASE_URL } from '@/api/path';
 import CommonError from '@/components/common/common-error';
-import { createClient } from '@/lib/supabase/server';
 import { MDXComponents } from '@/mdx-components';
 import { ValueOf } from '@/types/common';
 import { ContentsCategory, PostListItemInterface } from '@/types/contents';

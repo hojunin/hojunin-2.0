@@ -1,7 +1,6 @@
 import React from 'react';
 import TechPostListItem from './tech-post-list-item';
 import CommonError from '../../common/common-error';
-import { BASE_URL } from '@/api/path';
 import { fetcher } from '@/api/fetcher';
 import { PostListItemInterface } from '@/types/contents';
 

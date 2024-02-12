@@ -38,10 +38,9 @@ const TechPostListItem = ({ techPostItem }: Props) => {
           src={techPostItem.thumbnail}
           alt="image-test"
           className="rounded-lg"
-          layout="responsive"
-          sizes="250px"
           width={500}
           height={250}
+          objectFit="contain"
         />
       </CardHeader>
 

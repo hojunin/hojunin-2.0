@@ -18,5 +18,8 @@ const ContentsPage = async ({
 export default ContentsPage;
 
 export async function generateStaticParams() {
-  return [{ category: 'dev', slug: 'common-mistake-using-useeffect' }];
+  return [
+    { category: 'dev', slug: 'common-mistake-using-useeffect' },
+    { category: 'dev', slug: 'thumbhash' },
+  ];
 }
