@@ -47,7 +47,6 @@ export const fetcher = async <T>({
   path,
   config,
 }: FetcherRequest): Promise<T> => {
-  console.log(path, config);
   try {
     const response = await fetch(`${BASE_URL}${path}`, {
       ...defaultConfig,

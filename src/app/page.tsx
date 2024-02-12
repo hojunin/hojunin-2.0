@@ -1,11 +1,10 @@
 import BestContents from '@/components/home/best-contents';
-import HomeCarousel from '@/components/home/carousel';
-import WeeklyQuest from '@/components/home/weekly-quest';
+import HomeRollingCarousel from '@/components/home/home-rolling-carousel';
 
 export default function Home() {
   return (
     <div className="mt-6">
-      <HomeCarousel />
+      <HomeRollingCarousel />
       <BestContents />
     </div>
   );
