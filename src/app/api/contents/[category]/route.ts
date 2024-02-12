@@ -14,7 +14,6 @@ export async function GET(request: Request, { params }: { params: IParams }) {
     .from('contents')
     .select('*')
     .eq('category', params.category);
-  console.log('🚀 ~ GET ~ data:', data);
 
   if (error) {
     return NextResponse.error();

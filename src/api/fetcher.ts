@@ -59,7 +59,6 @@ export const fetcher = async <T>({
 
     return handleError(response.status);
   } catch (error) {
-    console.log('🚀 ~ error:', error);
     throw error;
   }
 };
