@@ -1,9 +1,10 @@
+import { fetcher } from '@/api/fetcher';
 import { BASE_URL } from '@/api/path';
 import CommonError from '@/components/common/common-error';
 import { createClient } from '@/lib/supabase/server';
 import { MDXComponents } from '@/mdx-components';
 import { ValueOf } from '@/types/common';
-import { ContentsCategory } from '@/types/contents';
+import { ContentsCategory, PostListItemInterface } from '@/types/contents';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import React from 'react';
 
@@ -13,13 +14,9 @@ interface Props {
 }
 
 const ContentsDetail = async ({ category, slug }: Props) => {
-  const response = await fetch(`${BASE_URL}contents/${category}/${slug}`, {
-    cache: 'force-cache',
+  const contentDetail = await fetcher<PostListItemInterface>({
+    path: `contents/${category}/${slug}`,
   });
-  if (!response.ok) {
-    return <CommonError />;
-  }
-  const contentDetail = await response.json();
 
   if (!contentDetail) {
     return <CommonError />;

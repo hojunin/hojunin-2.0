@@ -9,7 +9,7 @@ import {
   CarouselItem,
 } from '@/components/ui/carousel';
 import { useEffect, useRef, useState } from 'react';
-import { Badge } from '../ui/badge';
+import { Badge } from '../../ui/badge';
 import { HomeRollingBanner } from '@/types/banner';
 import { useRouter } from 'next/navigation';
 
@@ -47,6 +47,7 @@ const HomeCarousel = ({ banners = [] }: Props) => {
             <CarouselItem
               key={index}
               onClick={() => router.push(banner.click_path)}
+              className="cursor-pointer"
             >
               <div className="p-1">
                 <Card>
