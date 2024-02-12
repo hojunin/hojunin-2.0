@@ -5,7 +5,6 @@ import { MDXComponents } from '@/mdx-components';
 import { ValueOf } from '@/types/common';
 import { ContentsCategory } from '@/types/contents';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { cookies } from 'next/headers';
 import React from 'react';
 
 interface Props {
@@ -17,6 +16,9 @@ const ContentsDetail = async ({ category, slug }: Props) => {
   const response = await fetch(`${BASE_URL}contents/${category}/${slug}`, {
     cache: 'force-cache',
   });
+  if (!response.ok) {
+    return <CommonError />;
+  }
   const contentDetail = await response.json();
 
   if (!contentDetail) {

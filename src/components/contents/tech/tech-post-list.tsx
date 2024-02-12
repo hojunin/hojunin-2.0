@@ -5,6 +5,10 @@ import { BASE_URL } from '@/api/path';
 
 const TechPostList = async () => {
   const response = await fetch(`${BASE_URL}contents/dev`);
+
+  if (!response.ok) {
+    return <CommonError />;
+  }
   const techPostList = await response.json();
 
   if (!techPostList) {
