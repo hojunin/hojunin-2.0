@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '../../ui/card';
-import Image from 'next/image';
+import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 
@@ -40,8 +40,11 @@ const TechPostListItem = ({ techPostItem }: Props) => {
           className="rounded-lg"
           width={500}
           height={250}
-          objectFit="contain"
-        />
+          style={{
+            maxWidth: "100%",
+            height: "auto",
+            objectFit: "contain"
+          }} />
       </CardHeader>
 
       <CardHeader>
