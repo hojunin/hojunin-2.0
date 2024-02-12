@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '../../ui/card';
-import Image from "next/image";
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 
@@ -26,7 +26,7 @@ interface Props {
 const TechPostListItem = ({ techPostItem }: Props) => {
   const { push } = useRouter();
   const onClickItem = (item: PostListItemInterface) => {
-    push(`/contents/dev/${item.slug}`);
+    push(`/contents/${techPostItem.category}/${item.slug}`);
   };
   return (
     <Card
@@ -41,10 +41,11 @@ const TechPostListItem = ({ techPostItem }: Props) => {
           width={500}
           height={250}
           style={{
-            maxWidth: "100%",
-            height: "auto",
-            objectFit: "contain"
-          }} />
+            maxWidth: '100%',
+            height: 'auto',
+            objectFit: 'contain',
+          }}
+        />
       </CardHeader>
 
       <CardHeader>

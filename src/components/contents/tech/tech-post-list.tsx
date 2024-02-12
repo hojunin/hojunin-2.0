@@ -4,22 +4,26 @@ import CommonError from '../../common/common-error';
 import { fetcher } from '@/api/fetcher';
 import { PostListItemInterface } from '@/types/contents';
 
-const TechPostList = async () => {
-  const techPostList = await fetcher<PostListItemInterface[]>({
-    path: 'contents/dev',
+interface Props {
+  category: string;
+}
+
+const PostList = async ({ category }: Props) => {
+  const postList = await fetcher<PostListItemInterface[]>({
+    path: `contents/${category}`,
   });
 
-  if (!techPostList) {
+  if (!postList) {
     return <CommonError message="데이터가 없어요" />;
   }
 
   return (
     <ul className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-      {techPostList.map((techPost) => (
-        <TechPostListItem key={techPost.id} techPostItem={techPost} />
+      {postList.map((post) => (
+        <TechPostListItem key={post.id} techPostItem={post} />
       ))}
     </ul>
   );
 };
 
-export default TechPostList;
+export default PostList;
