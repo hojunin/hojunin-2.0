@@ -34,6 +34,13 @@ const HomeCarousel = ({ banners = [] }: Props) => {
     });
   }, [api]);
 
+  const onClickBanner = (path: string) => {
+    if (path.includes('https://')) {
+      window.open(path);
+    }
+    router.push(path);
+  };
+
   return (
     <div className="relative">
       <Carousel
@@ -46,14 +53,18 @@ const HomeCarousel = ({ banners = [] }: Props) => {
           {banners.map((banner, index) => (
             <CarouselItem
               key={index}
-              onClick={() => router.push(banner.click_path)}
+              onClick={() => onClickBanner(banner.click_path)}
               className="cursor-pointer"
             >
               <div className="p-1">
                 <Card>
-                  <CardContent className="flex aspect-[97/28] items-center justify-center p-6">
+                  <CardContent className="flex flex-col gap-y-4 aspect-[97/28] items-center justify-center p-6">
                     <span className="text-4xl font-semibold">
                       {banner.title}
+                    </span>
+
+                    <span className="text-xl text-gray-300">
+                      {banner.sub_title}
                     </span>
                   </CardContent>
                 </Card>
