@@ -7,6 +7,7 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    './mdx-components.tsx',
   ],
   prefix: '',
   theme: {
@@ -56,6 +57,14 @@ const config = {
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',
+        },
+        code: {
+          green: '#b5f4a5',
+          yellow: '#ffe484',
+          purple: '#d9a9ff',
+          red: '#ff8383',
+          blue: '#93ddfd',
+          white: '#fff',
         },
       },
 

@@ -1,7 +1,35 @@
 import type { MDXComponents } from 'mdx/types';
+import Image from 'next/image';
 import Link from 'next/link';
+import { HTMLProps } from 'react';
 
-export function MDXComponents(): MDXComponents {
+function NextImage(props: HTMLProps<HTMLImageElement>) {
+  const { src } = props;
+  const width = Number(props.width);
+  const height = Number(props.height);
+
+  if (src) {
+    if (src.startsWith('http')) {
+      // eslint-disable-next-line @next/next/no-img-element
+      return <img src={src} alt={src} width={width} height={height} />;
+    } else {
+      return (
+        <Image
+          width={width}
+          height={height}
+          alt={props.alt || ''}
+          crossOrigin="anonymous"
+          src={src}
+          placeholder="empty"
+        />
+      );
+    }
+  } else {
+    return <p>Currently, image is not available. {src}</p>;
+  }
+}
+
+export function useMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     h1: ({ children }) => (
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
@@ -26,6 +54,7 @@ export function MDXComponents(): MDXComponents {
     p: ({ children }) => (
       <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>
     ),
+    img: NextImage,
     blockquote: ({ children }) => (
       <blockquote className="mt-6 border-l-2 pl-6 italic">
         {children}
@@ -40,16 +69,6 @@ export function MDXComponents(): MDXComponents {
         {children}
       </pre>
     ),
-    code: ({ children }) => {
-      if (typeof children === 'string') {
-        return (
-          <code className="inline p-2 m-2 overflow-visible wor">
-            {children}
-          </code>
-        );
-      }
-      return null;
-    },
     a: ({ children, href }) => {
       if (!href) {
         return null;
@@ -64,5 +83,6 @@ export function MDXComponents(): MDXComponents {
         {children}
       </Link>;
     },
+    ...components,
   };
 }
