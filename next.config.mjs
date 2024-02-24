@@ -1,13 +1,30 @@
-import withMDX from '@next/mdx';
+import createMDX from '@next/mdx';
+import remarkGfm from 'remark-gfm';
 
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   images: {
-    domains: ['i.imgur.com', 'lnwblzacktgzeiihvxtu.supabase.co'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'i.imgur.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lnwblzacktgzeiihvxtu.supabase.co',
+      },
+    ],
   },
   typescript: {
     ignoreBuildErrors: true,
   },
 };
 
-export default withMDX({})(nextConfig);
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [remarkGfm],
+    rehypePlugins: [],
+  },
+});
+
+export default withMDX(nextConfig);

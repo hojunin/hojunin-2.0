@@ -1,4 +1,5 @@
 import type { MDXComponents } from 'mdx/types';
+import Link from 'next/link';
 
 export function MDXComponents(): MDXComponents {
   return {
@@ -34,20 +35,34 @@ export function MDXComponents(): MDXComponents {
       <ul className="my-6 ml-6 list-disc [&>li]:mt-2">{children}</ul>
     ),
     li: ({ children }) => <li>{children}</li>,
-    code: ({ children }) => (
-      <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold">
+    pre: ({ children }) => (
+      <pre className="rounded-md p-4 bg-gray-300 dark:bg-gray-800">
         {children}
-      </code>
+      </pre>
     ),
-    a: ({ children, href }) => (
-      <a
+    code: ({ children }) => {
+      if (typeof children === 'string') {
+        return (
+          <code className="inline p-2 m-2 overflow-visible wor">
+            {children}
+          </code>
+        );
+      }
+      return null;
+    },
+    a: ({ children, href }) => {
+      if (!href) {
+        return null;
+      }
+
+      <Link
         href={href}
         className="text-primary underline"
         target="_blank"
         rel="noopener noreferrer"
       >
         {children}
-      </a>
-    ),
+      </Link>;
+    },
   };
 }

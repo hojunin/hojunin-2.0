@@ -4,6 +4,7 @@ import { MDXComponents } from '@/mdx-components';
 import { ValueOf } from '@/types/common';
 import { ContentsCategory, PostListItemInterface } from '@/types/contents';
 import { MDXRemote } from 'next-mdx-remote/rsc';
+import remarkGfm from 'remark-gfm';
 import React from 'react';
 
 interface Props {
@@ -21,7 +22,15 @@ const ContentsDetail = async ({ category, slug }: Props) => {
   }
   return (
     <div>
-      <MDXRemote source={contentDetail.body} components={MDXComponents()} />
+      <MDXRemote
+        options={{
+          mdxOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        }}
+        source={contentDetail.body}
+        components={MDXComponents()}
+      />
     </div>
   );
 };

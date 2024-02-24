@@ -57,23 +57,23 @@ export const fetcher = async <T>({
       return await response.json();
     }
 
-    return handleError(response.status);
+    return handleError(response.status, path);
   } catch (error) {
     throw error;
   }
 };
 
-const handleError = (status: number) => {
+const handleError = (status: number, path: string) => {
   switch (status) {
     case 401:
-      throw new Error('인증 문제 발생');
+      throw new Error(`${path}-권한이 없음`);
     case 404:
-      throw new Error('데이터를 찾을 수 없음');
+      throw new Error(`${path}-데이터를 찾을 수 없음`);
     case 500:
-      throw new Error('서버가 응답하지 않음');
+      throw new Error(`${path}-서버가 응답하지 않음`);
     case 503:
-      throw new Error('타임아웃');
+      throw new Error(`${path}-서비스를 사용할 수 없음`);
     default:
-      throw new Error('데이터 페칭 실패');
+      throw new Error(`${path}-알 수 없는 오류`);
   }
 };
