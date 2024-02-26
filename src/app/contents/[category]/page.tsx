@@ -8,10 +8,6 @@ const ContentsCategoryPage = ({
 }) => {
   return (
     <div>
-      <h1 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-        {category}
-      </h1>
-
       <PostList category={category} />
     </div>
   );
