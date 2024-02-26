@@ -1,0 +1,60 @@
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  BriefcaseIcon,
+  CircleDollarSignIcon,
+  CodeIcon,
+  HeadphonesIcon,
+  XIcon,
+} from 'lucide-react';
+import React from 'react';
+
+interface Props {
+  category: string;
+}
+
+const CategoryCard = ({ category }: Props) => {
+  const CategoryIcon = ({ label }: { label: string }) => {
+    switch (label) {
+      case '개발':
+        return <CodeIcon color="#aeaeae" />;
+      case '생활':
+        return <HeadphonesIcon color="#aeaeae" />;
+      case '커리어':
+        return <BriefcaseIcon color="#aeaeae" />;
+      case '제테크':
+        return <CircleDollarSignIcon color="#aeaeae" />;
+      default:
+        return <XIcon color="#aeaeae" />;
+    }
+  };
+  const getDescription = (label: string) => {
+    switch (label) {
+      case '개발':
+        return '개발 이야기';
+      case '생활':
+        return '사는 이야기';
+      case '커리어':
+        return '커리어 이야기';
+      case '제테크':
+        return '돈 되는 이야기';
+      default:
+        return '으잉';
+    }
+  };
+  return (
+    <Card>
+      <CardHeader>
+        <CategoryIcon label={category} />
+        <CardTitle>{category}</CardTitle>
+        <CardDescription>{getDescription(category)}</CardDescription>
+      </CardHeader>
+    </Card>
+  );
+};
+
+export default CategoryCard;

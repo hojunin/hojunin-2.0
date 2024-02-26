@@ -20,22 +20,22 @@ import {
 import { PostListItemInterface } from '@/types/contents';
 
 interface Props {
-  techPostItem: PostListItemInterface;
+  postItem: PostListItemInterface;
 }
 
-const TechPostListItem = ({ techPostItem }: Props) => {
+const PostListItem = ({ postItem }: Props) => {
   const { push } = useRouter();
   const onClickItem = (item: PostListItemInterface) => {
-    push(`/contents/${techPostItem.category}/${item.slug}`);
+    push(`/contents/${postItem.category}/${item.slug}`);
   };
   return (
     <Card
       className="cursor-pointer hover:opacity-70"
-      onClick={() => onClickItem(techPostItem)}
+      onClick={() => onClickItem(postItem)}
     >
       <CardHeader className="block">
         <Image
-          src={techPostItem.thumbnail}
+          src={postItem.thumbnail}
           alt="image-test"
           className="rounded-lg"
           width={500}
@@ -49,8 +49,8 @@ const TechPostListItem = ({ techPostItem }: Props) => {
       </CardHeader>
 
       <CardHeader>
-        <CardTitle>{techPostItem.title}</CardTitle>
-        <CardDescription>{techPostItem.description}</CardDescription>
+        <CardTitle>{postItem.title}</CardTitle>
+        <CardDescription>{postItem.description}</CardDescription>
       </CardHeader>
       <CardFooter className="flex gap-x-2">
         <TooltipProvider>
@@ -77,4 +77,4 @@ const TechPostListItem = ({ techPostItem }: Props) => {
   );
 };
 
-export default TechPostListItem;
+export default PostListItem;

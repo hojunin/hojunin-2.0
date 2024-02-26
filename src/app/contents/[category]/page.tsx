@@ -1,4 +1,4 @@
-import PostList from '@/components/contents/tech/tech-post-list';
+import PostList from '@/components/contents/post/post-list';
 import React from 'react';
 
 const ContentsCategoryPage = ({

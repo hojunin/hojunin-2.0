@@ -1,5 +1,5 @@
 import React from 'react';
-import TechPostListItem from './tech-post-list-item';
+import PostListItem from './post-list-item';
 import CommonError from '../../common/common-error';
 import { fetcher } from '@/api/fetcher';
 import { PostListItemInterface } from '@/types/contents';
@@ -20,7 +20,7 @@ const PostList = async ({ category }: Props) => {
   return (
     <ul className="grid grid-cols-1 gap-5 sm:grid-cols-3">
       {postList.map((post) => (
-        <TechPostListItem key={post.id} techPostItem={post} />
+        <PostListItem key={post.id} postItem={post} />
       ))}
     </ul>
   );

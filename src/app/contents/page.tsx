@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import Link from 'next/link';
 import React from 'react';
+import CategoryCard from './[category]/category-card';
 
 const categories = [
   {
@@ -13,7 +13,7 @@ const categories = [
     path: 'life',
   },
   {
-    label: '회사생활',
+    label: '커리어',
     path: 'work',
   },
   {
@@ -24,14 +24,12 @@ const categories = [
 
 const ContentsPage = () => {
   return (
-    <div>
-      <Card className="flex items-center gap-x-3 w-full h-20 p-4 mb-10 mt-10">
-        {categories.map(({ label, path }) => (
-          <Button asChild key={`${label}-${path}`}>
-            <Link href={`/contents/${path}`}>{label}</Link>
-          </Button>
-        ))}
-      </Card>
+    <div className="flex w-full gap-x-4">
+      {categories.map(({ label, path }) => (
+        <Link href={`/contents/${path}`} key={`${label}-${path}`}>
+          <CategoryCard category={label} />
+        </Link>
+      ))}
     </div>
   );
 };
