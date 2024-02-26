@@ -8,6 +8,8 @@ import { MDXRemote } from 'next-mdx-remote/rsc';
 import remarkGfm from 'remark-gfm';
 import prism from 'rehype-prism-plus';
 import { parseCodeSnippet } from '@/lib/mdx';
+import remarkFrontmatter from 'remark-frontmatter';
+import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
 interface Props {
   category: ValueOf<typeof ContentsCategory>;
@@ -28,7 +30,7 @@ const ContentsDetail = async ({ category, slug }: Props) => {
       <MDXRemote
         options={{
           mdxOptions: {
-            remarkPlugins: [remarkGfm],
+            remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
             rehypePlugins: [prism, parseCodeSnippet],
           },
         }}

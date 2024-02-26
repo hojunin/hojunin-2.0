@@ -23,10 +23,10 @@ export async function generateMetadata({
   });
 
   return {
-    title: `컨텐츠 | ${post.title}`,
+    title: `${post.title} | 컨텐츠 `,
     description: post.description,
     openGraph: {
-      title: `컨텐츠 | ${post.title}`,
+      title: `${post.title} | 컨텐츠 `,
       description: post.description,
       images: [post.thumbnail],
     },

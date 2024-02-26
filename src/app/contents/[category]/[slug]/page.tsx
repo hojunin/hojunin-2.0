@@ -30,3 +30,6 @@ export async function generateStaticParams() {
     slug,
   }));
 }
+
+export const dynamic = 'error';
+export const revalidate = false;
