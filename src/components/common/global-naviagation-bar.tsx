@@ -21,7 +21,7 @@ const MENU_LINKS = [
 
 const GlobalNavigationBar = () => {
   return (
-    <header className="flex items-center justify-between p-6 border-b">
+    <header className="fixed w-full bg-background opacity-80 flex items-center justify-between p-6 border-b">
       <div className="flex gap-x-7">
         <Link href="/">
           <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">

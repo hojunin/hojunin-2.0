@@ -9,7 +9,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <div>
       <GlobalNavigationBar />
 
-      <main className="flex flex-col min-h-screen my-0 mx-auto justify-between px-4 md:px-20 sm:px-40">
+      <main className="flex pt-32 flex-col min-h-screen my-0 mx-auto justify-between px-4 md:px-20 sm:px-40">
         {children}
       </main>
 
