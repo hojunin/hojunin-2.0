@@ -59,6 +59,7 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
       <blockquote className="mt-6 border-l-2 pl-6 italic">
         {children}
       </blockquote>
+      // return <Callout />;
     ),
     ul: ({ children }) => (
       <ul className="my-6 ml-6 list-disc [&>li]:mt-2">{children}</ul>

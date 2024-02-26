@@ -38,13 +38,11 @@ const ContactSheet = () => {
     },
   });
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
   return (
     <Sheet>
-      <SheetTrigger>커피챗 신청하기</SheetTrigger>
+      <SheetTrigger className="text-left">Coffee Chat ☕️</SheetTrigger>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>커피챗 신청하기</SheetTitle>

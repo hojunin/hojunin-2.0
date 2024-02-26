@@ -1,7 +1,7 @@
 import React from 'react';
 import PostListItem from './post-list-item';
 import CommonError from '../../common/common-error';
-import { fetcher } from '@/api/fetcher';
+import { HTTP_METHOD_TYPE, fetcher } from '@/api/fetcher';
 import { PostListItemInterface } from '@/types/contents';
 
 interface Props {
@@ -11,6 +11,10 @@ interface Props {
 const PostList = async ({ category }: Props) => {
   const postList = await fetcher<PostListItemInterface[]>({
     path: `contents/${category}`,
+    config: {
+      cache: 'no-cache',
+      method: HTTP_METHOD_TYPE.GET,
+    },
   });
 
   if (!postList) {

@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React from 'react';
-import CategoryCard from './[category]/category-card';
+import CategoryCard from '../../components/contents/category-card';
 
 const categories = [
   {
