@@ -2,6 +2,7 @@ import type { MDXComponents } from 'mdx/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HTMLProps } from 'react';
+import Typography from './components/common/typography';
 
 function NextImage(props: HTMLProps<HTMLImageElement>) {
   const { src } = props;
@@ -31,29 +32,11 @@ function NextImage(props: HTMLProps<HTMLImageElement>) {
 
 export function useMDXComponents(components?: MDXComponents): MDXComponents {
   return {
-    h1: ({ children }) => (
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-        {children}
-      </h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
-        {children}
-      </h3>
-    ),
-    h4: ({ children }) => (
-      <h4 className="scroll-m-20 text-xl font-semibold tracking-tight">
-        {children}
-      </h4>
-    ),
-    p: ({ children }) => (
-      <p className="leading-7 [&:not(:first-child)]:mt-6">{children}</p>
-    ),
+    h1: ({ children }) => <Typography variant="h1">{children}</Typography>,
+    h2: ({ children }) => <Typography variant="h2">{children}</Typography>,
+    h3: ({ children }) => <Typography variant="h3">{children}</Typography>,
+    h4: ({ children }) => <Typography variant="h4">{children}</Typography>,
+    p: ({ children }) => <Typography variant="p">{children}</Typography>,
     img: NextImage,
     blockquote: ({ children }) => (
       <blockquote className="mt-6 border-l-2 pl-6 italic">
