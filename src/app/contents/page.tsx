@@ -1,7 +1,7 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import React from 'react';
 import CategoryCard from '../../components/contents/category-card';
+import Callout from '@/components/common/callout';
 
 const categories = [
   {
@@ -24,12 +24,15 @@ const categories = [
 
 const ContentsPage = () => {
   return (
-    <div className="flex w-full gap-x-4">
-      {categories.map(({ label, path }) => (
-        <Link href={`/contents/${path}`} key={`${label}-${path}`}>
-          <CategoryCard category={label} />
-        </Link>
-      ))}
+    <div>
+      <Callout title="공사중" type="info" message="뭘 넣는게 좋을까~" />
+      <section className="flex w-full gap-x-4 mt-5">
+        {categories.map(({ label, path }) => (
+          <Link href={`/contents/${path}`} key={`${label}-${path}`}>
+            <CategoryCard category={label} />
+          </Link>
+        ))}
+      </section>
     </div>
   );
 };
