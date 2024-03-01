@@ -28,16 +28,13 @@ const ProfileSection = ({
       )}
       <div>
         <Typography
-          variant={'h2'}
+          variant="h2"
           className={alignLeft ? 'text-left' : 'text-right'}
         >
           {title}
         </Typography>
 
-        <Typography
-          variant={'p'}
-          className="whitespace-pre-line text-muted-foreground"
-        >
+        <Typography variant="p" className="text-muted-foreground">
           {description}
         </Typography>
       </div>
