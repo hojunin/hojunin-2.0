@@ -5,6 +5,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import {
+  Book,
   BriefcaseIcon,
   CircleDollarSignIcon,
   CodeIcon,
@@ -28,6 +29,8 @@ const CategoryCard = ({ category }: Props) => {
         return <BriefcaseIcon color="#aeaeae" />;
       case '제테크':
         return <CircleDollarSignIcon color="#aeaeae" />;
+      case '독서':
+        return <Book color="#aeaeae" />;
       default:
         return <XIcon color="#aeaeae" />;
     }
@@ -40,6 +43,8 @@ const CategoryCard = ({ category }: Props) => {
         return '사는 이야기';
       case '커리어':
         return '커리어 이야기';
+      case '독서':
+        return '책 먹기';
       case '제테크':
         return '돈 되는 이야기';
       default:
