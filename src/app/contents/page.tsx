@@ -17,6 +17,10 @@ const categories = [
     path: 'work',
   },
   {
+    label: '독서',
+    path: 'book',
+  },
+  {
     label: '제테크',
     path: 'money',
   },
