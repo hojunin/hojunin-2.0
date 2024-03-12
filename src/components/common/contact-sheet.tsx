@@ -7,6 +7,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '../ui/sheet';
+import { Resend } from 'resend';
 
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -24,6 +25,8 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/components/ui/use-toast';
+import { sendEmail } from '@/api/email';
 
 const formSchema = z.object({
   name: z.string().min(2).max(50).optional(),
@@ -32,6 +35,7 @@ const formSchema = z.object({
 });
 
 const ContactSheet = () => {
+  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -40,8 +44,27 @@ const ContactSheet = () => {
       message: '',
     },
   });
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // 'use server';
+  async function onSubmit({
+    email,
+    name,
+    message,
+  }: z.infer<typeof formSchema>) {
+    try {
+      const { error } = await sendEmail({ from: email, name, message });
+      if (error) {
+        throw error;
+      }
+      toast({
+        title: '커피챗 요청 완료!',
+        description: '주인장의 응답을 기다려주세요',
+      });
+    } catch (error) {
+      toast({
+        title: '커피챗 요청 실패',
+        description: error.message,
+        variant: 'destructive',
+      });
+    }
   }
   return (
     <Sheet>
@@ -59,9 +82,9 @@ const ContactSheet = () => {
                 <FormItem>
                   <FormLabel>이름</FormLabel>
                   <FormControl>
-                    <Input placeholder="ABC~" {...field} />
+                    <Input placeholder="000" {...field} />
                   </FormControl>
-                  <FormDescription>안적어도 좋아요</FormDescription>
+                  <FormDescription>*안적어도 좋아요</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -81,7 +104,7 @@ const ContactSheet = () => {
             />
             <FormField
               control={form.control}
-              name="email"
+              name="message"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>메시지</FormLabel>
@@ -96,7 +119,11 @@ const ContactSheet = () => {
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit" disabled={false}>
+            <Button
+              className="w-full"
+              type="submit"
+              disabled={!form.formState.isValid}
+            >
               제출하기
             </Button>
           </form>
