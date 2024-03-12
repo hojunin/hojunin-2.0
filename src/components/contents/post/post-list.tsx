@@ -1,23 +1,22 @@
 import React from 'react';
 import PostListItem from './post-list-item';
 import CommonError from '../../common/common-error';
-import { HTTP_METHOD_TYPE, fetcher } from '@/api/fetcher';
-import { PostListItemInterface } from '@/types/contents';
+import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 
 interface Props {
   category: string;
 }
 
 const PostList = async ({ category }: Props) => {
-  const postList = await fetcher<PostListItemInterface[]>({
-    path: `contents/${category}`,
-    config: {
-      cache: 'no-cache',
-      method: HTTP_METHOD_TYPE.GET,
-    },
-  });
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const { data: postList, error } = await supabase
+    .from('contents')
+    .select('id, created_at, title, description, thumbnail, slug, category')
+    .eq('category', category);
 
-  if (!postList) {
+  if (!postList || error) {
     return <CommonError message="데이터가 없어요" />;
   }
 
