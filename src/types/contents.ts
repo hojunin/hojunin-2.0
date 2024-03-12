@@ -19,5 +19,4 @@ export interface PostListItemInterface {
   thumbnail: string;
   slug: string;
   category: ValueOf<typeof ContentsCategory>;
-  body: string;
 }
