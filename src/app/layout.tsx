@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/common/theme-provider';
 import SupabaseProvider from '@/context/supabase-provider';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
           <SupabaseProvider>
             <Layout>{children}</Layout>
+            <Toaster />
           </SupabaseProvider>
         </ThemeProvider>
         <SpeedInsights />
