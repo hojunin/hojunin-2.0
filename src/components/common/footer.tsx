@@ -1,5 +1,5 @@
 import React from 'react';
-import ContactSheet from './contect-sheet';
+import ContactSheet from './contact-sheet';
 import Link from 'next/link';
 
 const Footer = () => {
