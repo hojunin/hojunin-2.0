@@ -1,14 +1,20 @@
-import { fetcher } from '@/api/fetcher';
-import { HomeRollingBanner } from '@/types/banner';
 import React from 'react';
 import HomeCarousel from './carousel';
+import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
+import dayjs from 'dayjs';
 
 const HomeRollingCarousel = async () => {
-  const banners = await fetcher<HomeRollingBanner[]>({
-    path: 'banner/home-rolling',
-  });
+  const cookiesStore = cookies();
+  const supabase = createClient(cookiesStore);
+  const { data: banners, error } = await supabase
+    .from('home_rolling_banner')
+    .select('*')
+    .eq('status', 'active')
+    .lte('impression_started', dayjs().format('YYYY-MM-DD HH:mm:ss'))
+    .gte('impression_ended', dayjs().format('YYYY-MM-DD HH:mm:ss'));
 
-  if (!banners) return null;
+  if (!banners || error) return null;
 
   return <HomeCarousel banners={banners} />;
 };
