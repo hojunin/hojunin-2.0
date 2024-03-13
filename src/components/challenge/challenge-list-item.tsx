@@ -47,22 +47,21 @@ const ChallengeListItem = ({ userChallenge }: Props) => {
   };
 
   return (
-    <Card onClick={() => onClickCard(link)} className={cn('hover:opacity-85')}>
+    <Card onClick={() => onClickCard(link)} className={cn('hover:opacity-80')}>
       <HoverCard openDelay={100} closeDelay={100}>
         <HoverCardTrigger>
           <CardHeader>
             <CardTitle>{challenge.name}</CardTitle>
             <CardDescription>{detail}</CardDescription>
           </CardHeader>
-          <CardContent></CardContent>
-          <CardFooter>
+          <CardContent>
             <ChallengeCountBadge
               goal_count={goal_count}
               achieved_count={achieved_count}
             />
-          </CardFooter>
+          </CardContent>
         </HoverCardTrigger>
-        <HoverCardContent sideOffset={3}>
+        <HoverCardContent>
           {certifying_shot && (
             <Image
               src={certifying_shot}

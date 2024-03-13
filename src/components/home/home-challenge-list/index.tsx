@@ -63,6 +63,7 @@ const HomeChallengeList = async () => {
                   <ChallengeCountBadge
                     goal_count={challenge.goal_count}
                     achieved_count={challenge.achieved_count}
+                    size="sm"
                   />
                 </CardContent>
               </Card>
