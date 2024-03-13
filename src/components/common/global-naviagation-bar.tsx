@@ -15,6 +15,10 @@ import UserInfoButton from '@/components/common/user-info-button';
 const MENU_LINKS = [
   { label: '컨텐츠', link: '/contents' },
   {
+    label: '챌린지',
+    link: 'challenge',
+  },
+  {
     label: '내 소개',
     link: '/about',
   },
