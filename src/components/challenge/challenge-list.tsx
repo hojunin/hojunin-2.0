@@ -23,7 +23,7 @@ const ChallengeList = async ({ year, week }: Props) => {
   }
 
   return (
-    <ul className="grid grid-cols-4 gap-x-3">
+    <ul className="grid grid-cols-4 gap-3">
       {challenges?.map((challenge) => (
         <ChallengeListItem key={challenge.id} userChallenge={challenge} />
       ))}
