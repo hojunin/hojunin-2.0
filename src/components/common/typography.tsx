@@ -14,7 +14,7 @@ const typoVariants = cva(
         p: 'whitespace-pre-line leading-7 [&:not(:first-child)]:mt-6',
         label: 'text-primary underline-offset-4 hover:underline',
       },
-      style: {
+      typo: {
         mute: 'text-sm text-muted-foreground',
         small: 'text-sm font-medium leading-none',
         large: 'text-lg font-semibold',
