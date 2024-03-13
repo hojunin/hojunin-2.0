@@ -3,9 +3,11 @@ import React, { ChangeEvent } from 'react';
 import { Button } from './ui/button';
 import { uploadFile } from '@/api/file-upload';
 import { useToast } from './ui/use-toast';
+import useHandleError from '@/hooks/useHandleError';
 
 const FileUploadButton = () => {
   const { toast } = useToast();
+  const handleError = useHandleError();
   const handleFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files[0];
     try {
@@ -20,11 +22,7 @@ const FileUploadButton = () => {
         ),
       });
     } catch (error) {
-      toast({
-        title: '문제가 발생했어요',
-        description: error?.message,
-        variant: 'destructive',
-      });
+      handleError(error, { toastTitle: '문제가 발생했어요' });
     }
   };
   return (

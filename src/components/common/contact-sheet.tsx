@@ -26,6 +26,7 @@ import { Button } from '../ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import { sendEmail } from '@/api/email';
+import useHandleError from '@/hooks/useHandleError';
 
 const formSchema = z.object({
   name: z.string().min(2).max(50).optional(),
@@ -35,6 +36,7 @@ const formSchema = z.object({
 
 const ContactSheet = () => {
   const { toast } = useToast();
+  const handleError = useHandleError();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,11 +60,7 @@ const ContactSheet = () => {
         description: '주인장의 응답을 기다려주세요',
       });
     } catch (error) {
-      toast({
-        title: '커피챗 요청 실패',
-        description: error.message,
-        variant: 'destructive',
-      });
+      handleError(error, { toastTitle: '커피챗 요청 실패' });
     }
   }
   return (
