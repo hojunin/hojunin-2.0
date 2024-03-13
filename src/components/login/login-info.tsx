@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/card';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/navigation';
+import useHandleError from '@/hooks/useHandleError';
 
 interface Props {
   user: User;
@@ -24,6 +25,7 @@ const LoginInfo = ({ user }: Props) => {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const supabase = createClient();
+  const handleError = useHandleError();
   const { push } = useRouter();
 
   const onClickLogout = async () => {
@@ -31,11 +33,7 @@ const LoginInfo = ({ user }: Props) => {
     try {
       const { error } = await supabase.auth.signOut();
       if (error) {
-        toast({
-          title: '로그아웃 실패',
-          description: error.message,
-          variant: 'destructive',
-        });
+        handleError(error, { toastTitle: '로그아웃 실패' });
         return;
       }
       toast({
@@ -43,11 +41,7 @@ const LoginInfo = ({ user }: Props) => {
       });
       push('/');
     } catch (error) {
-      toast({
-        title: '로그아웃 실패',
-        description: error.message,
-        variant: 'destructive',
-      });
+      handleError(error, { toastTitle: '로그아웃 실패' });
     } finally {
       setIsLoading(false);
     }

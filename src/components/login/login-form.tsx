@@ -1,6 +1,5 @@
 'use client';
 
-import { login } from '@/app/login/actions';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -12,6 +11,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import useHandleError from '@/hooks/useHandleError';
 import { createClient } from '@/lib/supabase/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
@@ -34,6 +34,7 @@ const LoginForm = () => {
   const { toast } = useToast();
   const { push } = useRouter();
   const supabase = createClient();
+  const handleError = useHandleError();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,11 +47,7 @@ const LoginForm = () => {
     try {
       const { data, error } = await supabase.auth.signInWithPassword(formData);
       if (error) {
-        toast({
-          title: '로그인 실패',
-          description: error.message,
-          variant: 'destructive',
-        });
+        handleError(error, { toastTitle: '로그인 실패' });
         return;
       }
       toast({
@@ -59,11 +56,7 @@ const LoginForm = () => {
       });
       push('/');
     } catch (error) {
-      toast({
-        title: '로그인 실패',
-        description: error?.message,
-        variant: 'destructive',
-      });
+      handleError(error, { toastTitle: '로그인 실패' });
     } finally {
       setIsLoading(false);
     }
@@ -102,7 +95,6 @@ const LoginForm = () => {
           type="submit"
           disabled={!form.formState.isValid || isLoading}
           variant={isLoading ? 'secondary' : 'default'}
-          formAction={login}
         >
           {isLoading ? (
             <Fragment>
