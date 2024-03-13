@@ -1,21 +1,23 @@
-'use server';
-import React from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback } from '../ui/avatar';
-import { createClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
 
-const UserInfoButton = async () => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
-  const { data, error } = await supabase.auth.getUser();
+const UserInfoButton = () => {
+  const [user, setUser] = useState<User | undefined>();
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data }) => setUser(data.session?.user));
+  }, []);
 
-  if (!data || error) {
+  if (!user) {
     return null;
   }
   return (
     <Avatar>
       {/* <AvatarImage src={data.user} /> */}
-      <AvatarFallback>{data.user.email?.slice(0, 2)}</AvatarFallback>
+      <AvatarFallback>{user.email?.slice(0, 2)}</AvatarFallback>
     </Avatar>
   );
 };
