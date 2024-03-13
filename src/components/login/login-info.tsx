@@ -1,58 +1,87 @@
 'use client';
+import React, { Fragment, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Nullable } from '@/types/common';
 import { User } from '@supabase/supabase-js';
-import React, { useEffect, useState } from 'react';
-import { Skeleton } from '../ui/skeleton';
 import { Button } from '../ui/button';
 import Typography from '../common/typography';
+import { useToast } from '@/components/ui/use-toast';
+import { Loader2 } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import dayjs from 'dayjs';
+import { useRouter } from 'next/navigation';
 
-const LoginInfo = () => {
+interface Props {
+  user: User;
+}
+
+const LoginInfo = ({ user }: Props) => {
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [currentUser, setCurrentUser] = useState<Nullable<User>>(null);
   const supabase = createClient();
+  const { push } = useRouter();
 
-  const getCurrentUserData = async () => {
+  const onClickLogout = async () => {
     setIsLoading(true);
-    const user = await supabase.auth.getUser();
     try {
-      if (user.error) {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        toast({
+          title: '로그아웃 실패',
+          description: error.message,
+          variant: 'destructive',
+        });
         return;
       }
-      setCurrentUser(user.data.user);
+      toast({
+        title: '로그아웃 되었습니다',
+      });
+      push('/');
     } catch (error) {
+      toast({
+        title: '로그아웃 실패',
+        description: error.message,
+        variant: 'destructive',
+      });
     } finally {
       setIsLoading(false);
     }
   };
-  const onClickLogout = () => {
-    supabase.auth.signOut();
-  };
-  useEffect(() => {
-    getCurrentUserData();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <div className="flex flex-col gap-y-4">
-        <Skeleton className="w-10 h-4" />
-        <Skeleton className="w-20 h-6" />
-      </div>
-    );
-  }
 
   return (
-    <div>
-      {currentUser ? (
-        <div className="flex flex-col gap-y-4">
-          <Typography variant={'h3'}>
-            현재 로그인 정보 : {currentUser.email}
+    <div className="flex flex-col gap-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>{user.email}</CardTitle>
+          <CardDescription>
+            {user.role === 'authenticated' ? '어드민' : '일반'} 유저
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Typography variant={'p'}>
+            가입일 : {dayjs(user.created_at).format('YYYY-MM-DD')}
           </Typography>
-          <Button onClick={onClickLogout}>로그아웃</Button>
-        </div>
-      ) : (
-        <Typography variant={'h3'}>로그인 해주세요</Typography>
-      )}
+        </CardContent>
+      </Card>
+      <Button
+        variant={'secondary'}
+        disabled={isLoading}
+        onClick={onClickLogout}
+      >
+        {isLoading ? (
+          <Fragment>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            로그아웃 중이에요
+          </Fragment>
+        ) : (
+          '로그아웃'
+        )}
+      </Button>
     </div>
   );
 };

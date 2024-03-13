@@ -3,12 +3,16 @@ import React, { useEffect, useState } from 'react';
 import { Avatar, AvatarFallback } from '../ui/avatar';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
+import Link from 'next/link';
 
 const UserInfoButton = () => {
   const [user, setUser] = useState<User | undefined>();
   useEffect(() => {
     const supabase = createClient();
-    supabase.auth.getSession().then(({ data }) => setUser(data.session?.user));
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user);
+    });
   }, []);
 
   if (!user) {
@@ -16,8 +20,9 @@ const UserInfoButton = () => {
   }
   return (
     <Avatar>
-      {/* <AvatarImage src={data.user} /> */}
-      <AvatarFallback>{user.email?.slice(0, 2)}</AvatarFallback>
+      <AvatarFallback>
+        <Link href={'/login'}>{user.email?.slice(0, 2)}</Link>
+      </AvatarFallback>
     </Avatar>
   );
 };
