@@ -22,5 +22,6 @@ export interface UserChallenge {
   year: number;
   week: number;
   challenge: Challenge;
+  detail: string;
   link: Nullable<string>;
 }
