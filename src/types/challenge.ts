@@ -24,4 +24,5 @@ export interface UserChallenge {
   challenge: Challenge;
   detail: string;
   link: Nullable<string>;
+  certifying_shot: Nullable<string>;
 }
