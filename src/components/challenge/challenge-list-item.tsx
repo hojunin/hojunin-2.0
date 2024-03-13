@@ -1,4 +1,5 @@
 'use client';
+import ChallengeCountBadge from '@/components/challenge/challenge-count-badge';
 import { Badge } from '@/components/ui/badge';
 import {
   Card,
@@ -55,18 +56,10 @@ const ChallengeListItem = ({ userChallenge }: Props) => {
           </CardHeader>
           <CardContent></CardContent>
           <CardFooter>
-            <Badge
-              variant={
-                achieved_count === 0
-                  ? 'destructive'
-                  : achieved_count > goal_count
-                  ? 'default'
-                  : 'secondary'
-              }
-              size={'lg'}
-            >
-              {achieved_count} / {goal_count}
-            </Badge>
+            <ChallengeCountBadge
+              goal_count={goal_count}
+              achieved_count={achieved_count}
+            />
           </CardFooter>
         </HoverCardTrigger>
         <HoverCardContent sideOffset={3}>
