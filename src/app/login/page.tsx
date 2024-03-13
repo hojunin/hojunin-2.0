@@ -1,21 +1,34 @@
-import React from 'react';
-import { login, signup } from './actions';
+'use client';
+import React, { useEffect, useState } from 'react';
+
 import LoginInfo from '@/components/login/login-info';
+import LoginForm from '@/components/login/login-form';
+import { createClient } from '@/lib/supabase/client';
+import { User } from '@supabase/supabase-js';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const LoginPage = () => {
-  return (
-    <div>
-      <LoginInfo />
-      <form>
-        <label htmlFor="email">Email:</label>
-        <input id="email" name="email" type="email" required />
-        <label htmlFor="password">Password:</label>
-        <input id="password" name="password" type="password" required />
-        <button formAction={login}>Log in</button>
-        <button formAction={signup}>Sign up</button>
-      </form>
-    </div>
-  );
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [user, setUser] = useState<User | undefined>();
+  useEffect(() => {
+    const supabase = createClient();
+
+    supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user);
+      setIsInitialized(true);
+    });
+  }, []);
+
+  if (!isInitialized) {
+    return (
+      <div className="flex flex-col gap-y-4">
+        <Skeleton className="w-40 h-10" />
+        <Skeleton className="w-600 h-10" />
+      </div>
+    );
+  }
+
+  return <div>{!user ? <LoginForm /> : <LoginInfo user={user} />}</div>;
 };
 
 export default LoginPage;

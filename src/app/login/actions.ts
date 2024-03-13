@@ -23,7 +23,8 @@ export async function login(formData: FormData) {
     redirect('/error');
   }
 
-  revalidatePath('/', 'layout');
+  revalidatePath('/', 'page');
+  revalidatePath('/login', 'page');
   redirect('/');
 }
 

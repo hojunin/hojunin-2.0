@@ -7,7 +7,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '../ui/sheet';
-import { Resend } from 'resend';
 
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
