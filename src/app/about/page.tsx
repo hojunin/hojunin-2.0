@@ -27,16 +27,18 @@ const MY_INFOS = [
 
 const AboutPage = () => {
   return (
-    <div className="flex flex-col gap-y-5  overflow-y-scroll">
-      {MY_INFOS.map(({ title, description, thumbnail }, index) => (
-        <ProfileSection
-          key={title}
-          title={title}
-          description={description}
-          alignLeft={Boolean(index % 2)}
-          thumbnail={thumbnail}
-        />
-      ))}
+    <div>
+      <section className="flex flex-col gap-y-5  overflow-y-scroll">
+        {MY_INFOS.map(({ title, description, thumbnail }, index) => (
+          <ProfileSection
+            key={title}
+            title={title}
+            description={description}
+            alignLeft={Boolean(index % 2)}
+            thumbnail={thumbnail}
+          />
+        ))}
+      </section>
     </div>
   );
 };
