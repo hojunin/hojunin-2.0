@@ -4,11 +4,7 @@ import { ContentsCategory, PostListItemInterface } from '@/types/contents';
 import React from 'react';
 
 const ContentsDetailLayout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <article className="bg-white dark:bg-gray-900 dark:text-white p-5 sm:p-10 rounded-lg shadow-lg w-full max-w-3xl mx-auto my-6 sm:my-12">
-      {children}
-    </article>
-  );
+  return <div>{children}</div>;
 };
 
 export default ContentsDetailLayout;
