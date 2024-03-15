@@ -1,0 +1,34 @@
+---
+slug: common-mistake-using-useeffect
+title: useEffect에 숨은 비밀
+summary: 정답을 알려줘
+---
+
+## useEffect
+
+### 정의
+
+useEffect는 외부 세계와 리액트를 **동기화**하는 훅입니다.
+
+### 사용법
+
+```tsx
+const Component = () => {
+  useEffect(() => {
+    console.log('이펙트가 실행되었어요');
+
+    return () => {
+      console.log('클린업 함수가 실행되었어요');
+    };
+  }, []);
+};
+```
+
+---
+
+## 마치며
+
+### Reference
+
+[공식 문서](https://react.dev/learn/you-might-not-need-an-effect)
+[유튜브](https://youtu.be/nGDnzAWuMig?si=BmGk6iUpcZz0O4c9)
