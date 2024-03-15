@@ -4,6 +4,8 @@ import { Button } from './ui/button';
 import { uploadFile } from '@/api/file-upload';
 import { useToast } from './ui/use-toast';
 import useHandleError from '@/hooks/useHandleError';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 
 const FileUploadButton = () => {
   const { toast } = useToast();
@@ -26,9 +28,16 @@ const FileUploadButton = () => {
     }
   };
   return (
-    <Button>
-      <input type="file" onChange={handleFile} accept="image/*" />
-    </Button>
+    <div className="grid w-full max-w-sm items-center gap-1.5">
+      <Label htmlFor="picture">Picture</Label>
+      <Input
+        id="picture"
+        type="file"
+        className="cursor-pointer"
+        onChange={handleFile}
+        accept="image/*"
+      />
+    </div>
   );
 };
 

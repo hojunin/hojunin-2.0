@@ -1,7 +1,6 @@
 import { useToast } from '@/components/ui/use-toast';
 
 interface Options {
-  showToast?: boolean;
   toastTitle: string;
 }
 
@@ -13,12 +12,9 @@ const useHandleError = () => {
   const { toast } = useToast();
 
   const handleError = (error: unknown, option?: Options) => {
-    if (!(error instanceof Error)) {
-      return;
-    }
     if (option) {
-      const { showToast = false, toastTitle } = option;
-      if (showToast) {
+      const { toastTitle } = option;
+      if (toastTitle) {
         toast({
           title: toastTitle,
           description: error.message,
