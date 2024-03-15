@@ -21,3 +21,16 @@ export default function Blog({ params }) {
     </section>
   );
 }
+
+export async function generateStaticParams() {
+  const contents = getBlogPosts();
+  if (!contents) {
+    return [];
+  }
+  return contents.map(({ slug }) => ({
+    slug,
+  }));
+}
+
+export const dynamic = 'error';
+export const revalidate = false;
