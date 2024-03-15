@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -17,8 +18,9 @@ import {
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip';
-import { PostListItemInterface } from '@/types/contents';
-
+import { ContentsStatus, PostListItemInterface } from '@/types/contents';
+const DRAFT_THUMBNAIL =
+  'https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/dev/prepare.png-13302';
 interface Props {
   postItem: PostListItemInterface;
 }
@@ -30,49 +32,24 @@ const PostListItem = ({ postItem }: Props) => {
   };
   return (
     <Card
-      className="cursor-pointer hover:opacity-70"
+      className="group cursor-pointer"
       onClick={() => onClickItem(postItem)}
     >
-      <CardHeader className="block">
+      <CardHeader>
         <Image
-          src={postItem.thumbnail}
-          alt="image-test"
-          className="rounded-lg"
+          src={
+            postItem.status === ContentsStatus.RESERVED
+              ? DRAFT_THUMBNAIL
+              : postItem.thumbnail
+          }
+          alt={`${postItem.title} 대표 이미지`}
+          className="group-hover:scale-105 transition-all rounded-lg mb-3"
           width={500}
           height={250}
-          style={{
-            maxWidth: '100%',
-            height: 'auto',
-            objectFit: 'contain',
-          }}
         />
-      </CardHeader>
-
-      <CardHeader>
         <CardTitle>{postItem.title}</CardTitle>
         <CardDescription>{postItem.description}</CardDescription>
       </CardHeader>
-      <CardFooter className="flex gap-x-2">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <Badge className="bg-gradient-to-r from-cyan-500 to-blue-500">
-                NEW
-              </Badge>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>발행한지 1주일 된 컨텐츠입니다</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-
-        <Badge className="bg-gradient-to-r from-violet-500 to-fuchsia-500">
-          HOT
-        </Badge>
-        <Badge className="bg-gradient-to-r from-gray-500 to-yellow-500">
-          Frontend
-        </Badge>
-      </CardFooter>
     </Card>
   );
 };
