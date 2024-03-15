@@ -11,6 +11,12 @@ export const ContentsCategory = {
   LIFE: 'life',
 } as const;
 
+export const ContentsStatus = {
+  DRAFT: 'draft',
+  PUBLISHED: 'published',
+  RESERVED: 'reserved',
+};
+
 export interface PostListItemInterface {
   id: Id;
   created_at: Date;
@@ -19,4 +25,5 @@ export interface PostListItemInterface {
   thumbnail: string;
   slug: string;
   category: ValueOf<typeof ContentsCategory>;
+  status: ValueOf<typeof ContentsStatus>;
 }

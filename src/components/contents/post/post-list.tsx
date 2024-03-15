@@ -13,7 +13,9 @@ const PostList = async ({ category }: Props) => {
   const supabase = createClient(cookieStore);
   const { data: postList, error } = await supabase
     .from('contents')
-    .select('id, created_at, title, description, thumbnail, slug, category')
+    .select(
+      'id, created_at, title, description, thumbnail, slug, category, status',
+    )
     .eq('category', category);
 
   if (!postList || error) {
