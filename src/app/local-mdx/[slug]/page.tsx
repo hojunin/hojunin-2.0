@@ -1,11 +1,12 @@
-import { getBlogPosts } from '@/lib/mdx';
+import { getBlogPosts, getPostContent } from '@/lib/mdx';
 import { useMDXComponents } from '@/mdx-components';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { notFound } from 'next/navigation';
 
 export default function Blog({ params }) {
-  let post = getBlogPosts().find((post) => post.slug === params.slug);
   const MDXComponents = useMDXComponents();
+
+  let post = getPostContent(params.slug);
   if (!post) {
     notFound();
   }
@@ -24,6 +25,7 @@ export default function Blog({ params }) {
 
 export async function generateStaticParams() {
   const contents = getBlogPosts();
+  // 서버 데이터와 정합성 맞추기
   if (!contents) {
     return [];
   }
@@ -33,4 +35,4 @@ export async function generateStaticParams() {
 }
 
 export const dynamic = 'error';
-export const revalidate = false;
+export const revalidate = 3600;
