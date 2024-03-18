@@ -36,9 +36,6 @@ export default ContentsPage;
 export async function generateStaticParams() {
   const contents = await fetcher<PostListItemInterface[]>({
     path: 'contents',
-    config: {
-      cache: 'no-store',
-    },
   });
   if (!contents) {
     return [];
@@ -50,6 +47,6 @@ export async function generateStaticParams() {
   }));
 }
 
-// export const dynamic = 'error';
-// export const dynamicParams = false;
-// export const revalidate = 3600;
+export const dynamic = 'error';
+export const dynamicParams = false;
+export const revalidate = 3600;

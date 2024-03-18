@@ -6,6 +6,7 @@ import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {

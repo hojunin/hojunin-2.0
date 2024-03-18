@@ -10,7 +10,6 @@ interface Props {
 
 const ContentsViewCount = async ({ slug }: Props) => {
   const supabase = createClient();
-  noStore();
   const { data: count } = await supabase.rpc('increment_views', {
     target_slug: slug,
   });

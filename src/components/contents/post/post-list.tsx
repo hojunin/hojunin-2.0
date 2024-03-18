@@ -11,6 +11,7 @@ interface Props {
 const PostList = async ({ category }: Props) => {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
+
   const { data: postList, error } = await supabase
     .from('contents')
     .select(
