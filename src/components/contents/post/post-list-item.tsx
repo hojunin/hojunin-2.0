@@ -1,24 +1,10 @@
 'use client';
 import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../../ui/card';
+import { Card, CardDescription, CardHeader, CardTitle } from '../../ui/card';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
-
-import {
-  Tooltip,
-  TooltipProvider,
-  TooltipTrigger,
-  TooltipContent,
-} from '@/components/ui/tooltip';
 import { ContentsStatus, PostListItemInterface } from '@/types/contents';
+
 const DRAFT_THUMBNAIL =
   'https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/dev/prepare.png-13302';
 interface Props {

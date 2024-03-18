@@ -19,11 +19,11 @@ export const ContentsStatus = {
 
 export interface PostListItemInterface {
   id: Id;
+  slug: string;
   created_at: Date;
   title: string;
   description: string;
   thumbnail: string;
-  slug: string;
   category: ValueOf<typeof ContentsCategory>;
   status: ValueOf<typeof ContentsStatus>;
 }

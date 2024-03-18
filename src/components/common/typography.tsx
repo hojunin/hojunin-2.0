@@ -13,6 +13,7 @@ const typoVariants = cva(
         h4: 'scroll-m-20 text-xl font-semibold tracking-tight',
         p: 'whitespace-pre-line leading-7 [&:not(:first-child)]:mt-6',
         label: 'text-primary underline-offset-4 hover:underline',
+        span: '',
       },
       typo: {
         mute: 'text-sm text-muted-foreground',
@@ -46,6 +47,7 @@ const Typography = forwardRef<Ref, Props>(
       case 'h4':
       case 'p':
       case 'label':
+      case 'span':
         Element = variant;
         break;
       default:
