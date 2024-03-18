@@ -6,6 +6,7 @@ import { fetcher } from '@/api/fetcher';
 import ContentsDetailHeader from '@/components/contents/contents-detail/contents-detail-header';
 import { getPostContent } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
 const ContentsPage = async ({
   params: { category, slug },
@@ -18,7 +19,8 @@ const ContentsPage = async ({
   let post = getPostContent(slug);
 
   if (!post) {
-    notFound();
+    // notFound();
+    return <div>ㅎㅎ</div>;
   }
   return (
     <div>
@@ -37,6 +39,8 @@ export async function generateStaticParams() {
   const contents = await fetcher<PostListItemInterface[]>({
     path: 'contents',
   });
+
+  console.log('🚀 ~ generateStaticParams ~ contents:', contents);
   if (!contents) {
     return [];
   }
@@ -46,7 +50,3 @@ export async function generateStaticParams() {
     slug,
   }));
 }
-
-export const dynamic = 'error';
-export const dynamicParams = false;
-export const revalidate = 3600;

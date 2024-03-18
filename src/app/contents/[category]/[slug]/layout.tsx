@@ -28,3 +28,7 @@ export async function generateMetadata({
     },
   };
 }
+
+export const dynamic = 'error';
+export const dynamicParams = false;
+export const revalidate = 3600;
