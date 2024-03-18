@@ -7,10 +7,7 @@ interface IParams {}
 export async function GET(request: Request, { params }: { params: IParams }) {
   const cookiesStore = cookies();
   const supabase = createClient(cookiesStore);
-  const { data: contents, error } = await supabase
-    .from('contents')
-    .select('*')
-    .eq('status', 'published');
+  const { data: contents, error } = await supabase.from('contents').select('*');
 
   if (error) {
     return NextResponse.error();
