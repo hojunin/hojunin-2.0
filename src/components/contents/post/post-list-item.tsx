@@ -1,9 +1,18 @@
 'use client';
 import React from 'react';
-import { Card, CardDescription, CardHeader, CardTitle } from '../../ui/card';
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '../../ui/card';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { ContentsStatus, PostListItemInterface } from '@/types/contents';
+import PostListItemViewCount from '@/components/contents/post/post-list-item-view-count';
+import Typography from '@/components/common/typography';
+import dayjs from 'dayjs';
 
 const DRAFT_THUMBNAIL =
   'https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/dev/prepare.png-13302';
@@ -18,7 +27,7 @@ const PostListItem = ({ postItem }: Props) => {
   };
   return (
     <Card
-      className="group cursor-pointer"
+      className="group cursor-pointer flex flex-col justify-between"
       onClick={() => onClickItem(postItem)}
     >
       <CardHeader>
@@ -36,6 +45,12 @@ const PostListItem = ({ postItem }: Props) => {
         <CardTitle>{postItem.title}</CardTitle>
         <CardDescription>{postItem.description}</CardDescription>
       </CardHeader>
+      <CardFooter className="flex items-center justify-between">
+        <PostListItemViewCount slug={postItem.slug} />
+        <Typography variant={'span'} typo={'mute'}>
+          {dayjs(postItem.created_at).format('YYYY-MM-DD')}
+        </Typography>
+      </CardFooter>
     </Card>
   );
 };
