@@ -1,6 +1,7 @@
 import Typography from '@/components/common/typography';
 import { createClient } from '@/lib/supabase/client';
 import { EyeIcon } from 'lucide-react';
+import { unstable_noStore as noStore } from 'next/cache';
 import React from 'react';
 
 interface Props {
@@ -9,11 +10,10 @@ interface Props {
 
 const ContentsViewCount = async ({ slug }: Props) => {
   const supabase = createClient();
-
-  const { data: count, error } = await supabase.rpc('increment_views', {
+  noStore();
+  const { data: count } = await supabase.rpc('increment_views', {
     target_slug: slug,
   });
-  console.log('🚀 ~ ContentsViewCount ~ error:', error);
 
   return (
     <div className="flex items-center gap-x-2">
