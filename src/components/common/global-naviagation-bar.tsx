@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { DarkMode } from './dark-mode-button';
 import { cn } from '@/lib/utils';
 import UserInfoButton from '@/components/common/user-info-button';
+import Typography from '@/components/common/typography';
 
 const MENU_LINKS = [
   { label: '컨텐츠', link: '/contents' },
@@ -29,9 +30,9 @@ const GlobalNavigationBar = () => {
     <header className="fixed w-full bg-background opacity-80 flex items-center justify-between p-6 border-b z-50">
       <div className="flex gap-x-7">
         <Link href="/">
-          <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">
+          <nav className="text-2xl font-bold tracking-tight lg:text-3xl">
             HJINN
-          </h1>
+          </nav>
         </Link>
 
         <NavigationMenu>
