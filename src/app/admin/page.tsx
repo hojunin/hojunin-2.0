@@ -1,6 +1,8 @@
 'use client';
 import useGetUser from '@/app/admin/useGetUser';
+import ChallengeTemplateGenerateButton from '@/components/admin/challenge-template-generate-button';
 import FileUploadButton from '@/components/file-upload-button';
+import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -21,9 +23,11 @@ const AdminPage = () => {
   }
 
   return (
-    <div>
+    <main className="flex flex-col gap-y-4 mt-4">
       <FileUploadButton />
-    </div>
+
+      <ChallengeTemplateGenerateButton />
+    </main>
   );
 };
 
