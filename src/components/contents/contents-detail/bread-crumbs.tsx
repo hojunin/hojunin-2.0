@@ -12,18 +12,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ValueOf } from '@/types/common';
-import { ContentsCategory } from '@/types/contents';
+import { Skeleton } from '@/components/ui/skeleton';
+import { createClient } from '@/lib/supabase/server';
+import { ContentsTag } from '@/types/contents';
 import { ChevronDownIcon, SlashIcon } from 'lucide-react';
+import { cookies } from 'next/headers';
 import Link from 'next/link';
 import React from 'react';
 
 interface Props {
-  currentCategory: ValueOf<typeof ContentsCategory>;
-  slug: string;
+  tag: ContentsTag;
+  title: string;
 }
 
-const ContentsDetailBreadCrumb = ({ currentCategory, slug }: Props) => {
+const ContentsDetailBreadCrumb = async ({ tag, title }: Props) => {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+  const { data: tags, error } = await supabase.from('contents_tag').select('*');
+  if (error || !tags) {
+    return (
+      <div className="flex flex-col gap-y-2">
+        <Skeleton className="w-10 h-6" />
+        <Skeleton className="w-10 h-6" />
+        <Skeleton className="w-10 h-6" />
+        <Skeleton className="w-10 h-6" />
+      </div>
+    );
+  }
   return (
     <Breadcrumb>
       <BreadcrumbList>
@@ -36,19 +51,20 @@ const ContentsDetailBreadCrumb = ({ currentCategory, slug }: Props) => {
         <BreadcrumbItem>
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1">
-              {currentCategory}
+              {tag.name}
               <ChevronDownIcon />
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start">
-              <DropdownMenuItem>
-                <Link href={'/contents/dev'}>개발</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={'/contents/life'}>생활</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link href={'/contents/money'}>재테크</Link>
-              </DropdownMenuItem>
+              {(tags as ContentsTag[]).map((tag) => (
+                <DropdownMenuItem key={tag.id}>
+                  <Link
+                    href={`/contents/category${tag.path}`}
+                    className="w-full"
+                  >
+                    {tag.name}
+                  </Link>
+                </DropdownMenuItem>
+              ))}
             </DropdownMenuContent>
           </DropdownMenu>
         </BreadcrumbItem>
@@ -56,7 +72,7 @@ const ContentsDetailBreadCrumb = ({ currentCategory, slug }: Props) => {
           <SlashIcon />
         </BreadcrumbSeparator>
         <BreadcrumbItem>
-          <BreadcrumbPage>{slug}</BreadcrumbPage>
+          <BreadcrumbPage>{title}</BreadcrumbPage>
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>
