@@ -7,10 +7,10 @@ type CalloutType = 'info' | 'warning' | 'error' | 'success';
 interface Props {
   type: CalloutType;
   title: string;
-  message?: string;
+  children: React.ReactElement;
 }
 
-const Callout = ({ title, message, type }: Props) => {
+const Callout = ({ title, type, children }: Props) => {
   const IconByCalloutType = ({ type }: { type: CalloutType }) => {
     switch (type) {
       case 'info':
@@ -44,7 +44,7 @@ const Callout = ({ title, message, type }: Props) => {
     <Alert variant={getVariant(type)}>
       <IconByCalloutType type={type} />
       <AlertTitle>{title}</AlertTitle>
-      <AlertDescription>{message}</AlertDescription>
+      <AlertDescription>{children}</AlertDescription>
     </Alert>
   );
 };
