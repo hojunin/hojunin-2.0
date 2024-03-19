@@ -1,5 +1,12 @@
 import { Id, ValueOf } from './common';
 
+export interface ContentsTag {
+  id: Id;
+  name: string;
+  path: string;
+  icon?: string;
+}
+
 export const ContentsCategory = {
   DEV: 'dev',
   FRONTEND: 'frontend',
@@ -24,6 +31,6 @@ export interface PostListItemInterface {
   title: string;
   description: string;
   thumbnail: string;
-  category: ValueOf<typeof ContentsCategory>;
+  tag: ContentsTag;
   status: ValueOf<typeof ContentsStatus>;
 }

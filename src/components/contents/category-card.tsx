@@ -12,13 +12,15 @@ import {
   HeadphonesIcon,
   XIcon,
 } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
 interface Props {
   category: string;
+  path: string;
 }
 
-const CategoryCard = ({ category }: Props) => {
+const CategoryCard = ({ category, path }: Props) => {
   const CategoryIcon = ({ label }: { label: string }) => {
     switch (label) {
       case '개발':
@@ -52,13 +54,15 @@ const CategoryCard = ({ category }: Props) => {
     }
   };
   return (
-    <Card>
-      <CardHeader>
-        <CategoryIcon label={category} />
-        <CardTitle>{category}</CardTitle>
-        <CardDescription>{getDescription(category)}</CardDescription>
-      </CardHeader>
-    </Card>
+    <Link href={`/contents/category${path}`}>
+      <Card>
+        <CardHeader>
+          <CategoryIcon label={category} />
+          <CardTitle>{category}</CardTitle>
+          <CardDescription>{getDescription(category)}</CardDescription>
+        </CardHeader>
+      </Card>
+    </Link>
   );
 };
 
