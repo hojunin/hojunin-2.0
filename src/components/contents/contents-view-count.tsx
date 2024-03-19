@@ -1,25 +1,22 @@
+import React, { cache } from 'react';
 import Typography from '@/components/common/typography';
-import { createClient } from '@/lib/supabase/client';
 import { EyeIcon } from 'lucide-react';
-import { unstable_noStore as noStore } from 'next/cache';
-import React from 'react';
+import { addComma } from '@/lib/number';
+import { incrementViewCount } from '@/api/actions';
 
 interface Props {
   slug: string;
 }
 
 const ContentsViewCount = async ({ slug }: Props) => {
-  const supabase = createClient();
-  noStore();
-  const { data: count } = await supabase.rpc('increment_views', {
-    target_slug: slug,
-  });
+  const cachedIncrementViewCount = cache(incrementViewCount);
+  const count = await cachedIncrementViewCount(slug);
 
   return (
     <div className="flex items-center gap-x-2">
       <EyeIcon width={16} height={16} color="#efefef" />
       <Typography variant={'span'} typo={'mute'}>
-        {count}
+        {addComma(count)}
       </Typography>
     </div>
   );
