@@ -7,6 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { createClient } from '@/lib/supabase/server';
 import { EyeIcon } from 'lucide-react';
 import { cookies } from 'next/headers';
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
 
@@ -54,13 +55,13 @@ const ContentsDetailHeader = async ({ slug }: Props) => {
 
       <div className="flex items-center justify-between gap-y-4 my-4">
         <Link href={'/about'} className="flex items-center gap-x-4">
-          <Avatar>
-            <AvatarImage
-              src="https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/hojun.jpeg-33426"
-              width={36}
-              height={36}
-            />
-          </Avatar>
+          <Image
+            src="https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/hojun.jpeg-33426"
+            alt="인호준 아바타 이미지"
+            width={36}
+            height={36}
+            className="rounded-full"
+          />
           <div className="flex flex-col">
             <Typography variant={'p'} className="text-muted-foreground">
               인호준

@@ -23,7 +23,7 @@ interface Props {
 const PostListItem = ({ postItem }: Props) => {
   return (
     <Link href={`/contents/${postItem.slug}`}>
-      <Card className="group cursor-pointer flex flex-col justify-between h-full">
+      <Card className="group cursor-pointer flex flex-col justify-between h-full hover:border-gray-600">
         <CardHeader>
           <Image
             src={
