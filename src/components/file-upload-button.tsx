@@ -28,7 +28,7 @@ const FileUploadButton = () => {
     }
   };
   return (
-    <div className="grid w-full max-w-sm items-center gap-1.5">
+    <section className="grid w-full max-w-sm items-center gap-1.5">
       <Label htmlFor="picture">Picture</Label>
       <Input
         id="picture"
@@ -37,7 +37,7 @@ const FileUploadButton = () => {
         onChange={handleFile}
         accept="image/*"
       />
-    </div>
+    </section>
   );
 };
 

@@ -1,21 +1,17 @@
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
 import ContentsViewCount from '@/components/contents/contents-view-count';
 import { Skeleton } from '@/components/ui/skeleton';
-import { createClient } from '@/lib/supabase/server';
-import { ValueOf } from '@/types/common';
-import { ContentsCategory } from '@/types/contents';
 import { EyeIcon } from 'lucide-react';
 import React, { Suspense } from 'react';
 
 interface Props {
-  category: ValueOf<typeof ContentsCategory>;
   slug: string;
 }
 
-const ContentsDetailHeader = async ({ category, slug }: Props) => {
+const ContentsDetailHeader = async ({ slug }: Props) => {
   return (
     <section>
-      <ContentsDetailBreadCrumb currentCategory={category} slug={slug} />
+      <ContentsDetailBreadCrumb currentCategory={'dev'} slug={slug} />
 
       <Suspense
         fallback={
