@@ -47,7 +47,10 @@ const ChallengeListItem = ({ userChallenge }: Props) => {
   };
 
   return (
-    <Card onClick={() => onClickCard(link)} className={cn('hover:opacity-80')}>
+    <Card
+      onClick={() => onClickCard(link)}
+      className={cn('hover:border-gray-600')}
+    >
       <HoverCard openDelay={100} closeDelay={100}>
         <HoverCardTrigger>
           <CardHeader>
@@ -61,18 +64,20 @@ const ChallengeListItem = ({ userChallenge }: Props) => {
             />
           </CardContent>
         </HoverCardTrigger>
-        <HoverCardContent>
-          {certifying_shot && (
-            <Image
-              src={certifying_shot}
-              alt={`${year}년 ${week}주차 ${challenge.name} 인증샷`}
-              width={300}
-              height={300}
-              objectFit="contain"
-            />
-          )}
-          {link && <Link href={link}>확인하러 가기</Link>}
-        </HoverCardContent>
+        {certifying_shot && link && (
+          <HoverCardContent>
+            {certifying_shot && (
+              <Image
+                src={certifying_shot}
+                alt={`${year}년 ${week}주차 ${challenge.name} 인증샷`}
+                width={300}
+                height={300}
+                objectFit="contain"
+              />
+            )}
+            {link && <Link href={link}>확인하러 가기</Link>}
+          </HoverCardContent>
+        )}
       </HoverCard>
     </Card>
   );

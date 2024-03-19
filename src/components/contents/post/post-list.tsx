@@ -23,7 +23,7 @@ const PostList = async ({ tag }: Props) => {
   }
 
   return (
-    <ul className="grid grid-cols-1 gap-5 sm:grid-cols-3">
+    <ul className="grid grid-cols-2 gap-5 sm:grid-cols-3">
       {postList.map((post) => (
         <PostListItem key={post.id} postItem={post} />
       ))}
