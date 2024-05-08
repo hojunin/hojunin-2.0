@@ -1,7 +1,5 @@
 import React from 'react';
 import ContentsDetail from '@/components/contents/contents-detail';
-import { PostListItemInterface } from '@/types/contents';
-import { fetcher } from '@/api/fetcher';
 import { getPostContent } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import ContentsDetailHeader from '@/components/contents/contents-detail/contents-detail-header';
