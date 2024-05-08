@@ -7,7 +7,7 @@ type CalloutType = 'info' | 'warning' | 'error' | 'success';
 interface Props {
   type: CalloutType;
   title: string;
-  children: React.ReactElement;
+  children: React.ReactNode;
 }
 
 const Callout = ({ title, type, children }: Props) => {

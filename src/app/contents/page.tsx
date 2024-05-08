@@ -18,7 +18,9 @@ const ContentsPage = async () => {
 
   return (
     <div>
-      <Callout title="공사중" type="info" message="뭘 넣는게 좋을까~" />
+      <Callout title="공사중" type="info">
+        뭘 넣는게 좋을까~
+      </Callout>
 
       <section className="flex w-full gap-x-4 mt-5">
         {categories.map(({ name, path }) => (
