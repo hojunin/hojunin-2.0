@@ -1,5 +1,7 @@
+import Box from '@/components/animated';
 import Typography from '@/components/common/typography';
 import BestContentsItem from '@/components/home/best-contents/best-contents-item';
+import FadeIn from '@/components/ui/fade-in';
 import { createClient } from '@/lib/supabase/server';
 import { PostListItemInterface } from '@/types/contents';
 import { cookies } from 'next/headers';
@@ -17,6 +19,9 @@ const BestContents = async () => {
 
   return (
     <section className="my-6">
+      <FadeIn>
+        <Box />
+      </FadeIn>
       <div className="flex items-center justify-between mb-3">
         <Typography variant={'h2'}>베스트 컨텐츠</Typography>
 
