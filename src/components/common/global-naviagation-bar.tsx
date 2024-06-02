@@ -1,26 +1,27 @@
-import React from "react";
+'use client';
+import React from 'react';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+} from '@/components/ui/navigation-menu';
 
-import Link from "next/link";
-import { DarkMode } from "./dark-mode-button";
-import { cn } from "@/lib/utils";
-import UserInfoButton from "@/components/common/user-info-button";
+import Link from 'next/link';
+import { DarkMode } from './dark-mode-button';
+import { cn } from '@/lib/utils';
+import UserInfoButton from '@/components/common/user-info-button';
 
 const MENU_LINKS = [
-  { label: "컨텐츠", link: "/contents" },
+  { label: '컨텐츠', link: '/contents' },
   {
-    label: "챌린지",
-    link: "/challenge",
+    label: '챌린지',
+    link: '/challenge',
   },
   {
-    label: "내 소개",
-    link: "/about",
+    label: '내 소개',
+    link: '/about',
   },
 ];
 

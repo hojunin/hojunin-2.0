@@ -2,7 +2,6 @@ import CommonError from '@/components/common/common-error';
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
 import ContentsViewCount from '@/components/contents/contents-view-count';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
 import { createClient } from '@/lib/supabase/server';
 import { EyeIcon } from 'lucide-react';

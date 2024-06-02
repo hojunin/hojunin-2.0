@@ -1,8 +1,6 @@
-"use client";
-
-import React from "react";
-import GlobalNavigationBar from "./global-naviagation-bar";
-import Footer from "./footer";
+import React from 'react';
+import GlobalNavigationBar from './global-naviagation-bar';
+import Footer from './footer';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
