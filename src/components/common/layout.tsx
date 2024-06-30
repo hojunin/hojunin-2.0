@@ -3,17 +3,17 @@ import GlobalNavigationBar from './global-naviagation-bar';
 import Footer from './footer';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
-  return (
-    <div>
-      <GlobalNavigationBar />
+	return (
+		<div>
+			<GlobalNavigationBar />
 
-      <main className="flex flex-col min-h-screen my-0 mx-auto justify-between px-4 md:px-20 md:w-4/5 sm:px-40 sm:w-2/3">
-        {children}
-      </main>
+			<main className="mx-auto my-0 flex min-h-screen flex-col justify-between px-4 sm:w-2/3 sm:px-40 md:w-4/5 md:px-20">
+				{children}
+			</main>
 
-      <Footer />
-    </div>
-  );
+			<Footer />
+		</div>
+	);
 };
 
 export default Layout;

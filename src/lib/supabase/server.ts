@@ -1,5 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
-import { type cookies } from 'next/headers';
+import { isServer } from '@tanstack/react-query';
+import { cookies } from 'next/headers';
 
 /**
  * 서버 컴포넌트에서는 이 클라이언트를 활용합니다. - To access Supabase from Server Components, Server Actions, and Route Handlers
@@ -7,36 +8,45 @@ import { type cookies } from 'next/headers';
  * @returns
  */
 export function createClient(cookieStore: ReturnType<typeof cookies>) {
-  return createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        get(name: string) {
-          return cookieStore.get(name)?.value;
-        },
-        set(name: string, value: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value, ...options });
-          } catch (error) {
-            // The `set` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
-          }
-        },
-        remove(name: string, options: CookieOptions) {
-          try {
-            cookieStore.set({ name, value: '', ...options });
-          } catch (error) {
-            // The `delete` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
-          }
-        },
-      },
-    },
-  );
+	return createServerClient(
+		process.env.NEXT_PUBLIC_SUPABASE_URL!,
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+		{
+			cookies: {
+				get(name: string) {
+					return cookieStore.get(name)?.value;
+				},
+				set(name: string, value: string, options: CookieOptions) {
+					try {
+						cookieStore.set({ name, value, ...options });
+					} catch (error) {
+						// The `set` method was called from a Server Component.
+						// This can be ignored if you have middleware refreshing
+						// user sessions.
+					}
+				},
+				remove(name: string, options: CookieOptions) {
+					try {
+						cookieStore.set({ name, value: '', ...options });
+					} catch (error) {
+						// The `delete` method was called from a Server Component.
+						// This can be ignored if you have middleware refreshing
+						// user sessions.
+					}
+				},
+			},
+		},
+	);
 }
+
+export const getSupabase = () => {
+	if (!isServer) {
+		return;
+	}
+
+	const cookieStore = cookies();
+	return createClient(cookieStore);
+};
 
 /**
  * https://supabase.com/docs/guides/auth/server-side/nextjs?router=app
