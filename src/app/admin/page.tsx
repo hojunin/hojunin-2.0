@@ -1,6 +1,8 @@
 'use client';
 import useGetUser from '@/app/admin/useGetUser';
 import ChallengeTemplateGenerateButton from '@/components/admin/challenge-template-generate-button';
+import DetailAdminLinksNavigator from '@/components/admin/detail-admin-links-navigator';
+import YearWeekGenerateButton from '@/components/admin/year-week-generate-button';
 import FileUploadButton from '@/components/file-upload-button';
 import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
@@ -24,9 +26,13 @@ const AdminPage = () => {
 
 	return (
 		<main className="mt-4 flex flex-col gap-y-4">
+			<DetailAdminLinksNavigator/>
+			
 			<FileUploadButton />
 
 			<ChallengeTemplateGenerateButton />
+
+			<YearWeekGenerateButton/>
 		</main>
 	);
 };

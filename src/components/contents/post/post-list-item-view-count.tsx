@@ -3,15 +3,13 @@ import Typography from '@/components/common/typography';
 import { createClient } from '@/lib/supabase/server';
 import { EyeIcon } from 'lucide-react';
 import { unstable_noStore as noStore } from 'next/cache';
-import { cookies } from 'next/headers';
 import React from 'react';
 interface Props {
   slug: string;
 }
 const PostListItemViewCount = async ({ slug }: Props) => {
   noStore();
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
   const { data } = await supabase
     .from('views')
     .select('count')

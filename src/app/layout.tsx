@@ -8,6 +8,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
 import Script from 'next/script';
+import Providers from '@/context/react-query-provider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -41,10 +42,13 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
+            <Providers>
           <SupabaseProvider>
+
             <Layout>{children}</Layout>
             <Toaster />
           </SupabaseProvider>
+            </Providers>
         </ThemeProvider>
         <SpeedInsights />
         <Analytics />
