@@ -17,7 +17,7 @@ const MemoirAdminPage = async () => {
 		}
 
 	return <div>
-		{memoirs.map(memoir => <div>
+		{memoirs.map(memoir => <div key={memoir.id}>
 			<Typography variant="h2">{memoir.title}</Typography>
 			
 		</div>)

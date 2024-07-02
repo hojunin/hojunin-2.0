@@ -30,7 +30,10 @@ const MemoirDetailAdminPage = ({ params }: { params: { type: string } }) => {
 		const {data,error} =await supabase.from("memoir").insert({
 			year_week: yearWeekId,
 			type: typeId,
-			title: "헤헤"
+			title: "헤헤",
+			meta: {
+				money: 50500
+			}
 		})
 		if(error){
 			toast({title: "에러 발생", description: error.message, variant:"destructive"})

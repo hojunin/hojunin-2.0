@@ -9,7 +9,7 @@ const ADMIN_LINKS = [{
 const DetailAdminLinksNavigator = () => {
   return (
     <nav>
-    {ADMIN_LINKS.map(link => <Link href={link.link}>
+    {ADMIN_LINKS.map(link => <Link key={link.label} href={link.link}>
     <Badge size={"xl"}>
     {link.label}
     </Badge>

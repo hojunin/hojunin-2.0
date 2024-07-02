@@ -16,6 +16,9 @@ const MemoirCategoryList = ({ categories }: Props) => {
 		currentCategory: state.currentCategory,
 		setCurrentCategory: state.setCurrentCategory,
 	}));
+
+
+
 	const onClickPath = (path: string) => {
 		setCurrentCategory(path);
 	};
