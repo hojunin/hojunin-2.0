@@ -14,8 +14,7 @@ import Link from 'next/link';
 import React from 'react';
 
 const HomeChallengeList = async () => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
 
   const [year, week] = getWeekOfYear();
 

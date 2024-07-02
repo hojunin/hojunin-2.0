@@ -5,8 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import dayjs from 'dayjs';
 
 const HomeRollingCarousel = async () => {
-  const cookiesStore = cookies();
-  const supabase = createClient(cookiesStore);
+  const supabase = createClient();
   const { data: banners, error } = await supabase
     .from('home_rolling_banner')
     .select('*')

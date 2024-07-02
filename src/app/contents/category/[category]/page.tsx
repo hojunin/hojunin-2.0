@@ -1,7 +1,6 @@
 import Typography from '@/components/common/typography';
 import PostList from '@/components/contents/post/post-list';
 import { createClient } from '@/lib/supabase/server';
-import { cookies } from 'next/headers';
 import React from 'react';
 
 const ContentsByCategory = async ({
@@ -9,8 +8,7 @@ const ContentsByCategory = async ({
 }: {
   params: { category: string };
 }) => {
-  const cookiesStore = cookies();
-  const supabase = createClient(cookiesStore);
+  const supabase = createClient();
   const { data: tag } = await supabase
     .from('contents_tag')
     .select('*')
