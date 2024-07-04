@@ -5,22 +5,21 @@ import { addComma } from '@/lib/number';
 import { incrementViewCount } from '@/api/actions';
 
 interface Props {
-  slug: string;
+	slug: string;
 }
 
 const ContentsViewCount = async ({ slug }: Props) => {
-  console.log("🚀 ~ ContentsViewCount ~ slug:", slug)
-  const cachedIncrementViewCount = cache(incrementViewCount);
-  const count = await cachedIncrementViewCount(slug);
+	const cachedIncrementViewCount = cache(incrementViewCount);
+	const count = await cachedIncrementViewCount(slug);
 
-  return (
-    <div className="flex items-center gap-x-2">
-      <EyeIcon width={16} height={16} color="#efefef" />
-      <Typography variant={'span'} typo={'mute'}>
-        {addComma(count)}
-      </Typography>
-    </div>
-  );
+	return (
+		<div className="flex items-center gap-x-2">
+			<EyeIcon width={16} height={16} color="#efefef" />
+			<Typography variant={'span'} typo={'mute'}>
+				{addComma(count)}
+			</Typography>
+		</div>
+	);
 };
 
 export default ContentsViewCount;
