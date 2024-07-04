@@ -26,13 +26,13 @@ const AdminPage = () => {
 
 	return (
 		<main className="mt-4 flex flex-col gap-y-4">
-			<DetailAdminLinksNavigator/>
-			
+			<DetailAdminLinksNavigator />
+
 			<FileUploadButton />
 
 			<ChallengeTemplateGenerateButton />
 
-			<YearWeekGenerateButton/>
+			<YearWeekGenerateButton />
 		</main>
 	);
 };

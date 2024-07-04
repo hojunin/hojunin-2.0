@@ -5,28 +5,26 @@ import { createClient } from '@/lib/supabase/server';
 import CommonError from '@/components/common/common-error';
 
 const ContentsPage = async () => {
-  const supabase = createClient();
-  const { data: categories, error } = await supabase
-    .from('contents_tag')
-    .select('name, path');
+	const supabase = createClient();
+	const { data: categories, error } = await supabase.from('contents_tag').select('name, path');
 
-  if (error || !categories) {
-    return <CommonError />;
-  }
+	if (error || !categories) {
+		return <CommonError />;
+	}
 
-  return (
-    <div>
-      <Callout title="공사중" type="info">
-        뭘 넣는게 좋을까~
-      </Callout>
+	return (
+		<div>
+			<Callout title="공사중" type="info">
+				뭘 넣는게 좋을까~
+			</Callout>
 
-      <section className="flex w-full gap-x-4 mt-5">
-        {categories.map(({ name, path }) => (
-          <CategoryCard category={name} path={path} key={`${name}-${path}`} />
-        ))}
-      </section>
-    </div>
-  );
+			<section className="mt-5 flex w-full gap-x-4">
+				{categories.map(({ name, path }) => (
+					<CategoryCard category={name} path={path} key={`${name}-${path}`} />
+				))}
+			</section>
+		</div>
+	);
 };
 
 export default ContentsPage;
