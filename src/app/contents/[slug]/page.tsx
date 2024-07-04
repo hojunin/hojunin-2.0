@@ -12,7 +12,7 @@ const ContentsPage = async ({
     slug: string;
   };
 }) => {
-  let post = getPostContent(slug);
+  const post = getPostContent(slug);
 
   if (!post) {
     notFound();

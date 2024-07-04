@@ -1,13 +1,11 @@
 import React from 'react';
 import CategoryCard from '../../components/contents/category-card';
 import Callout from '@/components/common/callout';
-import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import CommonError from '@/components/common/common-error';
 
 const ContentsPage = async () => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
   const { data: categories, error } = await supabase
     .from('contents_tag')
     .select('name, path');

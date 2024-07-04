@@ -100,6 +100,6 @@ export function getBlogPosts() {
   return getMDXData(path.join(process.cwd(), 'posts'));
 }
 
-export function getPostContent(slug) {
+export function getPostContent(slug: string) {
   return getBlogPosts().find((post) => post.slug === slug);
 }

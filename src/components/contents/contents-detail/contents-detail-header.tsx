@@ -5,7 +5,6 @@ import ContentsViewCount from '@/components/contents/contents-view-count';
 import { Skeleton } from '@/components/ui/skeleton';
 import { createClient } from '@/lib/supabase/server';
 import { EyeIcon } from 'lucide-react';
-import { cookies } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
@@ -15,8 +14,8 @@ interface Props {
 }
 
 const ContentsDetailHeader = async ({ slug }: Props) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  console.log("🚀 ~ ContentsDetailHeader ~ slug:", slug)
+  const supabase = createClient();
   const { data: contentsMeta, error } = await supabase
     .from('contents')
     .select('*, tag(*)')

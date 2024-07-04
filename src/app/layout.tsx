@@ -23,6 +23,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("RERENDER")
   return (
     <html lang="en">
       <head>
@@ -43,13 +44,13 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeProvider attribute="class" enableSystem defaultTheme="system">
             <Providers>
-          <SupabaseProvider>
-
+            {/* <SupabaseProvider> */}
             <Layout>{children}</Layout>
-            <Toaster />
-          </SupabaseProvider>
+            {/* </SupabaseProvider> */}
+        <Toaster />
             </Providers>
         </ThemeProvider>
+
         <SpeedInsights />
         <Analytics />
       </body>

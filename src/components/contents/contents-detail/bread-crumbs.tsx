@@ -16,7 +16,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { createClient } from '@/lib/supabase/server';
 import { ContentsTag } from '@/types/contents';
 import { ChevronDownIcon, SlashIcon } from 'lucide-react';
-import { cookies } from 'next/headers';
 import Link from 'next/link';
 import React from 'react';
 
@@ -26,8 +25,7 @@ interface Props {
 }
 
 const ContentsDetailBreadCrumb = async ({ tag, title }: Props) => {
-  const cookieStore = cookies();
-  const supabase = createClient(cookieStore);
+  const supabase = createClient();
   const { data: tags, error } = await supabase.from('contents_tag').select('*');
   if (error || !tags) {
     return (

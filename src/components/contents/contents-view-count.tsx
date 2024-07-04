@@ -9,6 +9,7 @@ interface Props {
 }
 
 const ContentsViewCount = async ({ slug }: Props) => {
+  console.log("🚀 ~ ContentsViewCount ~ slug:", slug)
   const cachedIncrementViewCount = cache(incrementViewCount);
   const count = await cachedIncrementViewCount(slug);
 
