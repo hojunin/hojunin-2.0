@@ -5,12 +5,29 @@ import { HTMLProps } from 'react';
 import Typography from './components/common/typography';
 import Callout from '@/components/common/callout';
 
+const IMAGE_WHITE_LIST = ["lnwblzacktgzeiihvxtu.supabase.co",  "i.imgur.com"]
+
 function NextImage(props: HTMLProps<HTMLImageElement>) {
   const { src } = props;
   const width = isNaN(Number(props.width)) ? 1000 : Number(props.width);
   const height = isNaN(Number(props.height)) ? 600 : Number(props.height);
 
-  if (src) {
+  if(!src){
+    return <p> 이미지에 문제가 있어요 - {src}</p>;
+  }
+
+  if(IMAGE_WHITE_LIST.some((host) => src.includes(host))){
+    return  <Image
+    width={width}
+    height={height}
+    alt={props.alt || ''}
+    crossOrigin="anonymous"
+    src={src}
+    placeholder="empty"
+    className="rounded-lg"
+  />
+  }
+
     if (src.startsWith('http')) {
       // eslint-disable-next-line @next/next/no-img-element
       return (
@@ -22,7 +39,7 @@ function NextImage(props: HTMLProps<HTMLImageElement>) {
           className="rounded-lg"
         />
       );
-    } else {
+    } 
       return (
         <Image
           width={width}
@@ -34,10 +51,7 @@ function NextImage(props: HTMLProps<HTMLImageElement>) {
           className="rounded-lg"
         />
       );
-    }
-  } else {
-    return <p>Currently, image is not available. {src}</p>;
-  }
+ 
 }
 
 function RoundedImage(props) {
