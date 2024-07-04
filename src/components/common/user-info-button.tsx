@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
@@ -20,9 +20,9 @@ const UserInfoButton = () => {
   }
   return (
     <Avatar>
-      <AvatarFallback>
-        <Link href={'/login'}>{user.email?.slice(0, 2)}</Link>
-      </AvatarFallback>
+      <Link href={'/admin'}>
+        <AvatarImage src="https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/hojun.jpeg-33426?t=2024-07-04T15%3A44%3A09.111Z" alt="@shadcn" />
+        </Link>
     </Avatar>
   );
 };
