@@ -4,6 +4,7 @@ import { getBlogPosts, getPostContent } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import ContentsDetailHeader from '@/components/contents/contents-detail/contents-detail-header';
 import { Separator } from '@/components/ui/separator';
+import ViewIncrementor from '@/components/contents/view-incrementor';
 
 const ContentsPage = async ({
 	params: { slug },
@@ -19,11 +20,13 @@ const ContentsPage = async ({
 	}
 	return (
 		<article>
-			<ContentsDetailHeader slug={slug} />
+			<ContentsDetailHeader slug={slug} meta={JSON.parse(JSON.stringify(post.metadata))} />
 
 			<Separator className="mb-6" />
 
 			<ContentsDetail content={post.content} />
+
+			<ViewIncrementor slug={slug} />
 		</article>
 	);
 };

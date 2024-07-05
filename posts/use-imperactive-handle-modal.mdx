@@ -2,6 +2,7 @@
 slug: use-imperactive-handle-modal
 title: 상태 역전파를 활용한 모달 구현하기
 summary: Vue의 의지를 이어받아 모달을 구현해요
+tag: { label: '개발', path: '/dev' }
 ---
 
 리액트에서 상태의 단방향 흐름은 굉장히 기초적이고 유명한 개념입니다. 하지만 역방향 전파가 불가능한건 아닙니다. 리액트 팀도 권장하진 않지만 그 필요성을 알고 기능도 제공합니다.
@@ -90,19 +91,17 @@ props타입은 이 컴포넌트를 선언할 때 넣어주는 값의 타입이�
 
 ```tsx
 interface BookDetailModalProps {
-  book: BOOK;
+	book: BOOK;
 }
 
 export interface BookDetailModalRef extends HTMLDivElement {
-  open: () => void;
-  close: () => void;
+	open: () => void;
+	close: () => void;
 }
 
-const BookDetail = forwardRef<BookDetailModalRef, BookDetailModalProps>(
-  (props, ref) => {
-    return <></>;
-  },
-);
+const BookDetail = forwardRef<BookDetailModalRef, BookDetailModalProps>((props, ref) => {
+	return <></>;
+});
 ```
 
 ### 상태 선언하고 메소드 외부로 공유
@@ -118,22 +117,22 @@ const close = () => setIsVisible(false);
 
 // useImperativeHandle 훅으로 그 모듈을 공유할 뿐이다.
 useImperativeHandle(
-  ref,
-  () => ({
-    open,
-    close,
-  }),
-  [],
+	ref,
+	() => ({
+		open,
+		close,
+	}),
+	[],
 );
 
 if (!visible) {
-  return <></>;
+	return <></>;
 }
 
 return (
-  <OutsideClickDetector onOutsideClick={close}>
-    <aside>... ...</aside>
-  </OutsideClickDetector>
+	<OutsideClickDetector onOutsideClick={close}>
+		<aside>... ...</aside>
+	</OutsideClickDetector>
 );
 ```
 

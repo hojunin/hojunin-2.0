@@ -1,25 +1,21 @@
+'use client';
 import CommonError from '@/components/common/common-error';
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
 import ContentsViewCount from '@/components/contents/contents-view-count';
 import { Skeleton } from '@/components/ui/skeleton';
-import { createClient } from '@/lib/supabase/server';
 import { EyeIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { Suspense } from 'react';
+import useFetchTags from './use-fetch-tags';
 
 interface Props {
 	slug: string;
 }
 
-const ContentsDetailHeader = async ({ slug }: Props) => {
-	const supabase = createClient();
-	const { data: contentsMeta, error } = await supabase
-		.from('contents')
-		.select('*, tag(*)')
-		.eq('slug', slug)
-		.single();
+const ContentsDetailHeader = ({ slug }: Props) => {
+	const { data: contentsMeta, error } = useFetchTags(slug);
 
 	if (error || !contentsMeta) {
 		return <CommonError message="컨텐츠 데이터 호출에 실패했어요" />;

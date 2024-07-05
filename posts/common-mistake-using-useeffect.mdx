@@ -2,6 +2,7 @@
 slug: common-mistake-using-useeffect
 title: useEffect에 숨은 비밀
 summary: 정답을 알려줘
+tag: { label: '개발', path: '/dev' }
 ---
 
 ## useEffect
@@ -14,13 +15,13 @@ useEffect는 외부 세계와 리액트를 **동기화**하는 훅입니다.
 
 ```tsx
 const Component = () => {
-  useEffect(() => {
-    console.log('이펙트가 실행되었어요');
+	useEffect(() => {
+		console.log('이펙트가 실행되었어요');
 
-    return () => {
-      console.log('클린업 함수가 실행되었어요');
-    };
-  }, []);
+		return () => {
+			console.log('클린업 함수가 실행되었어요');
+		};
+	}, []);
 };
 ```
 

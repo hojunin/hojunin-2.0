@@ -2,6 +2,7 @@
 slug: thumbhash
 title: Thumbhash로 사진 로드 구현하기
 summary: 사진이 로드하는 방법을 알아보기
+tag: { label: '개발', path: '/dev' }
 ---
 
 사진은 정말 중요합니다. 웹문서를 다채롭게 만들어주기 때문입니다.
@@ -127,45 +128,41 @@ ThumbHash는 하나의 알고리즘입니다. 사진 데이터에 어떤 알고�
 import * as ThumbHash from '@/utils/thumbhash';
 
 const ThumbHashTest = () => {
-  const [thumbnail, setThumbnail] = useState('');
+	const [thumbnail, setThumbnail] = useState('');
 
-  const generateThumbHash = async () => {
-    // 1. 원본 이미지에서 필요한 데이터를 꺼냅니다.
-    const originalURL = 'http://localhost:3000/icons/hojun.jpeg';
-    const image = new Image();
-    image.src = originalURL;
-    await new Promise((resolve) => (image.onload = resolve));
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    if (context === null) {
-      return;
-    }
-    const scale = 100 / Math.max(image.width, image.height);
-    canvas.width = Math.round(image.width * scale);
-    canvas.height = Math.round(image.height * scale);
-    context.drawImage(image, 0, 0, canvas.width, canvas.height);
-    const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+	const generateThumbHash = async () => {
+		// 1. 원본 이미지에서 필요한 데이터를 꺼냅니다.
+		const originalURL = 'http://localhost:3000/icons/hojun.jpeg';
+		const image = new Image();
+		image.src = originalURL;
+		await new Promise(resolve => (image.onload = resolve));
+		const canvas = document.createElement('canvas');
+		const context = canvas.getContext('2d');
+		if (context === null) {
+			return;
+		}
+		const scale = 100 / Math.max(image.width, image.height);
+		canvas.width = Math.round(image.width * scale);
+		canvas.height = Math.round(image.height * scale);
+		context.drawImage(image, 0, 0, canvas.width, canvas.height);
+		const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
 
-    // 2. ThumbHash 알고리즘을 적용시킵니다.
-    const binaryThumbHash = ThumbHash.rgbaToThumbHash(
-      pixels.width,
-      pixels.height,
-      pixels.data,
-    );
-    // 3. dataURL 형태로 변환합니다. 이걸 렌더링하면 됩니다.
-    const placeholderURL = ThumbHash.thumbHashToDataURL(binaryThumbHash);
-    setThumbnail(placeholderURL);
-  };
+		// 2. ThumbHash 알고리즘을 적용시킵니다.
+		const binaryThumbHash = ThumbHash.rgbaToThumbHash(pixels.width, pixels.height, pixels.data);
+		// 3. dataURL 형태로 변환합니다. 이걸 렌더링하면 됩니다.
+		const placeholderURL = ThumbHash.thumbHashToDataURL(binaryThumbHash);
+		setThumbnail(placeholderURL);
+	};
 
-  useEffect(() => {
-    generateThumbHash();
-  }, []);
+	useEffect(() => {
+		generateThumbHash();
+	}, []);
 
-  return (
-    <>
-      <img src={thumbnail} />
-    </>
-  );
+	return (
+		<>
+			<img src={thumbnail} />
+		</>
+	);
 };
 ```
 
