@@ -31,6 +31,10 @@ const ContentsPage = async ({
 export default ContentsPage;
 
 export async function generateStaticParams() {
-	const allPosts = await getBlogPosts();
+	const allPosts = getBlogPosts();
 	return allPosts.map(post => post.slug);
 }
+
+export const dynamic = 'error';
+export const dynamicParams = false;
+export const revalidate = false;
