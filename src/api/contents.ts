@@ -5,7 +5,7 @@ export const fetchMetaData = async (slug: string): Promise<PostMetaData> => {
 	try {
 		const { data, error } = await supabase
 			.from('contents')
-			.select('slug, title, status, thumbnail, tag(*)')
+			.select('slug, title, status, thumbnail, created_at, tag(*)')
 			.eq('slug', slug)
 			.single();
 		if (error) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import ContentsDetail from '@/components/contents/contents-detail';
-import { getBlogPosts, getPostContent } from '@/lib/mdx';
+import { getPostContent } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import ContentsDetailHeader from '@/components/contents/contents-detail/contents-detail-header';
 import { Separator } from '@/components/ui/separator';
@@ -21,6 +21,7 @@ const ContentsPage = async ({
 	if (!post || !metaData || !allTags) {
 		notFound();
 	}
+	console.log('리렌더');
 	return (
 		<article>
 			<ContentsDetailHeader tags={allTags} metaData={metaData} />
@@ -35,11 +36,3 @@ const ContentsPage = async ({
 };
 
 export default ContentsPage;
-
-export async function generateStaticParams() {
-	return getBlogPosts().map(post => post.slug);
-}
-
-export const dynamic = 'error';
-export const dynamicParams = false;
-export const revalidate = false;

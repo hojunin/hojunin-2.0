@@ -1,4 +1,3 @@
-'use client';
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
 import { ContentsTag, PostMetaData } from '@/types/contents';

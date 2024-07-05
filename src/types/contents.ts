@@ -41,5 +41,6 @@ export interface PostMetaData {
 	description: string;
 	thumbnail: string;
 	tag: ContentsTag;
+	created_at: Date;
 	status: ValueOf<typeof ContentsStatus>;
 }
