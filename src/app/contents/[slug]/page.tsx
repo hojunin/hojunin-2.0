@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ContentsDetail from '@/components/contents/contents-detail';
 import { getBlogPosts, getPostContent } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
@@ -20,7 +20,9 @@ const ContentsPage = async ({
 	}
 	return (
 		<article>
-			<ContentsDetailHeader slug={slug} meta={JSON.parse(JSON.stringify(post.metadata))} />
+			<Suspense fallback={<>loading...</>}>
+				<ContentsDetailHeader slug={slug} />
+			</Suspense>
 
 			<Separator className="mb-6" />
 

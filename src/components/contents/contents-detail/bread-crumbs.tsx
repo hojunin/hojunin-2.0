@@ -28,7 +28,6 @@ interface Props {
 }
 
 const ContentsDetailBreadCrumb = async ({ tag, title }: Props) => {
-	console.log('🚀 ~ ContentsDetailBreadCrumb ~ tag:', typeof tag);
 	return (
 		<Breadcrumb>
 			<BreadcrumbList>

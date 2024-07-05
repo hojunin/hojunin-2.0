@@ -15,17 +15,17 @@ interface Props {
 }
 
 const ContentsDetailHeader = ({ slug }: Props) => {
-	const { data: contentsMeta, error } = useFetchTags(slug);
-
+	const { data: contentsMeta, error, isLoading } = useFetchTags(slug);
+	if (isLoading) {
+		return null;
+	}
 	if (error || !contentsMeta) {
 		return <CommonError message="컨텐츠 데이터 호출에 실패했어요" />;
 	}
 
 	return (
 		<section>
-			<Suspense fallback={null}>
-				<ContentsDetailBreadCrumb tag={contentsMeta.tag} title={contentsMeta.title} />
-			</Suspense>
+			<ContentsDetailBreadCrumb tag={contentsMeta.tag} title={contentsMeta.title} />
 
 			<div>
 				<Typography variant={'h1'} className="mt-4 whitespace-normal break-words">
