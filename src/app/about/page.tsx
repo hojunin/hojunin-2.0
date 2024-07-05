@@ -26,7 +26,6 @@ const MY_INFOS = [
 ];
 
 const AboutPage = () => {
-	console.log('page');
 	return (
 		<div>
 			<section className="flex flex-col gap-y-5 overflow-y-scroll">

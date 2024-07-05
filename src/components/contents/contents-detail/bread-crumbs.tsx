@@ -12,22 +12,17 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Skeleton } from '@/components/ui/skeleton';
-import { createClient } from '@/lib/supabase/server';
-import { ContentsTag } from '@/types/contents';
+import { ContentsTag, PostMetaData } from '@/types/contents';
 import { ChevronDownIcon, SlashIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
 interface Props {
-	tag: {
-		label: string;
-		path: string;
-	};
-	title: string;
+	tags: ContentsTag[];
+	metaData: PostMetaData;
 }
 
-const ContentsDetailBreadCrumb = async ({ tag, title }: Props) => {
+const ContentsDetailBreadCrumb = async ({ tags, metaData }: Props) => {
 	return (
 		<Breadcrumb>
 			<BreadcrumbList>
@@ -38,13 +33,27 @@ const ContentsDetailBreadCrumb = async ({ tag, title }: Props) => {
 					<SlashIcon />
 				</BreadcrumbSeparator>
 				<BreadcrumbItem>
-					<BreadcrumbLink href={tag.path}>{tag.path}</BreadcrumbLink>
+					<DropdownMenu>
+						<DropdownMenuTrigger className="flex items-center gap-1">
+							{metaData.tag.name}
+							<ChevronDownIcon />
+						</DropdownMenuTrigger>
+						<DropdownMenuContent align="start">
+							{(tags as ContentsTag[]).map(tag => (
+								<DropdownMenuItem key={tag.id}>
+									<Link href={`/contents/category${tag.path}`} className="w-full">
+										{tag.name}
+									</Link>
+								</DropdownMenuItem>
+							))}
+						</DropdownMenuContent>
+					</DropdownMenu>
 				</BreadcrumbItem>
 				<BreadcrumbSeparator>
 					<SlashIcon />
 				</BreadcrumbSeparator>
 				<BreadcrumbItem>
-					<BreadcrumbPage>{title}</BreadcrumbPage>
+					<BreadcrumbPage>{metaData.title}</BreadcrumbPage>
 				</BreadcrumbItem>
 			</BreadcrumbList>
 		</Breadcrumb>

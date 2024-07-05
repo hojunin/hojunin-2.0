@@ -1,39 +1,28 @@
 'use client';
-import CommonError from '@/components/common/common-error';
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
-import ContentsViewCount from '@/components/contents/contents-view-count';
-import { Skeleton } from '@/components/ui/skeleton';
-import { EyeIcon } from 'lucide-react';
+import { ContentsTag, PostMetaData } from '@/types/contents';
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { Suspense } from 'react';
-import useFetchTags from './use-fetch-tags';
+import React from 'react';
 
 interface Props {
-	slug: string;
+	metaData: PostMetaData;
+	tags: ContentsTag[];
 }
 
-const ContentsDetailHeader = ({ slug }: Props) => {
-	const { data: contentsMeta, error, isLoading } = useFetchTags(slug);
-	if (isLoading) {
-		return null;
-	}
-	if (error || !contentsMeta) {
-		return <CommonError message="컨텐츠 데이터 호출에 실패했어요" />;
-	}
-
+const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 	return (
 		<section>
-			<ContentsDetailBreadCrumb tag={contentsMeta.tag} title={contentsMeta.title} />
+			<ContentsDetailBreadCrumb tags={tags} metaData={metaData} />
 
 			<div>
 				<Typography variant={'h1'} className="mt-4 whitespace-normal break-words">
-					{contentsMeta.title}
+					{metaData.title}
 				</Typography>
 
 				<Typography variant={'p'} className="mt-2 text-lg text-muted-foreground">
-					{contentsMeta.description}
+					{metaData.description}
 				</Typography>
 			</div>
 
@@ -55,17 +44,6 @@ const ContentsDetailHeader = ({ slug }: Props) => {
 						</Typography>
 					</div>
 				</Link>
-
-				<Suspense
-					fallback={
-						<div className="flex items-center gap-x-2">
-							<EyeIcon width={16} height={16} color="#efefef" />
-							<Skeleton className="h-4 w-4" />
-						</div>
-					}
-				>
-					<ContentsViewCount slug={slug} />
-				</Suspense>
 			</div>
 		</section>
 	);
