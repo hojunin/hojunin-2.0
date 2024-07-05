@@ -30,7 +30,7 @@ const ContentsPage = async ({
 
 			<ContentsDetail content={post.content} />
 
-			<ViewIncrementor slug={slug} />
+			{/* <ViewIncrementor slug={slug} /> */}
 		</article>
 	);
 };
