@@ -4,7 +4,7 @@ import { getPostContent } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import ContentsDetailHeader from '@/components/contents/contents-detail/contents-detail-header';
 import { Separator } from '@/components/ui/separator';
-// import ViewIncrementor from '@/components/contents/view-incrementor';
+import ViewIncrementor from '@/components/contents/view-incrementor';
 import { fetchMetaData, fetchTags } from '@/api/contents';
 
 const ContentsPage = async ({
@@ -30,7 +30,7 @@ const ContentsPage = async ({
 
 			<ContentsDetail content={post.content} />
 
-			{/* <ViewIncrementor slug={slug} /> */}
+			<ViewIncrementor slug={slug} />
 		</article>
 	);
 };
