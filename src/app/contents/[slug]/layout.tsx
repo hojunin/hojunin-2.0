@@ -42,6 +42,7 @@ export async function generateStaticParams() {
 	return getBlogPosts().map(post => post.slug);
 }
 
-// export const dynamic = 'error';
-// export const dynamicParams = false;
-// export const revalidate = false;
+// Router Cache Policy Setting
+export const dynamic = 'error'; // 동적으로 가져오는 경우 에러를 발생시킨다.
+export const dynamicParams = true; // generateStaticParams로 생성되지 않은 파일을 방문했을 때 파일을 새로 생성한다.
+export const revalidate = false; // 레이아웃과 페이지의 유효기간을 정한다.
