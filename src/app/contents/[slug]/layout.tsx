@@ -42,6 +42,6 @@ export async function generateStaticParams() {
 	return getBlogPosts().map(post => post.slug);
 }
 
-export const dynamic = 'error';
-export const dynamicParams = false;
-export const revalidate = false;
+// export const dynamic = 'error';
+// export const dynamicParams = false;
+// export const revalidate = false;
