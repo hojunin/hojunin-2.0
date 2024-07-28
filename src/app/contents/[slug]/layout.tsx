@@ -1,7 +1,5 @@
 import { fetchMetaData } from '@/api/contents';
-import { fetcher } from '@/api/fetcher';
-import { getBlogPosts, getPostContent } from '@/lib/mdx';
-import { PostListItemInterface } from '@/types/contents';
+import { getBlogPosts } from '@/lib/mdx';
 import React from 'react';
 
 const ContentsDetailLayout = ({ children }: { children: React.ReactNode }) => {
