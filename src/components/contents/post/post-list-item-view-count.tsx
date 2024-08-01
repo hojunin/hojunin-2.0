@@ -1,6 +1,6 @@
 import Typography from '@/components/common/typography';
-import { EyeIcon } from 'lucide-react';
 import React from 'react';
+import { EyeIcon } from 'lucide-react';
 interface Props {
 	slug: string;
 }

@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import React from 'react';
-import useFetchTags from './tag-list.hooks';
+import useFetchTags from '@/components/contents/post/tag-list.hooks';
 
 const TagList = () => {
 	const { data: tags, isLoading } = useFetchTags();

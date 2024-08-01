@@ -1,11 +1,12 @@
 import { createClient } from '@/lib/supabase/client';
 import { PostMetaData } from '@/types/contents';
+
 export const fetchMetaData = async (slug: string): Promise<PostMetaData> => {
 	const supabase = createClient();
 	try {
 		const { data, error } = await supabase
 			.from('contents')
-			.select('slug, title, status, thumbnail, created_at, tag(*)')
+			.select('slug, title, status, thumbnail,description, created_at, tag(*)')
 			.eq('slug', slug)
 			.single();
 		if (error) {

@@ -6,7 +6,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import React from 'react';
-import TagList from './tag-list';
+import TagList from '@/components/contents/post/tag-list';
 
 const Toolbar = () => {
 	return (

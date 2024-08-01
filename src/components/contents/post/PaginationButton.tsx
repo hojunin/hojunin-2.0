@@ -1,11 +1,11 @@
 'use client';
 import useInfiniteFetchContentQuery from './useInfiniteFetchContentQuery';
 import { ContentsStatus } from '@/types/contents';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { ValueOf } from '@/types/common';
 import PostListItem from './post-list-item';
 import useIntersection from '@/hooks/useIntersection';
-import Toolbar from './Toolbar';
+import Toolbar from './toolbar';
 
 const PaginationButton = () => {
 	const [status, setStatus] = useState<ValueOf<typeof ContentsStatus>>(ContentsStatus.PUBLISHED);
