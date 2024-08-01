@@ -1,17 +1,16 @@
 import { createClient } from '@/lib/supabase/client';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { ValueOf } from '../../../types/common';
-import { ContentsStatus } from '../../../types/contents';
+import useContentsParamStore from '@/store/contents-param-store';
 
 const PAGE_COUNT = 5;
 
 interface FetchContentListParams {
 	page: number;
-	status: ValueOf<typeof ContentsStatus>;
-	tag: number;
+	tag?: number;
+	sort: 'newest' | 'oldest';
 }
 
-export const fetchContents = async ({ page, status, tag }: FetchContentListParams) => {
+export const fetchContents = async ({ page, tag, sort }: FetchContentListParams) => {
 	const supabase = createClient();
 	const from = (page - 1) * PAGE_COUNT;
 	const to = from + PAGE_COUNT - 1;
@@ -21,13 +20,10 @@ export const fetchContents = async ({ page, status, tag }: FetchContentListParam
 		.select('*')
 		.range(from, to)
 		.limit(PAGE_COUNT)
-		.order('created_at', { ascending: false });
+		.order('created_at', { ascending: sort === 'newest' });
 
 	if (tag) {
 		query = query.eq('tag', tag);
-	}
-	if (status) {
-		query = query.eq('status', status);
 	}
 
 	const { data, error } = await query;
@@ -40,15 +36,16 @@ export const fetchContents = async ({ page, status, tag }: FetchContentListParam
 	return data;
 };
 
-const useInfiniteFetchContentQuery = (status: ValueOf<typeof ContentsStatus>, tag: number) => {
+const useInfiniteFetchContentQuery = () => {
+	const { sort, currentTag } = useContentsParamStore();
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
 		useInfiniteQuery({
-			queryKey: ['contents', status, tag],
+			queryKey: ['contents', currentTag?.id ?? '0', sort],
 			queryFn: ({ pageParam = 1 }) =>
 				fetchContents({
 					page: pageParam,
-					status,
-					tag,
+					tag: currentTag?.id,
+					sort,
 				}),
 			initialPageParam: 1,
 			getNextPageParam: (lastPage, allPages) => {

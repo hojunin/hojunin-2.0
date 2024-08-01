@@ -3,8 +3,6 @@ import { Id, ValueOf } from './common';
 export interface ContentsTag {
 	id: Id;
 	name: string;
-	path: string;
-	icon?: string;
 }
 
 export const ContentsCategory = {

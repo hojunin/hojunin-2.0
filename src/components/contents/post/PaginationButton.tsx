@@ -8,12 +8,8 @@ import useIntersection from '@/hooks/useIntersection';
 import Toolbar from './toolbar';
 
 const PaginationButton = () => {
-	const [status, setStatus] = useState<ValueOf<typeof ContentsStatus>>(ContentsStatus.PUBLISHED);
-	const [tag, setTag] = useState<number>(1);
-	const { contents, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfiniteFetchContentQuery(
-		status,
-		tag,
-	);
+	const { contents, hasNextPage, isFetchingNextPage, fetchNextPage } =
+		useInfiniteFetchContentQuery();
 	const [intersectionRef, isIntersecting] = useIntersection({
 		threshold: 0.5,
 	});

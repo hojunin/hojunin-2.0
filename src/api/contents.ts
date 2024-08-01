@@ -21,7 +21,7 @@ export const fetchMetaData = async (slug: string): Promise<PostMetaData> => {
 export const fetchTags = async () => {
 	const supabase = createClient();
 	try {
-		const { data, error } = await supabase.from('contents_tag').select('*');
+		const { data, error } = await supabase.from('contents_tag').select('name, id');
 		if (error) {
 			throw error;
 		}
