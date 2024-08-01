@@ -22,7 +22,7 @@ export const ContentsStatus = {
 	DRAFT: 'draft',
 	PUBLISHED: 'published',
 	RESERVED: 'reserved',
-};
+} as const;
 
 export interface PostListItemInterface {
 	id: Id;

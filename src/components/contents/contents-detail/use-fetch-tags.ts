@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/client';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 const fetchTags = async (slug: string) => {
 	const supabase = createClient();

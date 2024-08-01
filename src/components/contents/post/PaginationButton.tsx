@@ -1,22 +1,44 @@
 'use client';
-import { Button } from '@/components/ui/button';
-import React from 'react';
-import { fetchContents } from './useInfiniteFetchContentQuery';
+import useInfiniteFetchContentQuery from './useInfiniteFetchContentQuery';
 import { ContentsStatus } from '@/types/contents';
+import { useState, useEffect, useRef } from 'react';
+import { ValueOf } from '@/types/common';
+import PostListItem from './post-list-item';
+import useIntersection from '@/hooks/useIntersection';
+import Toolbar from './Toolbar';
 
 const PaginationButton = () => {
+	const [status, setStatus] = useState<ValueOf<typeof ContentsStatus>>(ContentsStatus.PUBLISHED);
+	const [tag, setTag] = useState<number>(1);
+	const { contents, hasNextPage, isFetchingNextPage, fetchNextPage } = useInfiniteFetchContentQuery(
+		status,
+		tag,
+	);
+	const [intersectionRef, isIntersecting] = useIntersection({
+		threshold: 0.5,
+	});
+
+	useEffect(() => {
+		if (isIntersecting && hasNextPage && !isFetchingNextPage) {
+			fetchNextPage();
+		}
+	}, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
+	if (!contents || !Array.isArray(contents)) return null;
+
 	return (
-		<Button
-			onClick={async () => {
-				await fetchContents({
-					page: 1,
-					status: ContentsStatus.PUBLISHED,
-					tag: 1,
-				});
-			}}
-		>
-			누르면 페치됨
-		</Button>
+		<>
+			<Toolbar />
+
+			<ul className="grid grid-cols-2 gap-5 sm:grid-cols-3">
+				{contents.map(post => (
+					<PostListItem key={post.id} postItem={post} />
+				))}
+			</ul>
+
+			{isFetchingNextPage && <div>Loading more posts...</div>}
+			<div ref={intersectionRef as React.RefObject<HTMLDivElement>} className="mt-5 h-1" />
+		</>
 	);
 };
 

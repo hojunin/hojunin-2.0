@@ -1,5 +1,5 @@
+'use client';
 import React from 'react';
-
 import Image from 'next/image';
 import { ContentsStatus, PostListItemInterface } from '@/types/contents';
 import PostListItemViewCount from '@/components/contents/post/post-list-item-view-count';
@@ -15,12 +15,19 @@ interface Props {
 }
 
 const PostListItem = ({ postItem }: Props) => {
+	if (!postItem) {
+		return null;
+	}
 	return (
 		<Link href={`/contents/${postItem.slug}`}>
 			<Card className="group flex h-full cursor-pointer flex-col justify-between hover:border-gray-600">
 				<CardHeader>
 					<Image
-						src={postItem.status === ContentsStatus.RESERVED ? DRAFT_THUMBNAIL : postItem.thumbnail}
+						src={
+							postItem.status === ContentsStatus.RESERVED
+								? DRAFT_THUMBNAIL
+								: postItem.thumbnail ?? DRAFT_THUMBNAIL
+						}
 						alt={`${postItem.title} 대표 이미지`}
 						className="mb-3 rounded-lg transition-all group-hover:scale-105"
 						width={500}
