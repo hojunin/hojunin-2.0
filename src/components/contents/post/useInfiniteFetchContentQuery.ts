@@ -17,7 +17,7 @@ export const fetchContents = async ({ page, tag, sort }: FetchContentListParams)
 
 	let query = supabase
 		.from('contents')
-		.select('*')
+		.select('*, views(count)')
 		.range(from, to)
 		.limit(PAGE_COUNT)
 		.order('created_at', { ascending: sort === 'newest' });

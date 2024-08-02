@@ -1,11 +1,10 @@
 'use client';
 import useInfiniteFetchContentQuery from './useInfiniteFetchContentQuery';
-import { ContentsStatus } from '@/types/contents';
-import { useState, useEffect } from 'react';
-import { ValueOf } from '@/types/common';
+import { useEffect } from 'react';
 import PostListItem from './post-list-item';
 import useIntersection from '@/hooks/useIntersection';
 import Toolbar from './toolbar';
+import CommonError from '@/components/common/common-error';
 
 const PaginationButton = () => {
 	const { contents, hasNextPage, isFetchingNextPage, fetchNextPage } =
@@ -20,7 +19,9 @@ const PaginationButton = () => {
 		}
 	}, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-	if (!contents || !Array.isArray(contents)) return null;
+	if (!contents || !Array.isArray(contents)) {
+		return <CommonError message="데이터가 없어요" />;
+	}
 
 	return (
 		<>

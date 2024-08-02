@@ -2,10 +2,10 @@ import { ContentsTag } from '@/types/contents';
 import { create } from 'zustand';
 
 interface ContentsParamState {
-	sort: string;
+	sort: 'newest' | 'oldest';
 	currentTag: ContentsTag | null;
 	page: number;
-	setSort: (sort: string) => void;
+	setSort: (sort: 'newest' | 'oldest') => void;
 	setCurrentTag: (tag: ContentsTag | null) => void;
 	setPage: (page: number) => void;
 }

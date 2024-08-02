@@ -26,7 +26,7 @@ const PostListItem = ({ postItem }: Props) => {
 						src={
 							postItem.status === ContentsStatus.RESERVED
 								? DRAFT_THUMBNAIL
-								: postItem.thumbnail ?? DRAFT_THUMBNAIL
+								: (postItem.thumbnail ?? DRAFT_THUMBNAIL)
 						}
 						alt={`${postItem.title} 대표 이미지`}
 						className="mb-3 rounded-lg transition-all group-hover:scale-105"
@@ -41,7 +41,7 @@ const PostListItem = ({ postItem }: Props) => {
 					</CardDescription>
 				</CardHeader>
 				<CardFooter className="flex items-center justify-between">
-					<PostListItemViewCount slug={postItem.slug} />
+					<PostListItemViewCount viewCount={postItem.views.count} />
 					<Typography variant={'span'} typo={'mute'}>
 						{dayjs(postItem.created_at).format('YYYY-MM-DD')}
 					</Typography>

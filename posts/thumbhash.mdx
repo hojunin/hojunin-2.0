@@ -75,8 +75,6 @@ return <CarListItem data={data}>
 
 보이는 영역에서만 이미지나 모듈 등을 다운받도록 하는 기능을 지연로딩이라고 합니다.
 
-![webdev 지연로딩사진](https://web-dev.imgix.net/image/admin/xSZMqpbioBRwRTnenK8f.png?auto=format&w=845)
-
 ### 기존의 방식
 
 기존엔 두가지 방식으로 지연로딩을 구현했습니다. Intersection Observer API와 scroll 이벤트 핸들러죠. Intersection Observer API도 비교적 최근에 추가된 스펙이기 때문에 전통 웹사이트들은 이벤트 핸들러 방식으로 구현되어 있었습니다.
@@ -180,7 +178,7 @@ const ThumbHashTest = () => {
 	...
 	// 아래와 같이 인코딩된 string으로 thumbhash가 내려오면 이를 해석해서 dataURL을 얻을 수 있다.
 	image: "https://cdn.image.kr/394832904",
-  placeholder: "4cYNPwiXaIeOd3hwiGd4h3eHdwiHh3AK"
+  	placeholder: "4cYNPwiXaIeOd3hwiGd4h3eHdwiHh3AK"
 	...
 }
 ```

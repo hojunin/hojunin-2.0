@@ -3,18 +3,8 @@ import { Id, ValueOf } from './common';
 export interface ContentsTag {
 	id: Id;
 	name: string;
+	path: string;
 }
-
-export const ContentsCategory = {
-	DEV: 'dev',
-	FRONTEND: 'frontend',
-	BACKEND: 'backend',
-	DEVOPS: 'devops',
-	DATABASE: 'database',
-	ETC: 'etc',
-	MONEY: 'money',
-	LIFE: 'life',
-} as const;
 
 export const ContentsStatus = {
 	DRAFT: 'draft',
@@ -31,6 +21,9 @@ export interface PostListItemInterface {
 	thumbnail: string;
 	tag: ContentsTag;
 	status: ValueOf<typeof ContentsStatus>;
+	views: {
+		count: number;
+	};
 }
 
 export interface PostMetaData {
