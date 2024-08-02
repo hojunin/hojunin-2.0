@@ -34,11 +34,13 @@ const PostListItem = ({ postItem }: Props) => {
 						height={250}
 					/>
 					<CardTitle>{postItem.title}</CardTitle>
-					<CardDescription>
-						{postItem.description.length > 30
-							? `${postItem.description.slice(0, 30)}...`
-							: postItem.description}
-					</CardDescription>
+					{postItem.description && (
+						<CardDescription>
+							{postItem.description.length > 30
+								? `${postItem.description.slice(0, 30)}...`
+								: postItem.description}
+						</CardDescription>
+					)}
 				</CardHeader>
 				<CardFooter className="flex items-center justify-between">
 					<PostListItemViewCount viewCount={postItem.views.count} />
