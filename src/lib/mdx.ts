@@ -53,16 +53,10 @@ export function parseCodeSnippet() {
 	};
 }
 
-function extractTweetIds(content) {
-	let tweetMatches = content.match(/<StaticTweet\sid="[0-9]+"\s\/>/g);
-	return tweetMatches?.map(tweet => tweet.match(/[0-9]+/g)[0]) || [];
-}
-
 function parseFrontmatter(fileContent: string) {
 	let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
 	let match = frontmatterRegex.exec(fileContent);
 	if (!(Array.isArray(match) && match.length > 1)) {
-		console.log(match);
 		return { metadata: {}, content: '' };
 	}
 	let frontMatterBlock = match![1];
@@ -93,12 +87,10 @@ function getMDXData(dir) {
 	let mdxFiles = getMDXFiles(dir);
 	return mdxFiles.map(file => {
 		let { metadata, content } = readMDXFile(path.join(dir, file));
-		let slug = path.basename(file, path.extname(file));
-		let tweetIds = extractTweetIds(content);
+		let slug = metadata.slug;
 		return {
 			metadata,
 			slug,
-			tweetIds,
 			content,
 		};
 	});
