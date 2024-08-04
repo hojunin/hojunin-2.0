@@ -27,7 +27,7 @@ const Footer = () => {
 					<Link href="mailto:dlsghwns12@gmail.com" target="_blank">
 						Email ✉️
 					</Link>
-					<ContactSheet />
+					{/* <ContactSheet /> */}
 				</section>
 			</div>
 

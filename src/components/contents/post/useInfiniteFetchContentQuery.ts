@@ -1,43 +1,10 @@
-import { createClient } from '@/lib/supabase/client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import useContentsParamStore from '@/store/contents-param-store';
-
-const PAGE_COUNT = 10;
-
-interface FetchContentListParams {
-	page: number;
-	tag?: number;
-	sort: 'newest' | 'oldest';
-}
-
-export const fetchContents = async ({ page, tag, sort }: FetchContentListParams) => {
-	const supabase = createClient();
-	const from = (page - 1) * PAGE_COUNT;
-	const to = from + PAGE_COUNT - 1;
-
-	let query = supabase
-		.from('contents')
-		.select('*, views(count)')
-		.range(from, to)
-		.limit(PAGE_COUNT)
-		.order('created_at', { ascending: sort === 'oldest' });
-
-	if (tag) {
-		query = query.eq('tag', tag);
-	}
-
-	const { data, error } = await query;
-
-	if (error) {
-		console.error('Error fetching contents:', error);
-		return [];
-	}
-
-	return data;
-};
+import { CONTENTS_DEFAULT_PAGE_COUNT, fetchContents } from '@/api/contents';
 
 const useInfiniteFetchContentQuery = () => {
 	const { sort, currentTag } = useContentsParamStore();
+	console.log('🚀 ~ useInfiniteFetchContentQuery ~ sort, currentTag:', sort, currentTag);
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
 		useInfiniteQuery({
 			queryKey: ['contents', currentTag?.id ?? '0', sort],
@@ -49,7 +16,7 @@ const useInfiniteFetchContentQuery = () => {
 				}),
 			initialPageParam: 1,
 			getNextPageParam: (lastPage, allPages) => {
-				if (lastPage.length < PAGE_COUNT) {
+				if (lastPage.length < CONTENTS_DEFAULT_PAGE_COUNT) {
 					return undefined;
 				}
 				return allPages.length + 1;

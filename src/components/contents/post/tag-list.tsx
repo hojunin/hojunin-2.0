@@ -1,14 +1,18 @@
 import { Badge } from '@/components/ui/badge';
 import React from 'react';
-import useFetchTags from '@/components/contents/post/tag-list.hooks';
 import { useShallow } from 'zustand/react/shallow';
 import useContentsParamStore from '@/store/contents-param-store';
-import { ContentsTag } from '@/types/contents';
+import { ContentTag } from '@/types/contents';
 import clsx from 'clsx';
 import useDevice from '@/hooks/useDevice';
+import useFetchAllTags from '@/api/tag/useFetchAllTags';
+import useQueryParams from '@/hooks/useQueryParams';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const TagList = () => {
-	const { data: tags, isLoading } = useFetchTags();
+	const { data: tags, isLoading } = useFetchAllTags();
+	const { setQueryParam } = useQueryParams();
+	const { isMobile } = useDevice();
 	const { currentTag, setCurrentTag } = useContentsParamStore(
 		useShallow(state => ({
 			currentTag: state.currentTag,
@@ -17,16 +21,29 @@ const TagList = () => {
 	);
 
 	if (isLoading) {
-		return <div>Loading...</div>;
+		return (
+			<ul className="flex flex-wrap gap-2">
+				{[...Array(5)].map((_, index) => (
+					<li key={index}>
+						<Skeleton
+							className={clsx('h-8 w-16 animate-pulse rounded-full', {
+								'h-4 w-8': isMobile,
+							})}
+						/>
+					</li>
+				))}
+			</ul>
+		);
 	}
 
 	if (!tags) {
 		return <div>No tags found</div>;
 	}
 
-	const onClickTag = (tag?: ContentsTag) => {
+	const onClickTag = (tag?: ContentTag) => {
 		if (tag) {
 			setCurrentTag(tag);
+			setQueryParam('tag', tag.name);
 			return;
 		}
 		setCurrentTag(null);
@@ -35,7 +52,7 @@ const TagList = () => {
 	return (
 		<ul className="flex flex-wrap gap-2">
 			<TagButton onClick={() => onClickTag()} isActive={currentTag === null} label="전체" />
-			{tags?.map(tag => (
+			{tags.map(tag => (
 				<TagButton
 					key={tag.id}
 					onClick={() => onClickTag(tag)}

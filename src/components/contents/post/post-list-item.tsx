@@ -22,7 +22,7 @@ const PostListItem = ({ postItem }: Props) => {
 		<Link href={`/contents/${postItem.slug}`}>
 			<Card className="group flex h-full cursor-pointer flex-col justify-between hover:border-gray-600">
 				<CardHeader>
-					<div className="relative mb-3 w-full pt-[56.25%] overflow-hidden rounded-lg">
+					<div className="relative mb-3 w-full overflow-hidden rounded-lg pt-[56.25%]">
 						<Image
 							src={
 								postItem.status === ContentsStatus.RESERVED
@@ -30,13 +30,15 @@ const PostListItem = ({ postItem }: Props) => {
 									: (postItem.thumbnail ?? DRAFT_THUMBNAIL)
 							}
 							alt={`${postItem.title} 대표 이미지`}
-							className="absolute top-0 left-0 w-full h-full object-cover transition-all group-hover:scale-105"
+							className="absolute left-0 top-0 h-full w-full object-cover transition-all group-hover:scale-105"
 							layout="fill"
 							objectFit="cover"
 							objectPosition="center"
 						/>
 					</div>
-					<CardTitle>{postItem.title}</CardTitle>
+					<CardTitle className="line-clamp-2 text-base sm:text-xl">
+						{postItem.title.length > 60 ? `${postItem.title.slice(0, 60)}...` : postItem.title}
+					</CardTitle>
 					{postItem.description && (
 						<CardDescription>
 							{postItem.description.length > 30
@@ -45,7 +47,7 @@ const PostListItem = ({ postItem }: Props) => {
 						</CardDescription>
 					)}
 				</CardHeader>
-				<CardFooter className="flex items-center justify-between">
+				<CardFooter className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
 					<PostListItemViewCount viewCount={postItem.views.count} />
 					<Typography variant={'span'} typo={'mute'}>
 						{dayjs(postItem.created_at).format('YYYY-MM-DD')}

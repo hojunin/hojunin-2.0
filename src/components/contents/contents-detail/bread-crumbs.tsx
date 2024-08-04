@@ -41,7 +41,7 @@ const ContentsDetailBreadCrumb = async ({ tags, metaData }: Props) => {
 						<DropdownMenuContent align="start">
 							{(tags as ContentsTag[]).map(tag => (
 								<DropdownMenuItem key={tag.id}>
-									<Link href={`/contents/category${tag.path}`} className="w-full">
+									<Link href={`/contents?tag=${tag.name}`} className="w-full">
 										{tag.name}
 									</Link>
 								</DropdownMenuItem>

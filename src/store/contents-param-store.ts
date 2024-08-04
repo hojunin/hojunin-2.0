@@ -1,12 +1,12 @@
-import { ContentsTag } from '@/types/contents';
+import { ContentTag } from '@/types/contents';
 import { create } from 'zustand';
 
 interface ContentsParamState {
 	sort: 'newest' | 'oldest';
-	currentTag: ContentsTag | null;
+	currentTag: ContentTag | null;
 	page: number;
 	setSort: (sort: 'newest' | 'oldest') => void;
-	setCurrentTag: (tag: ContentsTag | null) => void;
+	setCurrentTag: (tag: ContentTag | null) => void;
 	setPage: (page: number) => void;
 }
 
@@ -16,7 +16,6 @@ const useContentsParamStore = create<ContentsParamState>(set => ({
 	page: 1,
 	setSort: sort => set({ sort }),
 	setCurrentTag: tag => {
-		console.log('Setting current tag:', tag);
 		set({ currentTag: tag });
 	},
 	setPage: page => set({ page }),

@@ -5,8 +5,10 @@ import PostListItem from './post-list-item';
 import useIntersection from '@/hooks/useIntersection';
 import Toolbar from './toolbar';
 import CommonError from '@/components/common/common-error';
+import { useInitQueryString } from './InfinityContentsList.hooks';
 
-const PaginationButton = () => {
+const InfinityContentsList = () => {
+	useInitQueryString();
 	const { contents, hasNextPage, isFetchingNextPage, fetchNextPage } =
 		useInfiniteFetchContentQuery();
 	const [intersectionRef, isIntersecting] = useIntersection({
@@ -39,4 +41,4 @@ const PaginationButton = () => {
 	);
 };
 
-export default PaginationButton;
+export default InfinityContentsList;
