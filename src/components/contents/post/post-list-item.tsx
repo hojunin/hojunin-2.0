@@ -21,8 +21,8 @@ const PostListItem = ({ postItem }: Props) => {
 	return (
 		<Link href={`/contents/${postItem.slug}`}>
 			<Card className="group flex h-full cursor-pointer flex-col justify-between hover:border-gray-600">
-				<CardHeader>
-					<div className="relative mb-3 w-full overflow-hidden rounded-lg pt-[56.25%]">
+				<CardHeader className="p-2 sm:p-6">
+					<div className="relative mb-2 w-full overflow-hidden rounded-lg pt-[56.25%] sm:mb-3">
 						<Image
 							src={
 								postItem.status === ContentsStatus.RESERVED
@@ -36,20 +36,20 @@ const PostListItem = ({ postItem }: Props) => {
 							objectPosition="center"
 						/>
 					</div>
-					<CardTitle className="line-clamp-2 text-base sm:text-xl">
-						{postItem.title.length > 60 ? `${postItem.title.slice(0, 60)}...` : postItem.title}
+					<CardTitle className="line-clamp-2 text-sm sm:text-base md:text-xl">
+						{postItem.title.length > 40 ? `${postItem.title.slice(0, 40)}...` : postItem.title}
 					</CardTitle>
 					{postItem.description && (
-						<CardDescription>
-							{postItem.description.length > 30
-								? `${postItem.description.slice(0, 30)}...`
+						<CardDescription className="text-xs sm:text-sm">
+							{postItem.description.length > 20
+								? `${postItem.description.slice(0, 20)}...`
 								: postItem.description}
 						</CardDescription>
 					)}
 				</CardHeader>
-				<CardFooter className="flex flex-col items-start justify-between sm:flex-row sm:items-center">
+				<CardFooter className="flex flex-col items-start justify-between p-2 sm:flex-row sm:items-center sm:p-6">
 					<PostListItemViewCount viewCount={postItem.views.count} />
-					<Typography variant={'span'} typo={'mute'}>
+					<Typography variant={'span'} typo={'mute'} className="text-xs sm:text-sm">
 						{dayjs(postItem.created_at).format('YYYY-MM-DD')}
 					</Typography>
 				</CardFooter>

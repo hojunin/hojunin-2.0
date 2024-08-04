@@ -4,7 +4,6 @@ import { CONTENTS_DEFAULT_PAGE_COUNT, fetchContents } from '@/api/contents';
 
 const useInfiniteFetchContentQuery = () => {
 	const { sort, currentTag } = useContentsParamStore();
-	console.log('🚀 ~ useInfiniteFetchContentQuery ~ sort, currentTag:', sort, currentTag);
 	const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } =
 		useInfiniteQuery({
 			queryKey: ['contents', currentTag?.id ?? '0', sort],
