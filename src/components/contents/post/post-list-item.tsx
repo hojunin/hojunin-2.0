@@ -22,17 +22,20 @@ const PostListItem = ({ postItem }: Props) => {
 		<Link href={`/contents/${postItem.slug}`}>
 			<Card className="group flex h-full cursor-pointer flex-col justify-between hover:border-gray-600">
 				<CardHeader>
-					<Image
-						src={
-							postItem.status === ContentsStatus.RESERVED
-								? DRAFT_THUMBNAIL
-								: (postItem.thumbnail ?? DRAFT_THUMBNAIL)
-						}
-						alt={`${postItem.title} 대표 이미지`}
-						className="mb-3 rounded-lg transition-all group-hover:scale-105"
-						width={500}
-						height={250}
-					/>
+					<div className="relative mb-3 w-full pt-[56.25%] overflow-hidden rounded-lg">
+						<Image
+							src={
+								postItem.status === ContentsStatus.RESERVED
+									? DRAFT_THUMBNAIL
+									: (postItem.thumbnail ?? DRAFT_THUMBNAIL)
+							}
+							alt={`${postItem.title} 대표 이미지`}
+							className="absolute top-0 left-0 w-full h-full object-cover transition-all group-hover:scale-105"
+							layout="fill"
+							objectFit="cover"
+							objectPosition="center"
+						/>
+					</div>
 					<CardTitle>{postItem.title}</CardTitle>
 					{postItem.description && (
 						<CardDescription>
