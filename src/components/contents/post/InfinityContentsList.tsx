@@ -29,7 +29,7 @@ const InfinityContentsList = () => {
 		<>
 			<Toolbar />
 
-			<ul className="grid grid-cols-2 gap-5 sm:grid-cols-3">
+			<ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-5">
 				{contents.map(post => (
 					<PostListItem key={post.id} postItem={post} />
 				))}
