@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "type-gen": "supabase gen types typescript --project-id lnwblzacktgzeiihvxtu > database.types.ts"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.5.3",
