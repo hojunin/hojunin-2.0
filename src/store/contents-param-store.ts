@@ -1,11 +1,11 @@
-import { ContentTag } from '@/types/contents';
+import { ContentsSortType, ContentTag } from '@/types/contents';
 import { create } from 'zustand';
 
 interface ContentsParamState {
-	sort: 'newest' | 'oldest';
+	sort: ContentsSortType;
 	currentTag: ContentTag | null;
 	page: number;
-	setSort: (sort: 'newest' | 'oldest') => void;
+	setSort: (sort: ContentsSortType) => void;
 	setCurrentTag: (tag: ContentTag | null) => void;
 	setPage: (page: number) => void;
 }

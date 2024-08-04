@@ -1,12 +1,6 @@
 import { Database } from '../../database.types';
 import { Id, ValueOf } from './common';
 
-export interface ContentsTag {
-	id: Id;
-	name: string;
-	path: string;
-}
-
 export type ContentTag = Database['public']['Tables']['contents_tag']['Row'];
 
 export const ContentsStatus = {
@@ -22,7 +16,7 @@ export interface PostListItemInterface {
 	title: string;
 	description: string;
 	thumbnail: string;
-	tag: ContentsTag;
+	tag: ContentTag;
 	status: ValueOf<typeof ContentsStatus>;
 	views: {
 		count: number;
@@ -35,12 +29,14 @@ export type ContentWithTag = Pick<
 	tag: Database['public']['Tables']['contents_tag']['Row'];
 };
 
+export type ContentsSortType = 'newest' | 'oldest' | 'popular';
+
 export interface PostMetaData {
 	slug: string;
 	title: string;
 	description: string;
 	thumbnail: string;
-	tag: ContentsTag;
+	tag: ContentTag;
 	created_at: Date;
 	status: ValueOf<typeof ContentsStatus>;
 }

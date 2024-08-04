@@ -12,7 +12,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ContentsTag, ContentTag, ContentWithTag } from '@/types/contents';
+import { ContentTag, ContentWithTag } from '@/types/contents';
 import { ChevronDownIcon, SlashIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
@@ -39,7 +39,7 @@ const ContentsDetailBreadCrumb = async ({ tags, metaData }: Props) => {
 							<ChevronDownIcon />
 						</DropdownMenuTrigger>
 						<DropdownMenuContent align="start">
-							{(tags as ContentsTag[]).map(tag => (
+							{tags.map(tag => (
 								<DropdownMenuItem key={tag.id}>
 									<Link href={`/contents?tag=${tag.name}`} className="w-full">
 										{tag.name}

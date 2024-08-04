@@ -13,15 +13,22 @@ import TagList from '@/components/contents/post/tag-list';
 import useContentsParamStore from '@/store/contents-param-store';
 import clsx from 'clsx';
 import useDevice from '@/hooks/useDevice';
+import useQueryParams from '@/hooks/useQueryParams';
+import { ContentsSortType } from '@/types/contents';
 
 const Toolbar = () => {
 	const { isMobile } = useDevice();
+	const { setQueryParam } = useQueryParams();
 	const { sort, setSort } = useContentsParamStore(
 		useShallow(state => ({
 			sort: state.sort,
 			setSort: state.setSort,
 		})),
 	);
+	const onClickSort = (value: string) => {
+		setQueryParam('sort', value);
+		setSort(value as ContentsSortType);
+	};
 	return (
 		<section>
 			<div className="flex items-center justify-between p-4">
@@ -29,7 +36,7 @@ const Toolbar = () => {
 					<TagList />
 				</div>
 				<div className="flex items-center gap-x-2">
-					<Select onValueChange={value => setSort(value)}>
+					<Select onValueChange={onClickSort}>
 						<SelectTrigger
 							className={clsx('w-[180px]', {
 								'w-[80px]': isMobile,

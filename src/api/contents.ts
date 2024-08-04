@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/client';
-import { ContentWithTag } from '@/types/contents';
+import { ContentsSortType, ContentWithTag } from '@/types/contents';
 
 export const fetchMetaData = async (slug: string): Promise<ContentWithTag> => {
 	const supabase = createClient();
@@ -20,7 +20,7 @@ export const CONTENTS_DEFAULT_PAGE_COUNT = 10;
 interface FetchContentListParams {
 	page: number;
 	tag?: number;
-	sort: 'newest' | 'oldest';
+	sort: ContentsSortType;
 }
 
 export const fetchContents = async ({ page, tag, sort }: FetchContentListParams) => {
@@ -32,8 +32,15 @@ export const fetchContents = async ({ page, tag, sort }: FetchContentListParams)
 		.from('contents')
 		.select('*, views(count)')
 		.range(from, to)
-		.limit(CONTENTS_DEFAULT_PAGE_COUNT)
-		.order('created_at', { ascending: sort === 'oldest' });
+		.limit(CONTENTS_DEFAULT_PAGE_COUNT);
+
+	if (sort === 'oldest') {
+		query = query.order('created_at', { ascending: true });
+	} else if (sort === 'popular') {
+		query = query.order('views(count)', { ascending: false });
+	} else {
+		query = query.order('created_at', { ascending: false });
+	}
 
 	if (tag) {
 		query = query.eq('tag', tag);
