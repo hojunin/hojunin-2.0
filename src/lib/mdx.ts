@@ -61,6 +61,10 @@ function extractTweetIds(content) {
 function parseFrontmatter(fileContent: string) {
 	let frontmatterRegex = /---\s*([\s\S]*?)\s*---/;
 	let match = frontmatterRegex.exec(fileContent);
+	if (!(Array.isArray(match) && match.length > 1)) {
+		console.log(match);
+		return { metadata: {}, content: '' };
+	}
 	let frontMatterBlock = match![1];
 	let content = fileContent.replace(frontmatterRegex, '').trim();
 	let frontMatterLines = frontMatterBlock.trim().split('\n');

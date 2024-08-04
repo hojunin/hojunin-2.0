@@ -20,7 +20,7 @@ export const fetchContents = async ({ page, tag, sort }: FetchContentListParams)
 		.select('*, views(count)')
 		.range(from, to)
 		.limit(PAGE_COUNT)
-		.order('created_at', { ascending: sort === 'newest' });
+		.order('created_at', { ascending: sort === 'oldest' });
 
 	if (tag) {
 		query = query.eq('tag', tag);

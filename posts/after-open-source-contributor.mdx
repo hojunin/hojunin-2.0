@@ -1,0 +1,85 @@
+---
+slug: open-source-contributor-reviews
+title: 오픈소스 컨트리뷰터 후기
+description: 나까짓께...??
+created_at: 2022-06-28
+thumbnail: http://t1.daumcdn.net/brunch/service/user/aVyy/image/FCuB8weY2R5aGZQ6V2___2GunM0.png
+---
+
+제가 [기술 블로그](https://www.hojunin.com/library)에 기술적인 해결과정에 대한 상세한 내용 써놨습니다. 이
+글에선 오픈소스 컨트리뷰터가 된 후기에 대한 내용만 작성할게요.
+
+### 문제의 오픈소스
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/h68m4yc8rHwqF_AwpMLYhCPgIKY.png)월간
+150만 다운로드, 깃허브 스타 4800개에 달하는 꽤나 큰 프로젝트다.
+
+저는 이런 커다란 프로젝트도 버그가 있을줄은 몰랐습니다.
+
+때는 바야흐로 지난주 현대캐피탈과의 라이브 방송 하루 전날. 갑자기 문제가 터졌습니다. 아이폰에서 테스트 영상을 봤을 때 잘 나오길래
+그런가보다 하고 넘어갔지만, 라이브쇼 UI가 가려지고 풀스크린으로 열리는 문제가 발생한 것입니다.
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/F5oMF1UMCgxdX-3aKGf3qBmQJKo)좋아요,
+닫기버튼 등이 없어지는 초유의 상황
+
+## 원인을 찾아보자.
+
+우리 서비스는 약간 복잡한 구조라서 이런 뜬금없는 버그가 나왔을 때 굉장히 난감합니다. **React Native** 에서 **웹으로 만든
+사이트** 를 **웹뷰** 로 띄우는데, 이 때 띄워질 웹사이트는 **라이브쇼 솔루션** 을 임베딩하고 있는 이 기괴한 구조.
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/7Uq9WVjrhCQX8ozpRhOTHvM9CNE.png)
+
+저 다섯개 덩어리 중에 어디가 문제였을까요? 문제를 해결할 땐 네이티브 앱을 까서 설정을 바꾸는 정도로 마무리했지만, 진짜 문제는 저 가운데
+점선으로 표기된 **서드파티 라이브러리** 에서 나왔습니다.
+
+아무리 찾아도 원인을 모르겠어서 마지막으로 라이브러리를 까보니까 뭔가 잘못되있더군요. 이 라이브러리가 워낙 크고 잘 관리되면서 거의 공식
+라이브러리에 준하는 수준이다보니 제가 찾은 오류가 오류라는 사실도 의심스러웠습니다.
+
+### 오픈소스에 기여
+
+진짜 잘못된게 명확해서 [Pull Request](https://github.com/react-native-webview/react-
+native-webview/pull/2548)로 오픈소스에 기여해보기로 했습니다. 일단 [공식
+repository](https://github.com/react-native-webview/react-native-webview)를
+fork받고, 수정사항을 확인한 뒤 포맷에 맞춰 commit을 날리고, upstream branch로 pull requset를 올렸습니다.
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/-pQ9KOYvIA2SSDsD48VKslAEBOk.png)
+
+너무 제가 필요한 부분만 고치게 될까봐, IOS Developers의 [WKWebview Class 공식
+문서](https://developer.apple.com/documentation/webkit/wkdownload/3727342-webview/)를
+확인하고 추가로 수정해야할 사항이 있는지 확인한 뒤, 추가 수정사항을 반영해 PR을 올렸습니다.
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/zeWtqqvR26kjp5MkH8t6xNM4Zv4.png)
+
+아래 코멘트는 이 라이브러리의 메인테이너인데요, 리팩토링하다가 누락했다고 합니다 � (내 귀한 시간 ..)
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/wEDC59g2KINX9mvUiz1pp5rewyM.png)
+
+여하튼 여차저차 해서 제 PR이 반영되었습니다.
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/--M2RYNJQ_tS47FeP5wCjoqw748.png)
+
+이와 동시에, 아래 사진을 보면 제 코멘트 우측에 Contributor 태그가 생긴 것을 볼 수 있습니다.
+
+![](http://t1.daumcdn.net/brunch/service/user/aVyy/image/azBPJztUnt9SYFE6V4fKDH9ab04.png)
+
+**Contribute** 는 기여하다라는 뜻인데요. 단어선택을 정말 잘 한 것 같다는 생각이 들었어요 � 아주 작은 수정이지만, 이
+라이브러리에게는 버그가 사라진 셈이니까요.
+
+사실 그것보다도 이 이슈로 고통받던 사람들을 해방시켜줬다는 사실이 더 뿌듯합니다.
+
+이번 대응에는 디버깅에 거의 하루라는 시간을 소모했지만, 이렇게 문제도 해결하고 오픈소스에도 기여할 수 있는 좋은 기회였습니다.
+
+## 해보니까 은근 재밌다
+
+돈도 안되는 **오픈소스** 가 왜 유지되고 있고 거의 회사하나를 더 다니는 것 만큼의 시간을 할애해가며 키 **메인테이너** 로 활동하는지
+이해할 수 있었습니다. 일면식도 없는 외국인 개발자들과 아마추어 영어로 토론을 하고, 공유를 하며 문제를 해결하는 과정이 꽤나
+재미있었습니다.
+
+또한 이 경험 자체로도 저에게 좋은 경험이자 스펙이 될 것 같다는 생각이 들었습니다. 왜냐하면 대부분의 초급 개발자들은 문제에 봉착했을 때
+구글링에서 끝나지만, 저는 이 문제를 해결하면서 다양한 방법을 시도해보고 그 과정에서 개발자들과의 소통이 있었다는 점에서 햇병아리 태그는
+땠지 않았나 싶었기 때문입니다.
+
+(그렇다고 버그 헌터가 될 생각은 없습니다. �)
+
+다음에도 기회가 된다면 몇번 더 해보고 싶습니다. 그리고 지금 있는 회사에서 여러 목적으로 UI-toolkit 라이브러리를 준비중인데, 잘만
+되면 저도 메인테이너가 될 수도 있을 것 같습니다. 얼른 바쁜 일을 끝내고 이 좋은 경험을 해야할텐데요. 기대가 됩니다 �

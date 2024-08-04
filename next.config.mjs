@@ -17,6 +17,10 @@ const nextConfig = {
 				protocol: 'https',
 				hostname: 'lnwblzacktgzeiihvxtu.supabase.co',
 			},
+			{
+				protocol: 'http',
+				hostname: 't1.daumcdn.net',
+			},
 		],
 	},
 	typescript: {
