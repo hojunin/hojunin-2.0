@@ -12,14 +12,14 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ContentsTag, PostMetaData } from '@/types/contents';
+import { ContentsTag, ContentTag, ContentWithTag } from '@/types/contents';
 import { ChevronDownIcon, SlashIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 
 interface Props {
-	tags: ContentsTag[];
-	metaData: PostMetaData;
+	tags: ContentTag[];
+	metaData: ContentWithTag;
 }
 
 const ContentsDetailBreadCrumb = async ({ tags, metaData }: Props) => {

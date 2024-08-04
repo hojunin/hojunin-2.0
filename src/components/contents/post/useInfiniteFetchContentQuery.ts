@@ -2,7 +2,7 @@ import { createClient } from '@/lib/supabase/client';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import useContentsParamStore from '@/store/contents-param-store';
 
-const PAGE_COUNT = 5;
+const PAGE_COUNT = 10;
 
 interface FetchContentListParams {
 	page: number;

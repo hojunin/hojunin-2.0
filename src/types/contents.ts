@@ -1,3 +1,4 @@
+import { Database } from '../../database.types';
 import { Id, ValueOf } from './common';
 
 export interface ContentsTag {
@@ -5,6 +6,8 @@ export interface ContentsTag {
 	name: string;
 	path: string;
 }
+
+export type ContentTag = Database['public']['Tables']['contents_tag']['Row'];
 
 export const ContentsStatus = {
 	DRAFT: 'draft',
@@ -25,6 +28,12 @@ export interface PostListItemInterface {
 		count: number;
 	};
 }
+export type ContentWithTag = Pick<
+	Database['public']['Tables']['contents']['Row'],
+	'slug' | 'title' | 'status' | 'thumbnail' | 'description' | 'created_at'
+> & {
+	tag: Database['public']['Tables']['contents_tag']['Row'];
+};
 
 export interface PostMetaData {
 	slug: string;

@@ -1,32 +1,25 @@
 import { createClient } from '@/lib/supabase/client';
-import { PostMetaData } from '@/types/contents';
+import { ContentTag, ContentWithTag } from '@/types/contents';
 
-export const fetchMetaData = async (slug: string): Promise<PostMetaData> => {
+export const fetchMetaData = async (slug: string): Promise<ContentWithTag> => {
 	const supabase = createClient();
-	try {
-		const { data, error } = await supabase
-			.from('contents')
-			.select('slug, title, status, thumbnail,description, created_at, tag(*)')
-			.eq('slug', slug)
-			.single();
-		if (error) {
-			throw error;
-		}
-		return data;
-	} catch (error) {
+
+	const { data, error } = await supabase
+		.from('contents')
+		.select('slug, title, status, thumbnail, description, created_at, tag(*)')
+		.eq('slug', slug)
+		.single<ContentWithTag>();
+	if (error) {
 		throw error;
 	}
+	return data;
 };
 
 export const fetchTags = async () => {
 	const supabase = createClient();
-	try {
-		const { data, error } = await supabase.from('contents_tag').select('name, id');
-		if (error) {
-			throw error;
-		}
-		return data;
-	} catch (error) {
+	const { data, error } = await supabase.from('contents_tag').select('*').returns<ContentTag[]>();
+	if (error) {
 		throw error;
 	}
+	return data;
 };

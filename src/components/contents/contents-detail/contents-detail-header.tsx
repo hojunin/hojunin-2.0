@@ -1,13 +1,13 @@
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
-import { ContentsTag, PostMetaData } from '@/types/contents';
+import { ContentTag, ContentWithTag } from '@/types/contents';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
 interface Props {
-	metaData: PostMetaData;
-	tags: ContentsTag[];
+	metaData: ContentWithTag;
+	tags: ContentTag[];
 }
 
 const ContentsDetailHeader = ({ tags, metaData }: Props) => {

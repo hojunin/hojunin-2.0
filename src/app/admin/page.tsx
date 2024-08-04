@@ -4,7 +4,6 @@ import ChallengeTemplateGenerateButton from '@/components/admin/challenge-templa
 import DetailAdminLinksNavigator from '@/components/admin/detail-admin-links-navigator';
 import YearWeekGenerateButton from '@/components/admin/year-week-generate-button';
 import FileUploadButton from '@/components/file-upload-button';
-import { Button } from '@/components/ui/button';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
