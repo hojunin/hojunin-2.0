@@ -1,77 +1,41 @@
-import ChallengeCountBadge from '@/components/challenge/challenge-count-badge';
-import Typography from '@/components/common/typography';
-import { Card, CardContent } from '@/components/ui/card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-} from '@/components/ui/carousel';
-import { getWeekOfYear } from '@/lib/date';
 import { createClient } from '@/lib/supabase/server';
-import { UserChallenge } from '@/types/challenge';
-import { cookies } from 'next/headers';
+import { Content } from '@/types/contents';
 import Link from 'next/link';
 import React from 'react';
+import BestContentsItem from '../best-contents/best-contents-item';
+import Typography from '@/components/common/typography';
 
-const HomeChallengeList = async () => {
-  const supabase = createClient();
+const NewContents = async () => {
+	const supabase = createClient();
+	const { data: contents, error } = await supabase
+		.from('contents')
+		.select('*')
+		.limit(5)
+		.order('created_at', { ascending: false });
 
-  const [year, week] = getWeekOfYear();
+	if (error) {
+		return null;
+	}
 
-  const { data: challenges, error } = await supabase
-    .from('user_challenge')
-    .select('*, challenge(*)')
-    .eq('year', year)
-    .eq('week', week);
+	return (
+		<section className="my-6">
+			<div className="mb-3 flex items-center justify-between">
+				<Typography variant={'h2'}>최신 컨텐츠</Typography>
 
-  if (error || !challenges) {
-    return null;
-  }
+				<Link href="/contents?sort=newest" className="text-muted-foreground">
+					더 보러가기
+				</Link>
+			</div>
 
-  return (
-    <div>
-      <div className="flex items-center justify-between">
-        <Typography
-          variant={'h2'}
-          className="mb-4"
-        >{`${year}년 ${week}주차 챌린지`}</Typography>
-
-        <Link href={'/challenge'} className="text-muted-foreground">
-          더 보러가기
-        </Link>
-      </div>
-      <Carousel>
-        <CarouselContent className="-ml-2 md:-ml-4">
-          {(challenges as UserChallenge[])?.map((challenge) => (
-            <CarouselItem
-              key={challenge.id}
-              className="pl-1 md:pl-4 md:basis-1/3 lg:basis-1/5"
-            >
-              <Card>
-                <CardContent className="flex flex-col items-start justify-between aspect-video p-4">
-                  <div>
-                    <Typography variant={'h4'}>
-                      {challenge.challenge.name}
-                    </Typography>
-
-                    <p className="text-sm text-muted-foreground">
-                      {challenge.detail}
-                    </p>
-                  </div>
-
-                  <ChallengeCountBadge
-                    goal_count={challenge.goal_count}
-                    achieved_count={challenge.achieved_count}
-                    size="sm"
-                  />
-                </CardContent>
-              </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-      </Carousel>
-    </div>
-  );
+			<ul className="flex w-full items-center gap-x-4 overflow-x-auto pb-4">
+				{contents?.map((content, index) => (
+					<li key={content.id} className={`flex-shrink-0 ${index >= 2 ? 'w-1/2 sm:w-auto' : ''}`}>
+						<BestContentsItem content={content} />
+					</li>
+				))}
+			</ul>
+		</section>
+	);
 };
 
-export default HomeChallengeList;
+export default NewContents;

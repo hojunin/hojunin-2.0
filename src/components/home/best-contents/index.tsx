@@ -21,7 +21,7 @@ const BestContents = async () => {
 			<div className="mb-3 flex items-center justify-between">
 				<Typography variant={'h2'}>베스트 컨텐츠</Typography>
 
-				<Link href="/contents" className="text-muted-foreground">
+				<Link href="/contents?sort=popular" className="text-muted-foreground">
 					더 보러가기
 				</Link>
 			</div>
