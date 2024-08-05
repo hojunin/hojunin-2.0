@@ -4,7 +4,7 @@ import React from 'react';
 
 const ContentsDetailLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div className="mx-auto my-6 w-full max-w-3xl rounded-lg bg-white p-5 shadow-lg dark:bg-gray-900 dark:text-white sm:my-12 sm:p-10">
+		<div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-5 shadow-lg dark:bg-gray-900 dark:text-white sm:my-12 sm:p-10">
 			{children}
 		</div>
 	);
