@@ -1,12 +1,6 @@
 import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
-/**
- * 만료된 토큰을 갱신하는 미들웨어가 필요하다.
- * Always use supabase.auth.getUser() to protect pages and user data.
- * @param request
- * @returns
- */
 export async function middleware(request: NextRequest) {
 	let response = NextResponse.next({
 		request: {
@@ -61,6 +55,17 @@ export async function middleware(request: NextRequest) {
 	);
 
 	await supabase.auth.getUser();
+
+	const { pathname } = request.nextUrl;
+	const excludedPaths = ['/about', '/contents', '/admin', '/challenge', '/login', '/memoir'];
+
+	if (!excludedPaths.includes(pathname) && !pathname.startsWith('/contents/') && pathname !== '/') {
+		const slug = pathname.slice(1);
+		console.log('🚀 ~ middleware ~ slug:', slug);
+		if (slug) {
+			return NextResponse.redirect(new URL(`/contents/${slug}`, request.url));
+		}
+	}
 
 	return response;
 }

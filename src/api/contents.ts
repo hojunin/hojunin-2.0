@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/client';
-import { Content, ContentsSortType, ContentWithTag } from '@/types/contents';
+import { Content, ContentsSortType } from '@/types/contents';
 
-export const fetchMetaData = async (slug: string): Promise<ContentWithTag> => {
+export const fetchMetaData = async (slug: string): Promise<Content> => {
 	const supabase = createClient();
 
 	const { data, error } = await supabase
@@ -30,11 +30,13 @@ export const fetchContents = async ({ page, tag, sort }: FetchContentListParams)
 
 	let query = supabase
 		.from('contents')
-		.select(`
+		.select(
+			`
 			*,
 			views (count),
 			tag (id, name)
-		`)
+		`,
+		)
 		.range(from, to)
 		.limit(CONTENTS_DEFAULT_PAGE_COUNT)
 		.returns<Content[]>();
