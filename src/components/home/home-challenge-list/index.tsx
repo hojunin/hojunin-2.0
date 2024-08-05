@@ -7,11 +7,11 @@ import Typography from '@/components/common/typography';
 
 const NewContents = async () => {
 	const supabase = createClient();
-	const { data: contents, error } = await supabase
+	const { data: contents, error } = (await supabase
 		.from('contents')
 		.select('*')
 		.limit(5)
-		.order('created_at', { ascending: false });
+		.order('created_at', { ascending: false })) as { data: Content[] | null; error: any };
 
 	if (error) {
 		return null;
