@@ -22,11 +22,12 @@ export interface PostListItemInterface {
 		count: number;
 	};
 }
-export type ContentWithTag = Pick<
+export type Content = Pick<
 	Database['public']['Tables']['contents']['Row'],
-	'slug' | 'title' | 'status' | 'thumbnail' | 'description' | 'created_at'
+	'id' | 'slug' | 'title' | 'status' | 'thumbnail' | 'description' | 'created_at'
 > & {
 	tag: Database['public']['Tables']['contents_tag']['Row'];
+	views: Database['public']['Tables']['views']['Row'];
 };
 
 export type ContentsSortType = 'newest' | 'oldest' | 'popular';

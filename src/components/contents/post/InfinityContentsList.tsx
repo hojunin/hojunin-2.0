@@ -30,8 +30,11 @@ const InfinityContentsList = () => {
 			<Toolbar />
 
 			<ul className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-5">
-				{contents.map(post => (
-					<PostListItem key={post.id} postItem={post} />
+				{contents.map((post, index) => (
+					<PostListItem
+						key={`${post.id}-${post.status}-${post.tag.name}-${index}`}
+						postItem={post}
+					/>
 				))}
 			</ul>
 

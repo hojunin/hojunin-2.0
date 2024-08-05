@@ -1,14 +1,14 @@
 import { createClient } from '@/lib/supabase/client';
-import { ContentsSortType, ContentWithTag } from '@/types/contents';
+import { Content, ContentsSortType, ContentWithTag } from '@/types/contents';
 
 export const fetchMetaData = async (slug: string): Promise<ContentWithTag> => {
 	const supabase = createClient();
 
 	const { data, error } = await supabase
 		.from('contents')
-		.select('slug, title, status, thumbnail, description, created_at, tag(*)')
+		.select('slug, title, status, thumbnail, description, created_at, tag(*), views(count)')
 		.eq('slug', slug)
-		.single<ContentWithTag>();
+		.single<Content>();
 	if (error) {
 		throw error;
 	}
@@ -30,9 +30,14 @@ export const fetchContents = async ({ page, tag, sort }: FetchContentListParams)
 
 	let query = supabase
 		.from('contents')
-		.select('*, views(count)')
+		.select(`
+			*,
+			views (count),
+			tag (id, name)
+		`)
 		.range(from, to)
-		.limit(CONTENTS_DEFAULT_PAGE_COUNT);
+		.limit(CONTENTS_DEFAULT_PAGE_COUNT)
+		.returns<Content[]>();
 
 	if (sort === 'oldest') {
 		query = query.order('created_at', { ascending: true });

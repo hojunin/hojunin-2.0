@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { ContentsStatus, PostListItemInterface } from '@/types/contents';
+import { Content, ContentsStatus, PostListItemInterface } from '@/types/contents';
 import PostListItemViewCount from '@/components/contents/post/post-list-item-view-count';
 import Typography from '@/components/common/typography';
 import dayjs from 'dayjs';
@@ -11,7 +11,7 @@ import Link from 'next/link';
 const DRAFT_THUMBNAIL =
 	'https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/dev/prepare.png-13302';
 interface Props {
-	postItem: PostListItemInterface;
+	postItem: Content;
 }
 
 const PostListItem = ({ postItem }: Props) => {

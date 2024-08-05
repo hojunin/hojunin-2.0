@@ -71,6 +71,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^5.40.0
     version: 5.49.2(react@18.3.1)
+  '@tanstack/react-query-devtools':
+    specifier: ^5.51.21
+    version: 5.51.21(@tanstack/react-query@5.49.2)(react@18.3.1)
   '@types/mdx':
     specifier: ^2.0.11
     version: 2.0.11
@@ -80,6 +83,9 @@ dependencies:
   '@vercel/speed-insights':
     specifier: ^1.0.9
     version: 1.0.10(next@14.2.5)(react@18.3.1)
+  add:
+    specifier: ^2.0.6
+    version: 2.0.6
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -107,6 +113,9 @@ dependencies:
   next-themes:
     specifier: ^0.2.1
     version: 0.2.1(next@14.2.5)(react-dom@18.3.1)(react@18.3.1)
+  pnpm:
+    specifier: ^9.6.0
+    version: 9.6.0
   react:
     specifier: ^18.3.1
     version: 18.3.1
@@ -2161,6 +2170,21 @@ packages:
     resolution: {integrity: sha512-JnC9ndmD1KKS01Rt/ovRUB1tmwO7zkyXAyIxN9mznuJrcNtOrkmOnQqdJF2ib9oHzc2VxHomnEG7xyfo54Npkw==}
     dev: false
 
+  /@tanstack/query-devtools@5.51.16:
+    resolution: {integrity: sha512-ajwuq4WnkNCMj/Hy3KR8d3RtZ6PSKc1dD2vs2T408MdjgKzQ3klVoL6zDgVO7X+5jlb5zfgcO3thh4ojPhfIaw==}
+    dev: false
+
+  /@tanstack/react-query-devtools@5.51.21(@tanstack/react-query@5.49.2)(react@18.3.1):
+    resolution: {integrity: sha512-mi5ef8dvsS48GsG6/8M60O2EgrzPK1kNPngOcHBTlIUrB5dGkxP9fuHf05GQRxtSp5W5GlyeUpzOmtkKNpf9dQ==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.51.21
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-devtools': 5.51.16
+      '@tanstack/react-query': 5.49.2(react@18.3.1)
+      react: 18.3.1
+    dev: false
+
   /@tanstack/react-query@5.49.2(react@18.3.1):
     resolution: {integrity: sha512-6rfwXDK9BvmHISbNFuGd+wY3P44lyW7lWiA9vIFGT/T0P9aHD1VkjTvcM4SDAIbAQ9ygEZZoLt7dlU1o3NjMVA==}
     peerDependencies:
@@ -2555,6 +2579,10 @@ packages:
     resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
+    dev: false
+
+  /add@2.0.6:
+    resolution: {integrity: sha512-j5QzrmsokwWWp6kUcJQySpbG+xfOBqqKnup3OIk1pz+kB/80SLorZ9V8zHFLO92Lcd+hbvq8bT+zOGoPkmBV0Q==}
     dev: false
 
   /ajv-keywords@3.5.2(ajv@6.12.6):
@@ -6008,6 +6036,12 @@ packages:
   /pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
+
+  /pnpm@9.6.0:
+    resolution: {integrity: sha512-ONxvuo26NbOTQLlwARLC/h4S8QsXE0cVpKqYzPe7A152/Zgc8Ls4TfqY+NavVIHCvvL0Jmokv6IMNOtxR84LXg==}
+    engines: {node: '>=18.12'}
+    hasBin: true
+    dev: false
 
   /possible-typed-array-names@1.0.0:
     resolution: {integrity: sha512-d7Uw+eZoloe0EHDIYoe+bQ5WXnGMOpmiZFTuMWCwpjzzkL2nTjcKiAk4hh8TjnGye2TwWOk3UXucZ+3rbmBa8Q==}

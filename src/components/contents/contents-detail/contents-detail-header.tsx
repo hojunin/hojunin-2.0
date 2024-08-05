@@ -1,12 +1,13 @@
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
-import { ContentTag, ContentWithTag } from '@/types/contents';
+import { Content, ContentTag } from '@/types/contents';
+import { EyeIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
 interface Props {
-	metaData: ContentWithTag;
+	metaData: Content;
 	tags: ContentTag[];
 }
 
@@ -43,6 +44,13 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 						</Typography>
 					</div>
 				</Link>
+
+				<div className="flex items-center gap-x-2">
+					<EyeIcon color="#667085" />
+					<Typography variant={'p'} className="text-muted-foreground">
+						{metaData.views.count}
+					</Typography>
+				</div>
 			</div>
 		</section>
 	);

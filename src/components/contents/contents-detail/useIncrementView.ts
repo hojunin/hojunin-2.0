@@ -1,8 +1,11 @@
 'use client';
+import useUpdateViewCache from '@/components/contents/contents-detail/useUpdateViewCache';
 import { createClient } from '@/lib/supabase/client';
 import { useEffect, cache } from 'react';
 
 const useIncrementView = (slug: string) => {
+	const updateViewCache = useUpdateViewCache();
+
 	useEffect(() => {
 		if (!slug) return;
 		const incrementViewCount = async (slug: string) => {
@@ -16,6 +19,7 @@ const useIncrementView = (slug: string) => {
 		};
 		const cachedIncrementViewCount = cache(incrementViewCount);
 		cachedIncrementViewCount(slug);
+		updateViewCache(slug);
 	}, [slug]);
 };
 
