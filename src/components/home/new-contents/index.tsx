@@ -20,7 +20,9 @@ const NewContents = async () => {
 	return (
 		<section className="my-6">
 			<div className="mb-3 flex items-center justify-between">
-				<Typography variant={'h2'}>최신 컨텐츠</Typography>
+				<Typography variant={'h2'} className="text-xl sm:text-2xl">
+					최신 컨텐츠
+				</Typography>
 
 				<Link href="/contents?sort=newest" className="text-muted-foreground">
 					더 보러가기

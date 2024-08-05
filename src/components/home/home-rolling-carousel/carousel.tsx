@@ -54,10 +54,14 @@ const HomeCarousel = ({ banners = [] }: Props) => {
 						>
 							<div className="p-1">
 								<Card>
-									<CardContent className="flex aspect-[97/28] flex-col items-center justify-center gap-y-4 p-6">
-										<span className="text-4xl font-semibold">{banner.title}</span>
+									<CardContent className="flex h-[180px] w-full flex-col items-center justify-center gap-y-4 p-6 sm:h-[270px]">
+										<span className="line-clamp-2 text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
+											{banner.title}
+										</span>
 
-										<span className="text-xl text-gray-300">{banner.sub_title}</span>
+										<span className="line-clamp-2 text-center text-base text-gray-300 sm:text-lg md:text-xl">
+											{banner.sub_title}
+										</span>
 									</CardContent>
 								</Card>
 							</div>

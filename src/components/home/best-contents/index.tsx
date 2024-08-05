@@ -19,14 +19,16 @@ const BestContents = async () => {
 	return (
 		<section className="my-6">
 			<div className="mb-3 flex items-center justify-between">
-				<Typography variant={'h2'}>베스트 컨텐츠</Typography>
+				<Typography variant={'h2'} className="text-xl sm:text-2xl">
+					베스트 컨텐츠
+				</Typography>
 
-				<Link href="/contents?sort=popular" className="text-muted-foreground">
+				<Link href="/contents?sort=popular" className="text-sm text-muted-foreground sm:text-base">
 					더 보러가기
 				</Link>
 			</div>
 
-			<ul className="flex w-full items-center gap-x-4 overflow-x-auto pb-4">
+			<ul className="flex w-full items-center gap-x-3 overflow-x-auto pb-4 sm:gap-x-4">
 				{contents?.map((content, index) => (
 					<li key={content.id} className={`flex-shrink-0 ${index >= 2 ? 'w-1/2 sm:w-auto' : ''}`}>
 						<BestContentsItem content={content} />
