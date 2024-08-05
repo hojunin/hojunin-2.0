@@ -2,11 +2,18 @@ import { fetchMetaData } from '@/api/contents';
 import { getBlogPosts } from '@/lib/mdx';
 import React from 'react';
 
+import Head from 'next/head';
+
 const ContentsDetailLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-5 shadow-lg dark:bg-gray-900 dark:text-white sm:my-12 sm:p-10">
-			{children}
-		</div>
+		<>
+			<Head>
+				<link rel="canonical" href={`https://hojunin.com/contents/${slug}`} />
+			</Head>
+			<div className="mx-auto w-full max-w-3xl rounded-lg bg-white p-5 shadow-lg dark:bg-gray-900 dark:text-white sm:my-12 sm:p-10">
+				{children}
+			</div>
+		</>
 	);
 };
 

@@ -61,7 +61,6 @@ export async function middleware(request: NextRequest) {
 
 	if (!excludedPaths.includes(pathname) && !pathname.startsWith('/contents/') && pathname !== '/') {
 		const slug = pathname.slice(1);
-		console.log('🚀 ~ middleware ~ slug:', slug);
 		if (slug) {
 			return NextResponse.redirect(new URL(`/contents/${slug}`, request.url));
 		}
