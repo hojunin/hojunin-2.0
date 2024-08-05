@@ -29,7 +29,7 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 			<div className="my-4 flex items-center justify-between gap-y-4">
 				<Link href={'/about'} className="flex items-center gap-x-4">
 					<Image
-						src="https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/hojun.jpeg-33426"
+						src="https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/18079523.jpeg-18679"
 						alt="인호준 아바타 이미지"
 						width={36}
 						height={36}
@@ -40,17 +40,10 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 							인호준
 						</Typography>
 						<Typography variant={'p'} className="mt-[-4px] text-muted-foreground">
-							컨텐츠 만드는 개발자
+							Full Speed Ahead
 						</Typography>
 					</div>
 				</Link>
-
-				<div className="flex items-center gap-x-2">
-					<EyeIcon color="#667085" />
-					<Typography variant={'p'} className="text-muted-foreground">
-						{metaData.views.count}
-					</Typography>
-				</div>
 			</div>
 		</section>
 	);
