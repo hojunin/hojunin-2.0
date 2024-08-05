@@ -1,7 +1,14 @@
+import Head from 'next/head';
 import React from 'react';
 
 const ContentsPageLayout = ({ children }: { children: React.ReactNode }) => {
-	return <div className="container">{children}</div>;
+	return <>
+	
+	<Head>
+	<link rel="canonical" href={`https://hojunin.com/contents`} />
+</Head>
+	<div className="container">{children}</div>;
+	</>
 };
 
 export default ContentsPageLayout;
