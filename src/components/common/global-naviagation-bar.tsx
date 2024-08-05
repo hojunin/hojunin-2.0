@@ -49,7 +49,7 @@ const GlobalNavigationBar = () => {
 			</div>
 
 			<div className="flex gap-x-3">
-				<UserInfoButton />
+				{/* <UserInfoButton /> */}
 
 				<DarkMode />
 			</div>

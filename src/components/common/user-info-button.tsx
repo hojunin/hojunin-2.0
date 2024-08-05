@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { Avatar, AvatarImage } from '../ui/avatar';
 import { createClient } from '@/lib/supabase/client';
 import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
