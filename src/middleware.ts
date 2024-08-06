@@ -66,6 +66,7 @@ export async function middleware(request: NextRequest) {
 			'/login',
 			'/memoir',
 			'/feed.xml',
+			'/rss.xml',
 			'/sitemap.xml',
 			'/robots.txt',
 		];
