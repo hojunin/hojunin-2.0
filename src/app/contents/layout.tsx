@@ -3,10 +3,9 @@ import React from 'react';
 
 const ContentsPageLayout = ({ children }: { children: React.ReactNode }) => {
 	return <>
-	
 	<Head>
-	<link rel="canonical" href={`https://hojunin.com/contents`} />
-</Head>
+		<link rel="canonical" href={`https://hojunin.com/contents`} />
+	</Head>
 	<div className="container">{children}</div>;
 	</>
 };
