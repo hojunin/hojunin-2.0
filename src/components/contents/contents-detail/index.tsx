@@ -6,26 +6,28 @@ import prism from 'rehype-prism-plus';
 import { parseCodeSnippet } from '@/lib/mdx';
 
 interface Props {
-  content: string;
+	content: string;
 }
 
 const ContentsDetail = async ({ content }: Props) => {
-  const MDXComponents = useMDXComponents();
+	const MDXComponents = useMDXComponents();
 
-  return (
-    <div>
-      <MDXRemote
-        options={{
-          mdxOptions: {
-            remarkPlugins: [remarkGfm],
-            rehypePlugins: [prism, parseCodeSnippet],
-          },
-        }}
-        source={content}
-        components={MDXComponents}
-      />
-    </div>
-  );
+	return (
+		<div className="max-w-full overflow-x-auto whitespace-normal sm:overflow-x-visible">
+			<div className="w-full">
+				<MDXRemote
+					options={{
+						mdxOptions: {
+							remarkPlugins: [remarkGfm],
+							rehypePlugins: [prism, parseCodeSnippet],
+						},
+					}}
+					source={content}
+					components={MDXComponents}
+				/>
+			</div>
+		</div>
+	);
 };
 
 export default ContentsDetail;

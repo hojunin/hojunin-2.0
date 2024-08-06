@@ -89,29 +89,36 @@ export function useMDXComponents(components?: MDXComponents): MDXComponents {
 			<pre className="rounded-md bg-gray-300 p-4 dark:bg-gray-800">{children}</pre>
 		),
 		a: props => {
-			let href = props.href;
+			const { href, children, ...rest } = props;
 			if (!href) {
-				return <span>{props.children}</span>;
+				return <span>{children}</span>;
 			}
 			if (href.startsWith('/')) {
 				return (
-					<Link href={href} {...props} className="text-primary underline">
-						{props.children}
+					<Link href={href} {...rest} className="text-primary underline">
+						{children}
 					</Link>
 				);
 			}
 
 			if (href.startsWith('#')) {
-				return <a {...props} className="text-primary underline" />;
+				return (
+					<a href={href} {...rest} className="text-primary underline">
+						{children}
+					</a>
+				);
 			}
 
 			return (
 				<a
+					href={href}
 					target="_blank"
 					rel="noopener noreferrer"
 					className="text-primary underline"
-					{...props}
-				/>
+					{...rest}
+				>
+					{children}
+				</a>
 			);
 		},
 		Image: RoundedImage,

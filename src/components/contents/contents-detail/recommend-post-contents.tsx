@@ -30,26 +30,29 @@ const RecommendedPostsContent = ({ tag }: { tag: ContentTag }) => {
 				<Link
 					href={`/contents/${post.slug}`}
 					key={post.id}
-					className="mb-2 flex flex-wrap items-center justify-between rounded-lg p-1 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 md:p-3 lg:p-4"
+					className="mb-2 flex items-center justify-between rounded-lg p-1 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800 md:p-2 lg:p-3"
 				>
-					<div className="flex-grow pr-2 md:pr-3">
-						<Typography variant={'h3'} className="mb-1 text-sm sm:text-base md:text-lg lg:text-xl">
+					<div className="flex min-w-0 flex-grow flex-col justify-center">
+						<Typography
+							variant={'h3'}
+							className="mb-1 truncate text-sm sm:text-base md:text-lg lg:text-xl"
+						>
 							{post.title}
 						</Typography>
 						<Typography
 							variant={'h4'}
-							className="text-xs text-gray-600 dark:text-gray-400 sm:text-sm md:text-base lg:text-lg"
+							className="line-clamp-2 text-xs text-gray-600 dark:text-gray-400 sm:text-sm md:text-base lg:text-lg"
 						>
 							{post.description}
 						</Typography>
 					</div>
 					{post.thumbnail && (
-						<div className="mt-2 h-[50px] w-[50px] sm:mt-0 md:h-16 md:w-16 lg:h-20 lg:w-20">
+						<div className="ml-3 flex h-[50px] w-[50px] flex-shrink-0 items-center sm:h-[70px] sm:w-[70px] md:h-[90px] md:w-[90px] lg:h-[110px] lg:w-[110px]">
 							<Image
 								src={post.thumbnail}
 								alt={post.title ?? ''}
-								width={50}
-								height={50}
+								width={110}
+								height={110}
 								className="rounded-md object-cover"
 								objectFit="cover"
 							/>

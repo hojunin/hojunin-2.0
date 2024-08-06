@@ -41,4 +41,4 @@ export async function generateStaticParams() {
 // Router Cache Policy Setting
 export const dynamic = 'error'; // 동적으로 가져오는 경우 에러를 발생시킨다.
 export const dynamicParams = true; // generateStaticParams로 생성되지 않은 파일을 방문했을 때 파일을 새로 생성한다.
-export const revalidate = 3600; // 레이아웃과 페이지의 유효기간을 1시간(3600초)으로 설정한다.
+export const revalidate = 3600 * 24; // 레이아웃과 페이지의 유효기간을 1시간(3600초)으로 설정한다.
