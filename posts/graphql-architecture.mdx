@@ -16,93 +16,94 @@ import { ApolloError } from 'apollo-server-errors';
 import { knex } from '../../database';
 
 const articleQueries = {
-    articles: async (_: any, args: any) => {
-        try {
-            let rawArticles: any[] = [];
-            if (args.boardType === 'REVIEW') {
-                rawArticles = await knex(args.boardType)
-                    .join('article', `${args.boardType}.article_id`, 'article.id')
-                    .join('user', 'article.user_id', 'user.id')
-                    .select(
-                        '*',
-                        'article.created_at as article_created_at',
-                        'article.updated_at as article_updated_at',
-                        'article.id as article_id',
-                        'user.id as user_id',
-                        `${args.boardType}.id as id`,
-                    );
-            } else {
-                rawArticles = await knex(args.boardType)
-                    .join('article', `${args.boardType}.article_id`, 'article.id')
-                    .join('user', 'article.user_id', 'user.id')
-                    .join('breed', `${args.boardType}.breed_id`, 'breed.id')
-                    .select(
-                        '*',
-                        'article.created_at as article_created_at',
-                        'article.updated_at as article_updated_at',
-                        'article.id as article_id',
-                        'user.id as user_id',
-                        'breed.id as breed_id',
-                        `${args.boardType}.id as id`,
-                    );
-            }
+	articles: async (_: any, args: any) => {
+		try {
+			let rawArticles: any[] = [];
+			if (args.boardType === 'REVIEW') {
+				rawArticles = await knex(args.boardType)
+					.join('article', `${args.boardType}.article_id`, 'article.id')
+					.join('user', 'article.user_id', 'user.id')
+					.select(
+						'*',
+						'article.created_at as article_created_at',
+						'article.updated_at as article_updated_at',
+						'article.id as article_id',
+						'user.id as user_id',
+						`${args.boardType}.id as id`,
+					);
+			} else {
+				rawArticles = await knex(args.boardType)
+					.join('article', `${args.boardType}.article_id`, 'article.id')
+					.join('user', 'article.user_id', 'user.id')
+					.join('breed', `${args.boardType}.breed_id`, 'breed.id')
+					.select(
+						'*',
+						'article.created_at as article_created_at',
+						'article.updated_at as article_updated_at',
+						'article.id as article_id',
+						'user.id as user_id',
+						'breed.id as breed_id',
+						`${args.boardType}.id as id`,
+					);
+			}
 
-            const rawImages = await knex(args.boardType).join(
-                'image',
-                `${args.boardType}.article_id`,
-                'image.article_id',
-            );
+			const rawImages = await knex(args.boardType).join(
+				'image',
+				`${args.boardType}.article_id`,
+				'image.article_id',
+			);
 
-            const images: any = {};
-            rawImages.forEach((rawImage: any) => {
-                if (images[rawImage.articleId]) {
-                    images[rawImage.articleId].push(rawImage.url);
-                } else {
-                    images[rawImage.articleId] = [rawImage.url];
-                }
-            });
+			const images: any = {};
+			rawImages.forEach((rawImage: any) => {
+				if (images[rawImage.articleId]) {
+					images[rawImage.articleId].push(rawImage.url);
+				} else {
+					images[rawImage.articleId] = [rawImage.url];
+				}
+			});
 
-            const articles: any[] = [];
-            rawArticles.forEach((rawArticle: any) => {
-                const {
-                    articleId,
-                    breedId,
-                    view,
-                    userId,
-                    kakaoId,
-                    email,
-                    phoneNumber,
-                    nickname,
-                    articleCreatedAt,
-                    articleUpdatedAt,
-                    ...articleDetail
-                } = rawArticle;
+			const articles: any[] = [];
+			rawArticles.forEach((rawArticle: any) => {
+				const {
+					articleId,
+					breedId,
+					view,
+					userId,
+					kakaoId,
+					email,
+					phoneNumber,
+					nickname,
+					articleCreatedAt,
+					articleUpdatedAt,
+					...articleDetail
+				} = rawArticle;
 
-                articles.push({
-                    id: articleId,
-                    type: args.boardType,
-                    view,
-                    images: images[articleId] || [],
-                    author: {
-                        id: userId,
-                        kakaoId,
-                        email,
-                        phoneNumber,
-                        nickname,
-                    },
-                    articleDetail: { ...articleDetail, articleType: args.boardType },
-                    createdAt: articleCreatedAt,
-                    updatedAt: articleUpdatedAt,
-                });
-            });
-            return articles;
-        } catch {
-            console.error('Articles에서 에러발생');
-            console.trace();
+				articles.push({
+					id: articleId,
+					type: args.boardType,
+					view,
+					images: images[articleId] || [],
+					author: {
+						id: userId,
+						kakaoId,
+						email,
+						phoneNumber,
+						nickname,
+					},
+					articleDetail: { ...articleDetail, articleType: args.boardType },
+					createdAt: articleCreatedAt,
+					updatedAt: articleUpdatedAt,
+				});
+			});
+			return articles;
+		} catch {
+			console.error('Articles에서 에러발생');
+			console.trace();
 
-            throw new ApolloError('DataBase Server Error', 'INTERNAL_SERVER_ERROR');
-        }
-    }
+			throw new ApolloError('DataBase Server Error', 'INTERNAL_SERVER_ERROR');
+		}
+	},
+};
 ```
 
 코드가 길어서 보기 힘들다는 점이나 모든 로직이 하나의 try-catch에 묶여있어 디버거 없이 에러찾기가 힘들다는 점 등 불편함이 있었습니다.
@@ -144,7 +145,7 @@ type Article {
 
 그리고 다음과 같은 쿼리를 해봅시다.
 
-```grphql
+```graphql
 query {
 	articles {
 		title
