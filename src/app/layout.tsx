@@ -7,6 +7,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
 import { Toaster } from '@/components/ui/toaster';
 import Providers from '@/context/react-query-provider';
+import { Clarity } from '@/components/common/clarity';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
+			<Clarity />
 			<body className={inter.className}>
 				<ThemeProvider attribute="class" enableSystem defaultTheme="system">
 					<Providers>
