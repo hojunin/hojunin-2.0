@@ -62,3 +62,16 @@ export const fetchContents = async ({ page, tag, sort }: FetchContentListParams)
 
 	return data;
 };
+
+export const fetchRecommendedPost = async (tagId: number) => {
+	const supabase = createClient();
+	const { data } = await supabase
+		.from('contents')
+		.select('*, views (count)')
+		.order('views(count)', { ascending: false })
+		.limit(5)
+		.eq('tag', tagId)
+		.returns<Content[]>();
+
+	return data;
+};

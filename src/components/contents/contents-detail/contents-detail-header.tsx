@@ -1,7 +1,6 @@
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
 import { Content, ContentTag } from '@/types/contents';
-import { EyeIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -27,7 +26,11 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 			</div>
 
 			<div className="my-4 flex items-center justify-between gap-y-4">
-				<Link href={'/about'} className="flex items-center gap-x-4">
+				<Link
+					href={'https://hjinn.notion.site/hjinn/Full-Speed-Ahead-2d604da39fcd473d9328cf26877bb8cd'}
+					className="flex items-center gap-x-4"
+					target="_blank"
+				>
 					<Image
 						src="https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/18079523.jpeg-18679"
 						alt="인호준 아바타 이미지"
