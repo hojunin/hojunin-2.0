@@ -1,5 +1,6 @@
 import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
+import { getElapsedTime } from '@/lib/date';
 import { Content, ContentTag } from '@/types/contents';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -25,7 +26,7 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 				</Typography>
 			</div>
 
-			<div className="my-4 flex items-center justify-between gap-y-4">
+			<div className="my-4 flex w-full items-center justify-between gap-y-4">
 				<Link
 					href={'https://hjinn.notion.site/hjinn/Full-Speed-Ahead-2d604da39fcd473d9328cf26877bb8cd'}
 					className="flex items-center gap-x-4"
@@ -47,6 +48,9 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 						</Typography>
 					</div>
 				</Link>
+				<Typography variant={'p'} className="text-muted-foreground">
+					{getElapsedTime(metaData.created_at)}
+				</Typography>
 			</div>
 		</section>
 	);

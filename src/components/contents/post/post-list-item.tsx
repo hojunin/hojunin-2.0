@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
 import Image from 'next/image';
-import { Content, ContentsStatus, PostListItemInterface } from '@/types/contents';
+import { Content, ContentsStatus } from '@/types/contents';
 import PostListItemViewCount from '@/components/contents/post/post-list-item-view-count';
 import Typography from '@/components/common/typography';
-import dayjs from 'dayjs';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
+import { getElapsedTime } from '@/lib/date';
 
 const DRAFT_THUMBNAIL =
 	'https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/dev/prepare.png-13302';
@@ -50,7 +50,7 @@ const PostListItem = ({ postItem }: Props) => {
 				<CardFooter className="flex flex-col items-start justify-between p-2 sm:flex-row sm:items-center sm:p-6">
 					<PostListItemViewCount viewCount={postItem.views.count} />
 					<Typography variant={'span'} typo={'mute'} className="text-xs sm:text-sm">
-						{dayjs(postItem.created_at).format('YYYY-MM-DD')}
+						{getElapsedTime(postItem.created_at)}
 					</Typography>
 				</CardFooter>
 			</Card>

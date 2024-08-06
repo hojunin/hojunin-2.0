@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import ContentsDetailHeader from '@/components/contents/contents-detail/contents-detail-header';
 import { Separator } from '@/components/ui/separator';
 import ViewIncrementor from '@/components/contents/view-incrementor';
-import { fetchMetaData, fetchRecommendedPost } from '@/api/contents';
+import { fetchMetaData } from '@/api/contents';
 import { fetchAllTags } from '@/api/tag';
 import RecommendedPostsContent from '@/components/contents/contents-detail/recommend-post-contents';
 

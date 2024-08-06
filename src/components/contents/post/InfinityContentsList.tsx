@@ -38,7 +38,7 @@ const InfinityContentsList = () => {
 				))}
 			</ul>
 
-			{isFetchingNextPage && <div>Loading more posts...</div>}
+			{isFetchingNextPage && <div>호출 중 ...</div>}
 			<div ref={intersectionRef as React.RefObject<HTMLDivElement>} className="mt-5 h-1" />
 		</>
 	);
