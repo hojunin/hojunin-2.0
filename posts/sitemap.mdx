@@ -7,11 +7,7 @@ tags: [seo, sitemap]
 
 사이트맵(sitemap)은 웹사이트 내 접근 가능한 모든 페이지 목록을 말합니다. 이 글에서는 사이트맵을 생성하는 방법과 주의사항, 특히 대규모 사이트맵 생성 등을 알아볼거에요.
 
-:::info
-
-[큰 사이트맵 또는 여러 개의 사이트맵 관리하기 | Google 검색 센터 | 문서 | Google Developers](https://developers.google.com/search/docs/advanced/sitemaps/large-sitemaps?hl=ko)
-
-:::
+\*[큰 사이트맵 또는 여러 개의 사이트맵 관리하기 | Google 검색 센터 | 문서 | Google Developers](https://developers.google.com/search/docs/advanced/sitemaps/large-sitemaps?hl=ko)
 
 ## 목적
 
@@ -28,6 +24,7 @@ tags: [seo, sitemap]
 아래 사이트맵은 최상위 사이트맵(root sitemap)입니다. 검색엔진이 가장 먼저 확인하는 문서죠. 보통 [hojunin.com/sitemap.xml](http://hojunin.com/sitemap.xml)로 접근하는 문서 같은거에요.
 
 ```jsx
+<>
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<sitemap>
@@ -43,25 +40,24 @@ tags: [seo, sitemap]
 		<lastmod>2022-01-23</lastmod>
 	</sitemap>
 </sitemapindex>
+</>
 ```
 
 이런식으로 최상위 사이트맵을 만들고, 하위 사이트맵들을 생성하면 됩니다.
 
-:::tip 권고사항
-
-생성 제한 조건인 **5만개**씩 꽉꽉 채우기보단 **2.5만개**씩만 적당히 만드는게 유리합니다. 그럼 기본 사이트맵 생성 로직을 소개하고, 더 나아가 인덱스 사이트맵을 생성해보도록 할게요.
-
-:::
+갯수는 생성 제한 조건인 **5만개**씩 꽉꽉 채우기보단 **2.5만개**씩만 적당히 만드는게 유리합니다. 그럼 기본 사이트맵 생성 로직을 소개하고, 더 나아가 인덱스 사이트맵을 생성해보도록 할게요.
 
 ## 기본 사이트맵 자동생성
 
 가장 간단한 기본 구조입니다. [사이트맵 공식문서](https://www.sitemaps.org/protocol.html) 에서 자세한 내용을 확인해주세요. **urlset** 태그 안에 **url** 태그들을 생성해서 넣어줄거에요.
 
 ```jsx
+<>
 <?xml version="1.0"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 </urlset>
+</>
 ```
 
 사이트에 존재하는 모든 페이지 url을 손수 넣어줄 수도 있지만, 시간도 오래걸리고 생성이나 삭제되는 컨텐츠를 모두 컨트롤하기는 불가능합니다. 그리고 보통 5만개 넘는 페이지가 존재하려면 사용자 생성 컨텐츠가 있을 수 밖에 없어요. 각자 사용하는 CMS나 컨텐츠 서버에서 사이트맵으로 만들 데이터를 가져온 다음 string으로 생성합니다.
@@ -126,6 +122,7 @@ await fs.promises.writeFile('./sitemap.xml', sitemap, { encoding: 'utf-8' });
 인덱스 사이트맵은 일단 root 사이트맵이 필요합니다. 위에서 소개했던 예시 그대로 가져와볼게요. 기본 구조는 간단합니다. 컨텐츠 사이트맵과 컨텐츠 이외의 사이트맵으로 구분하는거에요.
 
 ```jsx
+<>
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<sitemap>
@@ -146,6 +143,7 @@ await fs.promises.writeFile('./sitemap.xml', sitemap, { encoding: 'utf-8' });
 	...
 	...
 </sitemapindex>
+</>
 ```
 
 ## 컨텐츠 사이트맵 만들기

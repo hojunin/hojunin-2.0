@@ -13,13 +13,11 @@ react query는 서버 사이드 상태 관리를 위한 도구입니다. 상태 
 
 본격적으로 Saga 걷어내기 작업에 앞서, **react query**를 효율적으로 활용할 수 있는 방법이 필요했습니다. 현재 작성되어있는 `useQuery Wrapper` 함수가 있긴 한데, 몇몇 부분에서 비효율적이고 **type safe**하지 않다고 생각했기 때문에 전면 수정을 결정한 이상 최적의 모델을 찾고, 이를 활용한 boilerplate를 만들어 공유하는 작업이 선행되어야 했습니다.
 
-:::info 생각해야 할 부분은 다음과 같았습니다.
+생각해야 할 부분은 다음과 같았습니다.
 
 - **type-safe** 해야한다.
 - 계발 레벨에서 생산성이 높아야한다.
 - 호출 레벨에서 신경쓰지 않아도 되는 부분은 걷어내야한다.
-
-:::
 
 이렇게 정의된 `useQueryApi`를 참고해서, `useQueries`, `useInfiniteQuery`, `useMutation`를 정의하는 것이 목표입니다.
 
@@ -88,11 +86,9 @@ const useBaseQueryApi = <Res, Req = undefined>(
 
 현재 `key`는 `queryFucntion`의 Endpoint로 관리되고 있는데, 이건 현재의 방식을 조금 수정해서 사용하면 될 것 같습니다. 다만, 저희가 `version`과 `baseUrl`을 각각 3개씩 쓰고 있는데, 이 부분은 `queryClient`를 정의할 때가 아닌 `queryFunction` 레벨에서 정의되어야 할 것 같습니다.
 
-:::tip 이런 형태도 생각해볼 수 있습니다.
+아래와 같은 형태도 생각해볼 수 있습니다.
 
 `version`-`baseUrl`-`endPoint`로 쿼리함수가 정해지니까, 이 형태로 tree를 만들 수 있습니다.
-
-:::
 
 다만, key 자체는 우리가 constant를 정의하듯, `queryFunction` 이름을 정하듯 한눈에 들어오는 이름을 사용하는게 좋아보입니다. 가령 위에서 `communityNotice, {forumId: 1}`이 `v7/car/compare/car-call`보다는 낫습니다. 왜냐하면 endpoint는 endpoint일 뿐 key가 아니고, 그냥 endpoint를 key로 활용하는 것 뿐이니까요.
 
@@ -113,10 +109,6 @@ const useBaseQueryApi = <Res, Req = undefined>(
 ### Api Client가 혼재함
 
 저희 서비스는 Axios 인스턴스를 3개나 사용하는 특수한 상황에 놓여있습니다. 그래서 `useQuery` 훅 내에서 axios 설정 및 관리를 할 필요가 없다고 생각합니다. 또한 useQuery는 axios랑 관련이 없기 때문에 더더욱 의존성을 덜어내야 할 부분입니다.
-
-:::caution
-axios는 `queryFunction`과 관련있습니다.
-:::
 
 즉, 현재 상태에서 `useQuery`는 Api Client의 옵션을 받을 필요가 없습니다. 이 부분은 `queryFunction`의 영역이기 때문에 `queryFunction` 정의 부분에서 명확히 정의되어야 합니다.
 

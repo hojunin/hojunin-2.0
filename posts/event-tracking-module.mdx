@@ -28,7 +28,7 @@ async function logEvent(payload) {
 위 API는 저희가 재설계 이전에 실제로 사용하던 모양입니다. 특정 end point에 이벤트 데이터인 payload를 담아 POST요청을 보내는 것이죠. 가령 다음과 같이 활용할 수 있습니다.
 
 ```tsx
-const AdBanner = ({banner}: {banner: Banner) => {
+const AdBanner = ({banner}: {banner: Banner}) => {
 	const {id, title, thumbnail} = banner
 
 	useEffect(() => {
@@ -200,23 +200,22 @@ const sendEventsAndFlushBuffer = () => {
 
 ```tsx
 // 서버에 현재까지 모은 이벤트를 전송한다.
-	 const requestEvent = (payloadList) => {
-		const { setIsSending, flushEventBuffer } = useEventBufferStore.getState()
+const requestEvent = payloadList => {
+	const { setIsSending, flushEventBuffer } = useEventBufferStore.getState();
 
-		try{
-			setIsSending(true)
-		const response = await fetch("${host}/bulk/event", {method: "POST", body: payloadList})
-});
+	try {
+		setIsSending(true);
+		const response = await fetch('${host}/bulk/event', { method: 'POST', body: payloadList });
 		if (response.status === 200) {
-			flushEventBuffer() // 성공 시 버퍼 초기화
+			flushEventBuffer(); // 성공 시 버퍼 초기화
 		}
-		} catch (error) {
-			logError("이벤트 전송 중 실패")
-			// 실패 시 에러 로깅함수를 호출하고 넘어간다. 실패한 이벤트들은 다음 인터벌에 합쳐져 호출된다.
-		} finally{
-			setIsSending(false) // 성공/실패에 관계없이 초기화. 실패했다면 다음 인터벌에 합쳐서 보내진다.
-		}
+	} catch (error) {
+		logError('이벤트 전송 중 실패');
+		// 실패 시 에러 로깅함수를 호출하고 넘어간다. 실패한 이벤트들은 다음 인터벌에 합쳐져 호출된다.
+	} finally {
+		setIsSending(false); // 성공/실패에 관계없이 초기화. 실패했다면 다음 인터벌에 합쳐서 보내진다.
 	}
+};
 ```
 
 ### 인터벌 세팅

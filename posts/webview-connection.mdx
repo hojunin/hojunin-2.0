@@ -59,22 +59,19 @@ WebView는 웹이라는 자유롭고 성능좋은 도구를 어플리케이션�
 **[HandShake](<https://en.wikipedia.org/wiki/Handshake_(computing)>)**라는 개념은 넓은 의미에서 서로를 확인하고 소통할 준비를 마치는걸 말해요.
 그 중 TCP/IP의 Three Way HandShake의 개념을 생각해볼게요. 네트워크 시간에 배운 간단한 개념이에요. 두 존재가 통신을 하기 전에 3번의 단방향 통신을 하면서 서로 통신할 준비를 마치는 과정이죠. 이 개념을 한번 웹뷰 통신 과정에 적용해볼거에요.
 
-:::tip 간단히 이해하기
+### TCP/IP의 Three Way HandShake
 
 1. 들려?
 2. 어 들려!
 3. 어 들리는구나, 이제 통신한다?!
 
 정도로 이해하면 됩니다.
-:::
 
 ![Three way handShake](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/1.gif-9130)
 
-:::info handshake의 의의
+### handshake의 의의
 
 양쪽 모두 데이터를 전송할 준비가 되었다는 것을 보장하고, 실제로 데이터 전달이 시작하기전에 한쪽이 다른 쪽이 준비되었다는 것을 알수 있도록 한다.
-
-:::
 
 ## 웹뷰 초기화 로직
 
@@ -107,9 +104,7 @@ Sequence Diagram으로 과정을 도식화하면 다음과 같아요.
 4. 웹은 이 데이터로 웹 초기화 과정을 거칩니다. 준비가 다 되면, \_app.tsx는 page 컴포넌트를 반환하고 앱으로 통신 준비 끝 메시지를 보냅니다.
 5. 이로써 통신할 준비가 마무리됩니다.
 
-:::tip 보안 문제
 연결 요청, 응답 등에 “**onLoad”**같은 **고정된 string**을 보내는건 위험합니다. 실제 HandShake 과정에서는 난수를 보내고 응답에 1을 더해서 보내는 방식을 사용해요.
-:::
 
 웹은 이렇게 받은 초기화 데이터로 React 어플리케이션을 초기화합니다.
 

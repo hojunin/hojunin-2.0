@@ -15,8 +15,6 @@ React Native로 서드파티 라이브러리를 활용한 개발 과정에서 �
 
 저희는 Native 앱이 아닌 **React Native**를 활용하고, 이 프로젝트는 **WebView**로 구현해둔 상태였습니다. 즉, 연결다리가 많다보니 어디가 문제인지 확실히 알 수 없어 디버깅에 하루를 통째로 갈아넣었던 것 같아요. 조금은 무식하지만 저는 문제가 될 수 있는 부분들을 전부 까보기로 했습니다. (본격 돌다리 두들기기)
 
-:::info 문제의 구조
-
 ![문제의 구조](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/structure.png?t=2024-08-02T14%3A35%3A56.926Z)
 
 당시의 상황은 위 사진과 같습니다.
@@ -28,8 +26,6 @@ React Native로 서드파티 라이브러리를 활용한 개발 과정에서 �
 - 브릿지 역할을 하는 라이브러리
 - Webview용 웹페이지
 - 라이브쇼 솔루션 회사 제품
-
-:::
 
 ### 라이브쇼 솔루션
 
@@ -93,7 +89,8 @@ React Native에서 Native Module을 활용하는 라이브러리는 IOS의 Pods�
 
 사실 거의 공식 라이브러리다보니 문제가 있을거라는 **의심**도 없었고, 해결할 것이라고는 **기대**도 하지 않았습니다. 그래서 마지막에 확인했던 것이었어요.
 
-:::tip react-native의 커뮤니티급 라이브러리
+\*react-native의 커뮤니티급 라이브러리
+
 이런 커뮤니티급 라이브러리는 보통 React Native로 Android나 IOS 네이티브 코드를 조작하는 라이브러리입니다. 가령 `react-native-webview`는 Android Webview클래스와 IOS의 WKWebview 클래스를 직접 조작해요. 아래 사진과 같이 동작합니다.
 
 ![7](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/7.png)
@@ -103,8 +100,6 @@ React Native에서 Native Module을 활용하는 라이브러리는 IOS의 Pods�
 ![18](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/18.png)
 
 위 사진과 같이 리액트 네이티브에서는 기본으로 제공하던 기능을 특정 기능을 모듈로 분리해 **커뮤니티급 라이브러리**로 관리합니다. React Native 공식 홈페이지를 보면 위와 같이 안내하므로, 비공식이지만 **기본 제공 기능**처럼 활용하곤 합니다.
-
-:::
 
 ### 코드 부검 시작!
 
