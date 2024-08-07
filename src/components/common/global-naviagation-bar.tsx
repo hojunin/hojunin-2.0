@@ -11,6 +11,7 @@ import {
 import Link from 'next/link';
 import { DarkMode } from './dark-mode-button';
 import { cn } from '@/lib/utils';
+import SearchModal from './search-modal';
 
 const MENU_LINKS = [
 	{ label: '컨텐츠', link: '/contents' },
@@ -48,6 +49,7 @@ const GlobalNavigationBar = () => {
 			</div>
 
 			<div className="flex gap-x-3">
+				<SearchModal />
 				<DarkMode />
 			</div>
 		</header>
