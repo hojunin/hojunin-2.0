@@ -19,6 +19,7 @@ const ContentsPage = async ({
 	const allTags = await fetchAllTags();
 	const metaData = await fetchMetaData(slug);
 	const post = getPostContent(slug);
+	console.log('🚀 ~ post:', slug);
 
 	if (!post || !metaData || !allTags) {
 		notFound();
