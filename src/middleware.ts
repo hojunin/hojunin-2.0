@@ -7,6 +7,11 @@ export async function middleware(request: NextRequest) {
 			headers: request.headers,
 		},
 	});
+	const { pathname } = request.nextUrl;
+
+	if (pathname.endsWith('.php')) {
+		return NextResponse.redirect(new URL('/', request.url));
+	}
 
 	const supabase = createServerClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
