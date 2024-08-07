@@ -28,7 +28,7 @@ const BestContents = async () => {
 				</Link>
 			</div>
 
-			<ul className="flex w-full items-center gap-x-3 overflow-x-auto pb-4 sm:gap-x-4">
+			<ul className="scrollbar-hide flex w-full items-center gap-x-3 overflow-x-auto pb-4 sm:gap-x-4">
 				{contents?.map((content, index) => (
 					<li key={content.id} className={`flex-shrink-0 ${index >= 2 ? 'w-1/2 sm:w-auto' : ''}`}>
 						<BestContentsItem content={content} />
