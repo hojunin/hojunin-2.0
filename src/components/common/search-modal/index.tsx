@@ -38,10 +38,10 @@ export function SearchModal() {
 		<>
 			<button
 				onClick={() => setOpen(true)}
-				className="flex items-center space-x-2 rounded-md border p-2 text-sm text-muted-foreground transition-colors hover:bg-muted"
+				className="flex items-center justify-center rounded-md p-2 text-sm text-muted-foreground transition-colors"
 			>
-				<span className="hidden md:inline">Press</span>
 				<kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 md:inline-flex">
+					<span className="hidden md:inline">Press</span>
 					<span className="text-xs">⌘</span>k
 				</kbd>
 				<SearchIcon className="h-4 w-4 md:hidden" />
