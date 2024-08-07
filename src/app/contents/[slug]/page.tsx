@@ -25,7 +25,7 @@ const ContentsPage = async ({
 	}
 
 	return (
-		<div className="mx-auto w-full max-w-3xl space-y-6 sm:space-y-12">
+		<div className="mx-auto mb-4 w-full max-w-3xl space-y-6 sm:space-y-12">
 			<article className="overflow-x-auto whitespace-normal rounded-lg bg-white p-5 shadow-lg dark:bg-gray-900 dark:text-white sm:my-12 sm:p-10">
 				<ContentsDetailHeader tags={allTags} metaData={metaData} />
 

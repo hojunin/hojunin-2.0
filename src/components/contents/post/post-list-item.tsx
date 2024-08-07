@@ -47,7 +47,7 @@ const PostListItem = ({ postItem }: Props) => {
 						</CardDescription>
 					)}
 				</CardHeader>
-				<CardFooter className="flex flex-col items-start justify-between p-2 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+				<CardFooter className="flex items-start justify-between p-2 sm:items-center sm:p-6">
 					<PostListItemViewCount viewCount={postItem.views.count} />
 					<Typography variant={'span'} typo={'mute'} className="text-xs sm:text-sm">
 						{getElapsedTime(postItem.created_at)}
