@@ -16,8 +16,8 @@ const generateSitemapWithFs = () => {
 			const stat = fs.statSync(filePath);
 
 			if (stat.isDirectory()) {
-				// Skip the contents/[slug] directory
-				if (file === 'contents') continue;
+				// Skip the contents/[slug] directory and api folder
+				if (file === 'contents' || file === 'api') continue;
 
 				// Recursively process other subdirectories
 				const subRoute = path.join(baseRoute, file);
