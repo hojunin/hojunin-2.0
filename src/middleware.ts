@@ -75,6 +75,7 @@ export async function middleware(request: NextRequest) {
 			'/sitemap.xml',
 			'/robots.txt',
 			'/font/nanum_hand.ttf',
+			'/opengraph-image',
 		];
 
 		if (
