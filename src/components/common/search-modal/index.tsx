@@ -23,7 +23,7 @@ export function SearchModal() {
 	const { suggestions, debouncedSearch, setSuggestions } = useSearchPosts();
 
 	const handleInputChange = (value: string) => {
-		const sanitizedValue = value.replace(/[^\p{L}\p{N}\s]/u, '').trim();
+		const sanitizedValue = value.replace(/[^\p{L}\p{N}\s]/gu, '').trim();
 		setInput(sanitizedValue);
 		debouncedSearch(sanitizedValue);
 	};
