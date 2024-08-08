@@ -28,10 +28,12 @@ export default async function Image({ params }: { params: { slug: string } }) {
 		(
 			<div
 				style={{
-					background: 'white',
+					background: rgb(17 24 39),
+                    color:"#f7f7f7",
 					width: '100%',
 					height: '100%',
 					display: 'flex',
+					flexDirection: 'column',
 					alignItems: 'center',
 					justifyContent: 'center',
 					border: '1px solid #f2f2f2',
@@ -50,7 +52,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
 					name: 'Nanum Hand',
 					data: await nanumHand,
 					style: 'normal',
-					weight: 400,
+					weight: 500,
 				},
 			],
 		},
