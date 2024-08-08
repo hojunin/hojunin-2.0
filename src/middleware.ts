@@ -74,6 +74,7 @@ export async function middleware(request: NextRequest) {
 			'/rss.xml',
 			'/sitemap.xml',
 			'/robots.txt',
+			'/font/nanum_hand.ttf',
 		];
 
 		if (
