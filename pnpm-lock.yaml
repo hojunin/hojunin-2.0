@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@amplitude/analytics-browser':
-        specifier: ^2.5.3
+        specifier: ^2.10.0
         version: 2.10.0
       '@hookform/resolvers':
         specifier: ^3.3.4

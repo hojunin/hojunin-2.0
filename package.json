@@ -10,7 +10,7 @@
     "type-gen": "supabase gen types typescript --project-id lnwblzacktgzeiihvxtu > database.types.ts"
   },
   "dependencies": {
-    "@amplitude/analytics-browser": "^2.5.3",
+    "@amplitude/analytics-browser": "^2.10.0",
     "@hookform/resolvers": "^3.3.4",
     "@mdx-js/loader": "^3.0.0",
     "@mdx-js/react": "^3.0.0",

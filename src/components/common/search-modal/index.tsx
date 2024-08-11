@@ -14,6 +14,7 @@ import Typography from '../typography';
 import { useRouter } from 'next/navigation';
 import { SearchIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import useAmplitude from '@/hooks/useAmplitude';
 
 export function SearchModal() {
 	const { open, setOpen } = useSearchModalState();
@@ -21,6 +22,7 @@ export function SearchModal() {
 	const router = useRouter();
 	const { data: frontMatters } = useFetchFrontMatters();
 	const { suggestions, debouncedSearch, setSuggestions } = useSearchPosts();
+	const { trackAmplitudeEvent } = useAmplitude();
 
 	const handleInputChange = (value: string) => {
 		const sanitizedValue = value.replace(/[^\p{L}\p{N}\s]/gu, '').trim();
@@ -29,6 +31,7 @@ export function SearchModal() {
 	};
 
 	const onClickSuggestion = (slug: string) => {
+		trackAmplitudeEvent('search_suggestion_clicked', { slug });
 		setOpen(false);
 		setInput('');
 		setSuggestions([]);
