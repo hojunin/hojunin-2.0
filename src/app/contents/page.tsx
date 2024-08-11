@@ -2,9 +2,12 @@
 
 import InfinityContentsList from '@/components/contents/post/InfinityContentsList';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useTrackPageView } from '@/hooks/events/useTrack';
 import { Suspense } from 'react';
 
 const ContentsPage = () => {
+	useTrackPageView({ title: 'contents' });
+
 	return (
 		<Suspense
 			fallback={
