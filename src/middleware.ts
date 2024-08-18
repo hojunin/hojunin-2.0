@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
 	});
 	const { pathname } = request.nextUrl;
 
-	if (pathname.endsWith('.php')) {
+	if (pathname.endsWith('.php') || pathname.endsWith('.php7')) {
 		return NextResponse.redirect(new URL('/', request.url));
 	}
 
