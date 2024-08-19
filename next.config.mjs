@@ -21,6 +21,10 @@ const nextConfig = {
 				protocol: 'http',
 				hostname: 't1.daumcdn.net',
 			},
+			{
+				protocol: 'https',
+				hostname: 'www.hojunin.com',
+			},
 		],
 	},
 	typescript: {

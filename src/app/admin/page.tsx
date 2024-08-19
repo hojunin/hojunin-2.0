@@ -2,6 +2,7 @@
 import useGetUser from '@/app/admin/useGetUser';
 import ChallengeTemplateGenerateButton from '@/components/admin/challenge-template-generate-button';
 import DetailAdminLinksNavigator from '@/components/admin/detail-admin-links-navigator';
+import MagicButton from '@/components/admin/magic-button';
 import YearWeekGenerateButton from '@/components/admin/year-week-generate-button';
 import FileUploadButton from '@/components/file-upload-button';
 import { Loader2 } from 'lucide-react';
@@ -24,14 +25,16 @@ const AdminPage = () => {
 	}
 
 	return (
-		<main className="mt-4 flex flex-col gap-y-4">
+		<main className="mt-4 flex flex-col gap-y-4 px-4">
 			<DetailAdminLinksNavigator />
 
 			<FileUploadButton />
 
-			<ChallengeTemplateGenerateButton />
+			{/* <ChallengeTemplateGenerateButton />
 
-			<YearWeekGenerateButton />
+			<YearWeekGenerateButton /> */}
+
+			<MagicButton />
 		</main>
 	);
 };
