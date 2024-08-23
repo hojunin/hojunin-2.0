@@ -1,65 +1,31 @@
 'use client';
 import './editor.css';
-import React, { useState } from 'react';
 import { createAndPushMdxFile } from '@/lib/editor';
 import { Input } from '../../ui/input';
 import { Button } from '../../ui/button';
-import { Color } from '@tiptap/extension-color';
-import ListItem from '@tiptap/extension-list-item';
-import TextStyle from '@tiptap/extension-text-style';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Blockquote from '@tiptap/extension-blockquote';
-import Document from '@tiptap/extension-document';
-import Paragraph from '@tiptap/extension-paragraph';
-import Highlight from '@tiptap/extension-highlight';
-import Typography from '@tiptap/extension-typography';
-import Text from '@tiptap/extension-text';
-import { Label } from '@/components/ui/label';
-import CodeBlock from '@tiptap/extension-code-block';
-import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
-import Image from '@tiptap/extension-image';
-import { all, createLowlight } from 'lowlight';
-import css from 'highlight.js/lib/languages/css';
-import js from 'highlight.js/lib/languages/javascript';
-import ts from 'highlight.js/lib/languages/typescript';
-import html from 'highlight.js/lib/languages/xml';
+
 import { uploadFile } from '@/api/file-upload';
+import SlugEditor from './slug-editor';
+import useShallowWriteAdminStore from '@/store/write-admin';
+import { useSettingEditor } from './editor.hooks';
+import { EditorContent } from '@tiptap/react';
 
-const lowlight = createLowlight(all);
-lowlight.register('html', html);
-lowlight.register('css', css);
-lowlight.register('js', js);
-lowlight.register('ts', ts);
 const WriteEditor = () => {
-	const [fileName, setFileName] = useState('');
-
-	const editor = useEditor({
-		extensions: [
-			Document,
-			Paragraph,
-			Text,
-			Blockquote,
-			StarterKit,
-			Color,
-			TextStyle,
-			ListItem,
-			Highlight,
-			Typography,
-			Image,
-			CodeBlock,
-			CodeBlockLowlight.configure({
-				lowlight,
-			}),
-		],
-		content: content,
-	});
+	const { slug, title } = useShallowWriteAdminStore(state => state);
+	const editor = useSettingEditor();
 
 	const handleSave = async () => {
-		if (!editor || !fileName) {
+		if (!editor || !slug || !title) {
 			throw new Error('글 내용과 파일 이름은 필수입니다.');
 		}
-		await createAndPushMdxFile(editor, fileName);
+		const frontMatter = `---
+slug: ${slug}
+title: ${title}
+---
+`;
+		const content = editor.getHTML();
+		const mdxContent = `${frontMatter}\n${content}`;
+		await createAndPushMdxFile(mdxContent, slug);
 	};
 	if (!editor) {
 		return null;
@@ -69,30 +35,7 @@ const WriteEditor = () => {
 		<div className="container mx-auto flex p-4">
 			<div className="w-3/4 pr-4">
 				<h1 className="mb-4 text-2xl font-bold">글 발행</h1>
-				<div className="mb-4 flex items-center">
-					<Label className="mr-4 whitespace-nowrap" htmlFor="slug">
-						슬러그
-					</Label>
-					<Input
-						id="slug"
-						type="text"
-						value={fileName}
-						onChange={e => setFileName(e.target.value)}
-						placeholder="slug를 입력하세요"
-					/>
-				</div>
-				<div className="mb-4 flex items-center">
-					<Label className="mr-4 whitespace-nowrap" htmlFor="title">
-						제목
-					</Label>
-					<Input
-						id="title"
-						type="text"
-						value={fileName}
-						onChange={e => setFileName(e.target.value)}
-						placeholder="제목을 입력하세요"
-					/>
-				</div>
+				<SlugEditor />
 				<EditorContent editor={editor} className="mb-4 min-h-[300px] border p-2" />
 				<Button onClick={handleSave}>글 발행하기</Button>
 			</div>
@@ -223,9 +166,3 @@ const WriteEditor = () => {
 };
 
 export default WriteEditor;
-
-const content = `
-
-
-글 내용
-`;

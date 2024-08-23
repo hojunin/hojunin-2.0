@@ -5,9 +5,9 @@ const GIT_USER = 'hojunin';
 const GIT_REPO = 'hojunin-2.0';
 const GIT_EMAIL = 'hojunin@gmail.com';
 
-export async function createAndPushMdxFile(editor: Editor | null, fileName: string | null) {
+export async function createAndPushMdxFile(content: string, fileName: string | null) {
 	// 1. Tiptap 편집기 내용을 MDX로 변환
-	const mdxContent = convertToMdx(editor.getHTML());
+	const mdxContent = convertToMdx(content);
 	const token = process.env.NEXT_PUBLIC_GIT_TOKEN;
 
 	// 2. GitHub API 클라이언트 생성
@@ -28,7 +28,7 @@ export async function createAndPushMdxFile(editor: Editor | null, fileName: stri
 	});
 
 	// 3. 파일 생성 및 커밋
-	await octokit.repos.createOrUpdateFileContents({
+	const { data } = await octokit.repos.createOrUpdateFileContents({
 		owner: GIT_USER,
 		repo: GIT_REPO,
 		path: `posts/${fileName}.mdx`,
@@ -44,6 +44,13 @@ export async function createAndPushMdxFile(editor: Editor | null, fileName: stri
 			email: GIT_EMAIL,
 		},
 	});
+
+	// 4. 성공했으면 토스트 메시지 표시
+	if (data) {
+		if (typeof window !== 'undefined' && window.alert) {
+			window.alert('성공적으로 글이 발행되었습니다!');
+		}
+	}
 }
 
 function convertToMdx(html: string): string {
