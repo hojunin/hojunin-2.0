@@ -39,6 +39,7 @@ export const fetchContents = async ({ page, tag, sort }: FetchContentListParams)
 		)
 		.range(from, to)
 		.limit(CONTENTS_DEFAULT_PAGE_COUNT)
+		.neq('status', 'draft')
 		.returns<Content[]>();
 
 	if (sort === 'oldest') {

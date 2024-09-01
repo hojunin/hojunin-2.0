@@ -11,6 +11,7 @@ const NewContents = async () => {
 		.from('contents')
 		.select('*')
 		.limit(5)
+		.eq('status', 'published')
 		.order('created_at', { ascending: false })) as { data: Content[] | null; error: any };
 
 	if (error) {
@@ -29,7 +30,7 @@ const NewContents = async () => {
 				</Link>
 			</div>
 
-			<ul className="scrollbar-hide flex w-full items-center gap-x-4 overflow-x-auto pb-4">
+			<ul className="flex w-full items-center gap-x-4 overflow-x-auto pb-4 scrollbar-hide">
 				{contents?.map((content, index) => (
 					<li key={content.id} className={`flex-shrink-0 ${index >= 2 ? 'w-1/2 sm:w-auto' : ''}`}>
 						<BestContentsItem content={content} />
