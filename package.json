@@ -54,7 +54,6 @@
     "@tiptap/starter-kit": "^2.6.5",
     "@types/mdx": "^2.0.11",
     "@types/rss": "^0.0.32",
-    "@vercel/analytics": "^1.1.3",
     "@vercel/speed-insights": "^1.0.9",
     "add": "^2.0.6",
     "class-variance-authority": "^0.7.0",
