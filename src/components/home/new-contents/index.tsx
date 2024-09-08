@@ -1,22 +1,29 @@
-import { createClient } from '@/lib/supabase/server';
 import { Content } from '@/types/contents';
 import Link from 'next/link';
 import React from 'react';
 import BestContentsItem from '../best-contents/best-contents-item';
 import Typography from '@/components/common/typography';
+import { unstable_cache } from 'next/cache';
+import { createServerWithoutCookieClient } from '@/lib/supabase/serverWithoutCookie';
+
+const getCachedContents = unstable_cache(
+	async () => {
+		const supabase = createServerWithoutCookieClient();
+		const { data: contents } = await supabase
+			.from('contents')
+			.select('*')
+			.order('created_at', { ascending: false })
+			.limit(5)
+			.returns<Content[]>();
+
+		return contents;
+	},
+	['new-contents'],
+	{ revalidate: 3600 },
+);
 
 const NewContents = async () => {
-	const supabase = createClient();
-	const { data: contents, error } = (await supabase
-		.from('contents')
-		.select('*')
-		.limit(5)
-		.eq('status', 'published')
-		.order('created_at', { ascending: false })) as { data: Content[] | null; error: any };
-
-	if (error) {
-		return null;
-	}
+	const contents = await getCachedContents();
 
 	return (
 		<section className="my-6">

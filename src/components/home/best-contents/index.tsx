@@ -1,6 +1,6 @@
 import Typography from '@/components/common/typography';
 import BestContentsItem from '@/components/home/best-contents/best-contents-item';
-import { createClient } from '@/lib/supabase/server';
+import { createServerWithoutCookieClient } from '@/lib/supabase/serverWithoutCookie';
 import { Content } from '@/types/contents';
 import { unstable_cache } from 'next/cache';
 import Link from 'next/link';
@@ -8,7 +8,7 @@ import React from 'react';
 
 const getCachedBestContents = unstable_cache(
 	async () => {
-		const supabase = createClient();
+		const supabase = createServerWithoutCookieClient();
 		const { data, error } = (await supabase.rpc('best_contents')) as {
 			data: Content[] | null;
 			error: unknown;

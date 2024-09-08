@@ -9,7 +9,7 @@ import { HomeRollingBanner } from '@/types/banner';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-	banners: HomeRollingBanner[];
+	banners: HomeRollingBanner[] | null;
 }
 
 const HomeCarousel = ({ banners = [] }: Props) => {
@@ -37,6 +37,10 @@ const HomeCarousel = ({ banners = [] }: Props) => {
 		router.push(path);
 	};
 
+	if (banners === null) {
+		return null;
+	}
+
 	return (
 		<div className="relative">
 			<Carousel
@@ -49,7 +53,7 @@ const HomeCarousel = ({ banners = [] }: Props) => {
 					{banners.map((banner, index) => (
 						<CarouselItem
 							key={index}
-							onClick={() => onClickBanner(banner.click_path)}
+							onClick={() => onClickBanner(banner.click_path ?? '')}
 							className="cursor-pointer"
 						>
 							<div className="p-1">
