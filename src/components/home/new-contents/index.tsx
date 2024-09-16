@@ -13,6 +13,7 @@ const getCachedContents = unstable_cache(
 			.from('contents')
 			.select('*')
 			.order('created_at', { ascending: false })
+			.eq('status', 'published')
 			.limit(5)
 			.returns<Content[]>();
 
