@@ -1,9 +1,23 @@
 import { fetchMetaData } from '@/api/contents';
 import { getBlogPosts } from '@/lib/mdx';
+import Head from 'next/head';
 import React from 'react';
 
-const ContentsDetailLayout = ({ children }: { children: React.ReactNode }) => {
-	return <div>{children}</div>;
+const ContentsDetailLayout = ({
+	children,
+	params: { slug },
+}: {
+	children: React.ReactNode;
+	params: { slug: string };
+}) => {
+	return (
+		<div>
+			<Head>
+				<link rel="canonical" href={`https://hojunin.com/contents/${slug}`} />
+			</Head>
+			{children}
+		</div>
+	);
 };
 
 export default ContentsDetailLayout;
