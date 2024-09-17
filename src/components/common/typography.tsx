@@ -14,6 +14,7 @@ const typoVariants = cva(
 				p: 'whitespace-pre-line leading-7',
 				label: 'text-primary underline-offset-4 hover:underline',
 				span: '',
+				time: 'text-sm text-muted-foreground',
 			},
 			typo: {
 				mute: 'text-sm text-muted-foreground',
@@ -25,31 +26,26 @@ const typoVariants = cva(
 			},
 		},
 		defaultVariants: {
-			variant: 'h1',
+			variant: 'p',
 		},
 	},
 );
 
-interface Props extends HTMLAttributes<HTMLHeadingElement>, VariantProps<typeof typoVariants> {}
+interface Props
+	extends HTMLAttributes<
+			| HTMLHeadingElement
+			| HTMLParagraphElement
+			| HTMLLabelElement
+			| HTMLSpanElement
+			| HTMLTimeElement
+		>,
+		VariantProps<typeof typoVariants> {}
 
 interface Ref extends HTMLHeadElement {}
 
 const Typography = forwardRef<Ref, Props>(({ variant, className, children, ...props }, ref) => {
-	let Element: keyof JSX.IntrinsicElements = 'p';
+	let Element: keyof JSX.IntrinsicElements = variant ? variant : 'p';
 
-	switch (variant) {
-		case 'h1':
-		case 'h2':
-		case 'h3':
-		case 'h4':
-		case 'p':
-		case 'label':
-		case 'span':
-			Element = variant;
-			break;
-		default:
-			break;
-	}
 	return (
 		<Element ref={ref} className={cn(typoVariants({ variant }), className)} {...props}>
 			{children}

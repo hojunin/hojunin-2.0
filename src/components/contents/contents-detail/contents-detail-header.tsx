@@ -2,6 +2,7 @@ import Typography from '@/components/common/typography';
 import ContentsDetailBreadCrumb from '@/components/contents/contents-detail/bread-crumbs';
 import { getElapsedTime } from '@/lib/date';
 import { Content, ContentTag } from '@/types/contents';
+import dayjs from 'dayjs';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
@@ -48,7 +49,11 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 						</Typography>
 					</div>
 				</Link>
-				<Typography variant={'p'} className="text-muted-foreground">
+				<Typography
+					variant={'time'}
+					className="text-muted-foreground"
+					datetime={dayjs(metaData.created_at).format('YYYY-MM-DD HH:mm:ss')}
+				>
 					{getElapsedTime(metaData.created_at)}
 				</Typography>
 			</div>
