@@ -16,8 +16,14 @@ const generateSitemapWithFs = () => {
 			const stat = fs.statSync(filePath);
 
 			if (stat.isDirectory()) {
-				// Skip the contents/[slug] directory and api folder
-				if (file === 'contents' || file === 'api') continue;
+				if (
+					file === 'contents' ||
+					file === 'api' ||
+					file === 'admin' ||
+					file === 'login' ||
+					file === 'rss.xml'
+				)
+					continue;
 
 				// Recursively process other subdirectories
 				const subRoute = path.join(baseRoute, file);
@@ -29,7 +35,7 @@ const generateSitemapWithFs = () => {
 				if (
 					!name.startsWith('_') &&
 					!name.startsWith('[') &&
-					!['layout', 'page', 'loading', 'error', 'not-found'].includes(name) &&
+					!['layout', 'page', 'loading', 'error', 'not-found', 'opengraph-image'].includes(name) &&
 					['.js', '.jsx', '.ts', '.tsx'].includes(ext)
 				) {
 					const route = path.join(baseRoute, name === 'index' ? '' : name);

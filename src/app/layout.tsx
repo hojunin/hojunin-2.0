@@ -25,6 +25,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<Clarity />
+			<link rel="apple-touch-icon" href="/apple-icon" type="image/png" sizes="180x180" />
 			<body className={inter.className}>
 				<ThemeProvider attribute="class" enableSystem defaultTheme="system">
 					<AmplitudeContextProvider>
