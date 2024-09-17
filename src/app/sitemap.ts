@@ -3,6 +3,19 @@ import { MetadataRoute } from 'next';
 import fs from 'fs';
 import path from 'path';
 
+const NOT_ALLOW_FILES = [
+	'layout',
+	'page',
+	'loading',
+	'error',
+	'not-found',
+	'opengraph-image',
+	'sitemap',
+	'robots',
+];
+
+const ALLOWED_EXP = ['.js', '.jsx', '.ts', '.tsx'];
+
 const generateSitemapWithFs = () => {
 	const baseUrl = process.env.HOST ?? '';
 	const appDirectory = path.join(process.cwd(), 'src', 'app');
@@ -35,8 +48,8 @@ const generateSitemapWithFs = () => {
 				if (
 					!name.startsWith('_') &&
 					!name.startsWith('[') &&
-					!['layout', 'page', 'loading', 'error', 'not-found', 'opengraph-image'].includes(name) &&
-					['.js', '.jsx', '.ts', '.tsx'].includes(ext)
+					!NOT_ALLOW_FILES.includes(name) &&
+					ALLOWED_EXP.includes(ext)
 				) {
 					const route = path.join(baseRoute, name === 'index' ? '' : name);
 					entries.push({
