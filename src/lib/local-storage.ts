@@ -1,8 +1,10 @@
+import { isServer } from '@/lib/ssr';
+
 type StorageValue = string | number | boolean | object | null;
 
 export const localStorageUtil = {
 	get: <T extends StorageValue>(key: string): T | null => {
-		if (typeof window === 'undefined') return null;
+		if (isServer()) return null;
 		const item = localStorage.getItem(key);
 		if (item === null) return null;
 		try {
@@ -13,12 +15,12 @@ export const localStorageUtil = {
 	},
 
 	set: <T extends StorageValue>(key: string, value: T): void => {
-		if (typeof window === 'undefined') return;
+		if (isServer()) return;
 		localStorage.setItem(key, JSON.stringify(value));
 	},
 
 	remove: (key: string): void => {
-		if (typeof window === 'undefined') return;
+		if (isServer()) return;
 		localStorage.removeItem(key);
 	},
 };

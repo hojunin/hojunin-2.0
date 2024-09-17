@@ -30,6 +30,13 @@ const nextConfig = {
 	typescript: {
 		ignoreBuildErrors: true,
 	},
+	redirects: async () => {
+		return oldSlugs.map(slug => ({
+			source: `/${slug}`,
+			destination: `contents/${slug}`,
+			permanent: true,
+		}));
+	},
 };
 
 const withMDX = createMDX({
@@ -40,3 +47,27 @@ const withMDX = createMDX({
 });
 
 export default withMDX(nextConfig);
+
+const oldSlugs = [
+	'react-query',
+	'technical-conqueror',
+	'functional-programming',
+	'app-version',
+	'workflow',
+	'git',
+	'graphql-architecture',
+	'sentry',
+	'use-imperactive-handle-modal',
+	'good-at-work-developer',
+	'developer-resume',
+	'event-tracking-module',
+	'webview-connection',
+	'thumbhash',
+	'error-experience',
+	'docusaurus-blog',
+	'library',
+	'axios-error',
+	'seo-raise-click',
+	'breadcrumb',
+	'great-developer',
+];

@@ -61,39 +61,7 @@ export async function middleware(request: NextRequest) {
 
 	await supabase.auth.getUser();
 
-	try {
-		const { pathname } = request.nextUrl;
-		const excludedPaths = [
-			'/about',
-			'/contents',
-			'/admin',
-			'/challenge',
-			'/login',
-			'/memoir',
-			'/feed.xml',
-			'/rss.xml',
-			'/sitemap.xml',
-			'/robots.txt',
-			'/font/nanum_hand.ttf',
-			'/opengraph-image',
-			'/admin/write-content',
-		];
-
-		if (
-			!excludedPaths.includes(pathname) &&
-			!pathname.startsWith('/contents/') &&
-			pathname !== '/'
-		) {
-			const slug = pathname.slice(1);
-			if (slug) {
-				return NextResponse.redirect(new URL(`/contents/${slug}`, request.url));
-			}
-		}
-		return response;
-	} catch (error) {
-		console.error(error);
-		return response;
-	}
+	return response;
 }
 
 export const config = {
