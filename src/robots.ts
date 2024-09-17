@@ -5,7 +5,8 @@ export default function robots(): MetadataRoute.Robots {
 		rules: {
 			userAgent: '*',
 			allow: '/',
+			disallow: ['/admin', '/login', '/rss.xml', '/not-found'],
 		},
-		sitemap: 'https://hojunin-2-0.vercel.app/sitemap.xml',
+		sitemap: 'https://hojunin.com/sitemap.xml',
 	};
 }
