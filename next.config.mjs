@@ -1,11 +1,10 @@
-import type { NextConfig } from 'next';
 import createMDX from '@next/mdx';
 import remarkGfm from 'remark-gfm';
 import prism from 'rehype-prism-plus';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
 
-const nextConfig: NextConfig = {
+const nextConfig = {
 	experimental: {
 		optimizeCss: true,
 	},
