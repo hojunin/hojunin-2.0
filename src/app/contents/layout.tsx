@@ -4,9 +4,6 @@ import React from 'react';
 const ContentsPageLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	return (
 		<>
-			<Head>
-				<link rel="canonical" href={`https://hojunin.com/contents`} />
-			</Head>
 			<div className="container">{children}</div>
 		</>
 	);
@@ -34,6 +31,9 @@ export async function generateMetadata() {
 			images: [
 				'https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/dev/prepare.png-13302',
 			],
+		},
+		alternates: {
+			canonical: `https://hojunin.com/contents`,
 		},
 	};
 }

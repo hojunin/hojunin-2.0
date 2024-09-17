@@ -1,23 +1,14 @@
 import { fetchMetaData } from '@/api/contents';
 import { getBlogPosts } from '@/lib/mdx';
-import Head from 'next/head';
 import React from 'react';
 
 const ContentsDetailLayout = ({
 	children,
-	params: { slug },
 }: {
 	children: React.ReactNode;
 	params: { slug: string };
 }) => {
-	return (
-		<div>
-			<Head>
-				<link rel="canonical" href={`https://hojunin.com/contents/${slug}`} />
-			</Head>
-			{children}
-		</div>
-	);
+	return <div>{children}</div>;
 };
 
 export default ContentsDetailLayout;
@@ -44,6 +35,9 @@ export async function generateMetadata({ params: { slug } }: { params: { slug: s
 			title: `${title} | ${tag.name} `,
 			description: description,
 			images: [thumbnail],
+		},
+		alternates: {
+			canonical: `https://hojunin.com/contents/${slug}`,
 		},
 	};
 }
