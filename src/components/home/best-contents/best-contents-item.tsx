@@ -27,7 +27,7 @@ const BestContentsItem = ({ content }: Props) => {
 					/>
 				</AspectRatio>
 				<Typography
-					variant={'h4'}
+					variant={'h3'}
 					className="line-clamp-2 h-12 whitespace-normal break-words text-base sm:text-lg"
 				>
 					{content.title}

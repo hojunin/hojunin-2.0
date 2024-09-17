@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Badge } from '../../ui/badge';
 import { HomeRollingBanner } from '@/types/banner';
 import { useRouter } from 'next/navigation';
+import Typography from '@/components/common/typography';
 
 interface Props {
 	banners: HomeRollingBanner[] | null;
@@ -59,13 +60,11 @@ const HomeCarousel = ({ banners = [] }: Props) => {
 							<div className="p-1">
 								<Card>
 									<CardContent className="flex h-[180px] w-full flex-col items-center justify-center gap-y-4 p-6 sm:h-[270px]">
-										<span className="line-clamp-2 text-center text-2xl font-semibold sm:text-3xl md:text-4xl">
-											{banner.title}
-										</span>
+										<Typography variant="h1">{banner.title}</Typography>
 
-										<span className="line-clamp-2 text-center text-base text-gray-300 sm:text-lg md:text-xl">
+										<Typography variant="h2" className="max-w-full whitespace-normal break-words">
 											{banner.sub_title}
-										</span>
+										</Typography>
 									</CardContent>
 								</Card>
 							</div>
