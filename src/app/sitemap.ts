@@ -41,9 +41,6 @@ const generateSitemapWithFs = () => {
 					const route = path.join(baseRoute, name === 'index' ? '' : name);
 					entries.push({
 						url: `${baseUrl}${route}`,
-						lastModified: new Date(),
-						changeFrequency: 'weekly',
-						priority: 0.7,
 					});
 				}
 			}
@@ -61,8 +58,6 @@ const generateContentsMap = (): MetadataRoute.Sitemap => {
 		const { metadata } = post;
 		return {
 			url: `${process.env.HOST ?? ''}/contents/${metadata.slug}`,
-			changeFrequency: 'weekly',
-			priority: 0.5,
 		};
 	});
 };
