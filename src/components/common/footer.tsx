@@ -11,9 +11,6 @@ const Footer = () => {
 					<Link href="https://github.com/hojunin" target="_blank">
 						깃허브
 					</Link>
-					<Link href="https://brunch.co.kr/@dlsghwns" target="_blank">
-						브런치
-					</Link>
 					<Link href="https://www.linkedin.com/in/inhojun/" target="_blank">
 						링크드인
 					</Link>
