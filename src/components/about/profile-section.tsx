@@ -28,7 +28,11 @@ const ProfileSection = () => {
 						</Link>
 					</Typography>
 					<Typography variant="p" className="text-sm text-muted-foreground sm:text-base">
-						<Link href="https://github.com/hojunin" className="hover:text-primary hover:underline">
+						<Link
+							href="https://github.com/hojunin"
+							className="hover:text-primary hover:underline"
+							target="_blank"
+						>
 							GitHub : github.com/hojunin
 						</Link>
 					</Typography>
@@ -39,6 +43,7 @@ const ProfileSection = () => {
 						<Link
 							href="https://www.linkedin.com/in/inhojun/"
 							className="hover:text-primary hover:underline"
+							target="_blank"
 						>
 							LinkedIn : linkedin.com/in/inhojun/
 						</Link>
