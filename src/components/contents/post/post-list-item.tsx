@@ -7,6 +7,8 @@ import Typography from '@/components/common/typography';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 import { getElapsedTime } from '@/lib/date';
+import useAmplitude from '@/hooks/useAmplitude';
+import useContentsParamStore from '@/store/contents-param-store';
 
 const DRAFT_THUMBNAIL =
 	'https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/dev/prepare.png-13302';
@@ -15,11 +17,22 @@ interface Props {
 }
 
 const PostListItem = ({ postItem }: Props) => {
+	const { trackAmplitudeEvent } = useAmplitude();
+	const { sort, currentTag } = useContentsParamStore();
+
+	const onClickPost = () => {
+		trackAmplitudeEvent('click_post_item', {
+			title: postItem?.title,
+			sort,
+			currentTag,
+		});
+	};
+
 	if (!postItem) {
 		return null;
 	}
 	return (
-		<Link href={`/contents/${postItem.slug}`}>
+		<Link href={`/contents/${postItem.slug}`} onClick={onClickPost}>
 			<Card className="group flex h-full cursor-pointer flex-col justify-between hover:border-gray-600">
 				<CardHeader className="p-2 sm:p-6">
 					<div className="relative mb-2 w-full overflow-hidden rounded-lg pt-[56.25%] sm:mb-3">
@@ -37,7 +50,7 @@ const PostListItem = ({ postItem }: Props) => {
 						/>
 					</div>
 					<CardTitle className="line-clamp-2 text-sm sm:text-base md:text-xl">
-						{postItem.title.length > 40 ? `${postItem.title.slice(0, 40)}...` : postItem.title}
+						{postItem.title?.length > 40 ? `${postItem.title?.slice(0, 40)}...` : postItem.title}
 					</CardTitle>
 					{postItem.description && (
 						<CardDescription className="text-xs sm:text-sm">
