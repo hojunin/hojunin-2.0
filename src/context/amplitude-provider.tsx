@@ -14,6 +14,9 @@ export const AmplitudeContext = createContext<AmplitudeContextType>({
 
 const AmplitudeContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 	useEffect(() => {
+		if (process.env.NODE_ENV === 'development') {
+			return;
+		}
 		if (!AMPLITUDE_API_KEY) {
 			console.error('No Amplitude API key found');
 			return;
