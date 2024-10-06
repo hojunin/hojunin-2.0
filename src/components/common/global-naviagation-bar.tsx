@@ -16,6 +16,7 @@ import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
 import { MenuIcon } from 'lucide-react';
 import useDevice from '@/hooks/useDevice';
 import { Separator } from '../ui/separator';
+import useAmplitude from '@/hooks/useAmplitude';
 
 const MENU_LINKS = [
 	{ label: 'Content', link: '/contents' },
@@ -49,11 +50,18 @@ const GlobalNavigationBar = () => {
 export default GlobalNavigationBar;
 
 const MenuNavigation = ({ closeMobileModal }: { closeMobileModal?: () => void }) => {
+	const { trackAmplitudeEvent } = useAmplitude();
+
+	const onClickLink = (label: string) => {
+		trackAmplitudeEvent('click_menu_link', { label });
+		closeMobileModal?.();
+	};
+
 	return (
 		<NavigationMenu>
 			<NavigationMenuList className={cn('flex', 'flex-col items-start sm:flex-row')}>
 				{MENU_LINKS.map(({ label, link }) => (
-					<NavigationMenuItem key={`${label}-${link}`} onClick={closeMobileModal}>
+					<NavigationMenuItem key={`${label}-${link}`} onClick={() => onClickLink(label)}>
 						<Link href={link} legacyBehavior passHref>
 							<NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
 								{label}
