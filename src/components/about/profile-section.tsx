@@ -19,7 +19,7 @@ const ProfileSection = () => {
 					height={180}
 					className="h-24 w-24 rounded-full sm:h-40 sm:w-40"
 				/>
-				<div className="overflow-hidden text-ellipsis whitespace-normal">
+				<div className="gap-y-2 overflow-hidden text-ellipsis">
 					<Typography variant="h2">인호준</Typography>
 
 					<Typography variant="p" className="text-sm text-muted-foreground sm:text-xs">
@@ -32,7 +32,10 @@ const ProfileSection = () => {
 							GitHub : github.com/hojunin
 						</Link>
 					</Typography>
-					<Typography variant="p" className="text-sm text-muted-foreground sm:text-xs">
+					<Typography
+						variant="p"
+						className="whitespace-nowrap text-sm text-muted-foreground sm:text-xs"
+					>
 						<Link
 							href="https://www.linkedin.com/in/inhojun/"
 							className="hover:text-primary hover:underline"
