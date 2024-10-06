@@ -22,19 +22,19 @@ const ProfileSection = () => {
 				<div className="gap-y-2 overflow-hidden text-ellipsis">
 					<Typography variant="h2">인호준</Typography>
 
-					<Typography variant="p" className="text-sm text-muted-foreground sm:text-xs">
+					<Typography variant="p" className="text-sm text-muted-foreground sm:text-base">
 						<Link href="mailto:dlsghwns12@gmail.com" className="hover:text-primary hover:underline">
 							Email : dlsghwns12@gmail.com
 						</Link>
 					</Typography>
-					<Typography variant="p" className="text-sm text-muted-foreground sm:text-xs">
+					<Typography variant="p" className="text-sm text-muted-foreground sm:text-base">
 						<Link href="https://github.com/hojunin" className="hover:text-primary hover:underline">
 							GitHub : github.com/hojunin
 						</Link>
 					</Typography>
 					<Typography
 						variant="p"
-						className="whitespace-nowrap text-sm text-muted-foreground sm:text-xs"
+						className="whitespace-nowrap text-sm text-muted-foreground sm:text-base"
 					>
 						<Link
 							href="https://www.linkedin.com/in/inhojun/"
