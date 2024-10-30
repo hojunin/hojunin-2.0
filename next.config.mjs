@@ -34,11 +34,23 @@ const nextConfig = {
 		ignoreBuildErrors: true,
 	},
 	redirects: async () => {
-		return oldSlugs.map(slug => ({
-			source: `/${slug}`,
-			destination: `contents/${slug}`,
-			permanent: true,
-		}));
+		return [
+			...oldSlugs.map(slug => ({
+				source: `/${slug}`,
+				destination: `contents/${slug}`,
+				permanent: true,
+			})),
+			{
+				source: '/:path*.php',
+				destination: '/',
+				permanent: true,
+			},
+			{
+				source: '/:path*.php7',
+				destination: '/',
+				permanent: true,
+			},
+		];
 	},
 };
 
