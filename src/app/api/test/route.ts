@@ -27,8 +27,15 @@ export async function GET(request: Request) {
 		};
 
 		// 200 상태 코드와 함께 응답 반환
-		const response = NextResponse.json(data, { status: 200 });
-		response.headers.set('Access-Control-Allow-Origin', '*');
+		const response = NextResponse.json(data, {
+			status: 200,
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+				'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+			},
+		});
+
 		return response;
 	} catch (error) {
 		// 에러 발생 시 500 상태 코드와 함께 에러 메시지 반환
