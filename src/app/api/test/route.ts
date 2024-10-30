@@ -17,7 +17,6 @@ function generateLargeData(size: number) {
 }
 
 export async function GET(request: Request) {
-	console.log('🚀 ~ GET ~ request:', request);
 	const { searchParams } = new URL(request.url);
 	try {
 		const size = searchParams.get('size') || 100000;
@@ -28,9 +27,13 @@ export async function GET(request: Request) {
 		};
 
 		// 200 상태 코드와 함께 응답 반환
-		return NextResponse.json(data, { status: 200 });
+		const response = NextResponse.json(data, { status: 200 });
+		response.headers.set('Access-Control-Allow-Origin', '*');
+		return response;
 	} catch (error) {
 		// 에러 발생 시 500 상태 코드와 함께 에러 메시지 반환
-		return NextResponse.json({ error: '서버 에러가 발생했습니다' }, { status: 500 });
+		const errorResponse = NextResponse.json({ error: '서버 에러가 발생했습니다' }, { status: 500 });
+		errorResponse.headers.set('Access-Control-Allow-Origin', '*');
+		return errorResponse;
 	}
 }
