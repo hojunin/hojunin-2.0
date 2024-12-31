@@ -3,7 +3,6 @@ import remarkGfm from 'remark-gfm';
 import prism from 'rehype-prism-plus';
 import remarkFrontmatter from 'remark-frontmatter';
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter';
-import { headers } from 'next/headers';
 
 const nextConfig = {
 	experimental: {
