@@ -1,6 +1,5 @@
-import { useState } from 'react';
-
-import { useEffect } from 'react';
+'use client';
+import { useEffect, useState } from 'react';
 
 export function InstallPrompt() {
 	const [isIOS, setIsIOS] = useState(false);
