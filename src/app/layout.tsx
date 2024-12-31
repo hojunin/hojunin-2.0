@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 	verification: {
 		google: 'uwCYoBoSwTC9uFmHW4NboXtooElpmJxhrxozRvx3l-w',
 	},
+	manifest: '/manifest.ts',
 };
 
 export default function RootLayout({
