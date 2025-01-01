@@ -56,7 +56,8 @@ export function PushNotificationManager() {
 
 	async function sendTestNotification() {
 		if (subscription) {
-			await sendNotification(message);
+			console.log('🚀 ~ sendTestNotification ~ subscription:', subscription);
+			await sendNotification(message, subscription);
 			setMessage('');
 		}
 	}

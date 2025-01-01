@@ -3,8 +3,8 @@ self.addEventListener('push', function (event) {
 		const data = event.data.json();
 		const options = {
 			body: data.body,
-			icon: data.icon || '/icon.png',
-			badge: '/badge.png',
+			icon: data.icon || '/apple-icon.png',
+			badge: '/apple-icon.png',
 			vibrate: [100, 50, 100],
 			data: {
 				dateOfArrival: Date.now(),
@@ -18,5 +18,5 @@ self.addEventListener('push', function (event) {
 self.addEventListener('notificationclick', function (event) {
 	console.log('Notification click received.');
 	event.notification.close();
-	event.waitUntil(clients.openWindow('<https://hojunin.com>'));
+	event.waitUntil(clients.openWindow('calendar'));
 });

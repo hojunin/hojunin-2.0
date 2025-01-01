@@ -3,7 +3,7 @@
 import webpush from 'web-push';
 
 webpush.setVapidDetails(
-	'<mailto:dlsghwns@naver.com>',
+	'mailto:dlsghwns@naver.com',
 	process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY!,
 	process.env.VAPID_PRIVATE_KEY!,
 );
@@ -24,18 +24,18 @@ export async function unsubscribeUser() {
 	return { success: true };
 }
 
-export async function sendNotification(message: string) {
-	if (!subscription) {
-		throw new Error('No subscription available');
+export async function sendNotification(message: string, subsObj: PushSubscription) {
+	if (!subsObj) {
+		throw new Error('구독 객체가 없음');
 	}
 
 	try {
 		await webpush.sendNotification(
-			subscription,
+			subsObj,
 			JSON.stringify({
 				title: 'Test Notification',
 				body: message,
-				icon: '/icon.png',
+				icon: '/apple-icon.png',
 			}),
 		);
 		return { success: true };
