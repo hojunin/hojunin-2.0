@@ -1,0 +1,435 @@
+---
+slug: server-driven-ui-deep-dive-yalp
+title: [번역] Yelp SDUI(Server Driven UI) 딥 다이브
+authors: [hojun]
+tags: [yalp, sdui]
+---
+
+** [원문](https://engineeringblog.yelp.com/2024/03/chaos-yelps-unified-framework-for-server-driven-ui.html)을 번역한 글입니다**
+
+Yelp는 웹(데스크톱 및 모바일), iOS, Android 플랫폼을 위한 두 가지 주요 애플리케이션인 Yelp와 Yelp for Business를 개발합니다. 8개의 고유한 클라이언트가 있는 셈입니다! 이 모든 클라이언트에서 새롭고 일관된 UI를 유지하는 것은 큰 과제입니다. 서버 기반 UI(SDUI)는 여러 플랫폼에서 UI를 관리하기 위한 표준 업계 기술이 되었습니다. Yelp에서는 많은 제품 팀에서 각자의 기능을 위한 SDUI 프레임워크를 만들었습니다. 이러한 프레임워크는 성공적이기는 했지만 개발 및 유지 관리 비용이 많이 들었고, 모든 고객을 지원하는 단일 SDUI 프레임워크는 없었습니다. 2021년 말, 저희는 CHAOS 또는 “최적화 전략을 갖춘 콘텐츠 호스팅 아키텍처”라는 통합 SDUI 프레임워크를 구축하기 시작했습니다.
+
+## Why CHAOS?
+
+![CHAOS](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/1.png-366893)
+
+카오스는 이니셜입니다. 처음에는 좋은 블로그 제목이 될 것이라고 생각했습니다! 하지만 이름에서 더 깊은 의미를 발견했습니다. 나비효과처럼, 카오스 이론에 따르면 시스템의 작은 변화는 그 상태를 극적으로 변화시킬 수 있습니다. 카오스는 고객에게 주요 UI 변경 사항을 배포하는 프로세스를 간소화하여 “작은 변화가 큰 결과를 가져온다”라는 슬로건으로 이어집니다.
+
+CHAOS를 빠르게 선택했지만, 약어 뒤에 숨은 문구를 위해 많은 제안을 거쳤습니다:
+
+- 우리 시스템을 위한 창의적이고 유머러스한 약어
+- **성공을 가속화하는 콘텐츠**
+- 화면 속도를 높이는 구성 요소
+
+결국 “**최적화 전략을 갖춘 콘텐츠 호스팅 아키텍처**”로 결정했습니다.
+
+여기서 “콘텐츠 호스팅 아키텍처"라는 단어는 의미가 있었습니다. UI는 사용자가 보고 상호 작용하는 콘텐츠입니다. 우리는 인터랙티브 콘텐츠를 호스팅하기 위한 아키텍처를 구축하고 있었습니다. 콘텐츠는 전체 모바일 화면이나 데스크톱 브라우저 페이지부터 컴포넌트라고 하는 단일 UI 요소에 이르기까지 무엇이든 될 수 있습니다.
+
+머신 러닝(ML)을 사용하여 콘텐츠를 최적화할 계획이었기 때문에 '최적화 전략'을 추가했습니다. 예를 들어, 어떤 소비자는 업체를 검색할 때 사진을 보는 것을 선호하는 반면, 어떤 소비자는 리뷰를 보는 것을 선호합니다. 좋은 식당을 찾을 때는 사진이 더 중요하고 배관공사를 찾을 때는 리뷰가 더 중요할 수 있는 등, 업종에 따라 소비자의 선호도가 달라지기도 합니다. 머신러닝 모델은 최적의 검색 환경을 자동으로 선택할 수 있습니다.
+
+## SDUI란 무엇인가요?
+
+SDUI는 여러 플랫폼에서 UI를 관리하는 데 널리 사용되는 기법입니다. 표준 UI에서는 클라이언트 개발자가 프레젠테이션과 데이터 가져오기 로직을 모두 작성합니다. UI를 업데이트하려면 클라이언트를 변경해야 합니다. 모바일 클라이언트의 경우 변경하려면 플랫폼의 앱 릴리스 프로세스를 거치고 사용자가 새 버전으로 업그레이드할 때까지 기다려야 합니다. 여러 클라이언트에 동일한 UI 변경이 필요한 경우 변경 비용이 크게 증가합니다.
+
+![SDUI](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/2.png-34157)
+
+SDUI에서는 백엔드 개발자가 프레젠테이션 및 데이터 가져오기 로직을 작성하여 구성된 UI를 클라이언트에 반환합니다. 클라이언트를 변경하지 않고도 백엔드 코드를 업데이트할 수 있으며, 한 번의 백엔드 변경으로 여러 클라이언트의 UI를 업데이트할 수 있습니다.
+
+![SDUI2](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/3.png-35255)
+
+Yelp에서는 성공적인 SDUI 프레임워크를 많이 구축했습니다. 모바일 앱 개발을 위한 서버 기반 플랫폼 구축에서는 비즈니스용 Yelp의 iOS 및 Android 버전에서 UX를 관리하기 위한 프레임워크 중 하나인 Biz Native Foundation(BNF)에 대해 설명했습니다.
+
+BNF는 모바일 클라이언트를 위한 매우 일반적인 서버 중심 아키텍처를 가지고 있습니다. 컴포넌트 목록을 호스팅하는 서버 기반 모바일 화면을 지원합니다. 버튼을 탭하는 등 컴포넌트와 상호 작용하면 관찰 가능한 애플리케이션 상태인 속성을 통해 직접 또는 간접적으로 UI를 업데이트하는 작업이 트리거됩니다.
+
+![SDUI3](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/4.png-104002)
+
+Yelp에서는 성공적인 SDUI 프레임워크를 많이 구축했습니다. 모바일 앱 개발을 위한 서버 기반 플랫폼 구축에서는 비즈니스용 Yelp의 iOS 및 Android 버전에서 UX를 관리하기 위한 프레임워크 중 하나인 비즈 네이티브 파운데이션(BNF)에 대해 설명했습니다.
+
+BNF는 모바일 클라이언트를 위한 매우 일반적인 서버 중심 아키텍처를 가지고 있습니다. 컴포넌트 목록을 호스팅하는 서버 기반 모바일 화면을 지원합니다. 버튼을 탭하는 등 컴포넌트와 상호 작용하면 관찰 가능한 애플리케이션 상태인 속성을 통해 직접 또는 간접적으로 UI를 업데이트하는 작업이 트리거됩니다.
+
+## SDUI용 REST와 GraphQL 비교
+
+그동안 저희는 고객을 위해 여러 REST API를 구축하고 유지 관리해 왔습니다. 각각 고유한 Swagger 사양과 백엔드 Python 서비스를 갖춘 서로 다른 API를 사용하는 것이 SDUI 프레임워크를 통합할 수 없었던 큰 이유였습니다.
+
+다행히도 지난 몇 년 동안 모든 Yelp 클라이언트를 통합 GraphQL API로 전환해 왔습니다. 따라서 GraphQL을 사용하는 것은 CHAOS의 필수 요건이었습니다. SDUI에 REST를 사용하고 싶어도 클라이언트가 REST와 GraphQL을 모두 지원해야 했기 때문입니다. Yelp가 GraphQL을 도입했을 때 저희는 REST를 완전히 대체하고 싶었습니다.
+
+처음에는 SDUI에 GraphQL을 사용하는 것에 대해 기대가 컸습니다. 명시적인 버전 관리가 필요한 REST API보다 SDUI 그래프를 더 쉽게 발전시킬 수 있다고 생각했기 때문입니다. 클라이언트 쿼리의 명시성은 각 요청이 지원되는 유형과 필드를 문서화하기 때문에 이전 버전과의 호환성을 유지하는 데 도움이 될 것이라고 생각했습니다. 다음 섹션에서 설명하겠지만 GraphQL은 CHAOS API를 설계할 때 몇 가지 문제를 야기했고, 결국 실용적인 이유로 일부 REST 객체를 내장했습니다.
+
+## 카오스 설계
+
+먼저 CHAOS의 원래 요구 사항을 간략하게 설명한 다음, 사용 모델과 이를 GraphQL API로 변환한 방법에 대해 설명하겠습니다.
+
+### 요구 사항
+
+- GraphQL 사용
+- 웹 및 모바일 클라이언트에서 다양한 사용 사례 지원
+- 변경 시 포워드 및 백워드 호환성 처리
+
+### 사용 모델
+
+**View**는 CHAOS에서 관리하는 UI의 일부입니다. 모든 View에는 고유한 **name**과 **Layout**이 있으며, Layout은 일련의 **Component**를 배열합니다. 컴포넌트는 **Actions**을 트리거하여 부수적인 효과를 구현할 수 있습니다. 모든 레이아웃, 컴포넌트 또는 액션에는 **고유한 버전 유형**이 있습니다.
+
+예를 들어, 제품 관리자가 신규 Yelp 사용자가 지역 업체를 찾는 데 도움이 되는 간단한 보기를 원한다고 가정해 보겠습니다. 초기 디자인에는 텍스트, 일러스트레이션 및 버튼 구성 요소가 포함된 단일 열 레이아웃이 필요합니다. 버튼을 클릭하면 Yelp 검색에 대한 딥 링크가 열립니다.
+
+![CHAOS](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/5.png-283778)
+
+더 많은 레이아웃, 컴포넌트, 액션을 추가하여 더 많은 사용 사례를 지원하도록 CHAOS를 쉽게 확장할 수 있습니다. 레이아웃은 단일 열, 행 또는 여러 섹션이 있는 전체 웹페이지/모바일 화면이 될 수 있습니다. 컴포넌트는 단일 텍스트, 버튼 또는 전체 섹션이 될 수 있습니다. 액션은 URL을 열거나, 분석을 기록하거나, 애플리케이션 상태를 업데이트할 수 있습니다.
+
+Yelp 클라이언트가 CHAOS GraphQL API에 보기를 쿼리합니다. GraphQL API는 Python 서비스로 구현된 CHAOS 백엔드에서 표준화된 REST API를 호출하여 보기를 로드합니다.
+
+![CHAOS](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/6.png-76660)
+
+모든 뷰를 위한 단일 CHAOS 백엔드는 없습니다. 오히려 CHAOS 백엔드는 UI를 위한 마이크로서비스입니다. 하나의 뷰 또는 여러 개의 관련 뷰를 담당할 수 있으며, CHAOS API는 뷰 이름에 따라 클라이언트 쿼리를 전송합니다.
+
+CHAOS는 GraphQL 쿼리를 생성하고 뷰를 렌더링하기 위한 React, Android 및 iOS 클라이언트 라이브러리를 제공합니다. CHAOS는 CHAOS 백엔드에서 보기를 빌드하기 위한 Python 패키지를 제공합니다.
+
+### 드림 쿼리
+
+Yelp에서는 새로운 GraphQL API를 구축할 때 [드림 쿼리](https://engineeringblog.yelp.com/2020/10/dream-query.html)를 작성하는 것으로 시작합니다. 고유한 이름으로 CHAOS 뷰를 가져오는 쿼리가 필요합니다
+
+```graphql
+query GetChaosView($name: String!) {
+	chaosView(name: $name) {
+		views {
+			identifier
+			layout
+		}
+		initialViewId
+		components
+		actions
+	}
+}
+```
+
+쿼리는 뷰 배열과 초기 뷰 ID가 포함된 ChaosConfiguration을 반환합니다. 많은 카오스 사용 사례에는 단일 보기가 있지만, 일부 사용 사례에는 일련의 관련 보기가 있습니다. 추가 GraphQL 쿼리를 사용하여 후속 보기를 가져올 수는 있지만, 느리고 불안정한 네트워크 연결을 통해 추가 라운드 트립이 필요할 수 있습니다. 따라서 CHAOS는 성능과 안정성을 개선하기 위해 동일한 구성 내에서 여러 뷰를 반환하는 기능을 지원합니다.
+
+각 뷰에는 ID별로 구성 요소를 정렬하는 레이아웃이 있습니다. 레이아웃은 ChaosLayout 유니온 유형으로 표시됩니다:
+
+```graphql
+union ChaosLayout = ChaosSingleColumn | ChaosMobilePhoneScreen
+```
+
+CHAOS는 컴포넌트를 세로 스택으로 배열하는 단일 열 레이아웃을 지원하므로 기존 웹 페이지나 모바일 화면에 SDUI를 추가할 때 유용합니다.
+
+```graphql
+type ChaosSingleColumn implements ChaosLayout {
+	rows: [String!]!
+}
+```
+
+또한 CHAOS는 기존 SDUI 프레임워크의 일반적인 사용 사례인 전체 mobile 화면을 제어하는 레이아웃을 지원합니다.
+
+```graphql
+type ChaosMobilePhoneScreen implements ChaosLayout {
+	toolBar: String
+	main: [String!]!
+	footer: String
+}
+```
+
+우리는 전체 웹 페이지에 대해 레이아웃을 실험해왔으며, 다음 블로그 게시물에서 이러한 노력에 대한 글을 작성할 예정입니다. 일반적으로 웹 클라이언트는 단일 열 레이아웃을 사용하여 기존 데이터 가져오기 및 프레젠테이션 로직을 사용하는 페이지에 일부 SDUI 콘텐츠를 추가합니다.
+
+레이아웃은 ID 단위로 컴포넌트를 가리키며, ChaosConfiguration의 모든 컴포넌트는 최상위 컴포넌트 필드에 저장됩니다. 마찬가지로 컴포넌트는 ID 단위로 액션을 참조하며 모든 액션은 최상위 액션 필드에 저장됩니다.
+
+최상위 구성에 컴포넌트와 액션을 저장하면 몇 가지 실질적인 이점이 있습니다. 첫째, 컴포넌트나 액션이 여러 번 참조될 때 응답 크기가 줄어듭니다. 둘째, 레이아웃이 간결하고 컴포넌트 배열 방식에 초점을 맞추기 때문에 가독성이 향상됩니다.
+
+## 모델링(Modeling components & actions)
+
+처음에는 각 컴포넌트와 액션을 모델링하기 위해 명시적인 GraphQL 유형을 사용할 계획이었습니다. 모든 컴포넌트와 액션이 만족해야 하는 인터페이스를 정의했습니다. 컴포넌트와 액션은 ID로 참조하기 때문에 고유한 문자열 식별자를 가져야 합니다. 다른 필드는 특정 컴포넌트나 액션에 따라 달라집니다.
+
+CHAOS가 다음과 같은 GraphQL 유형을 가진 단일 컴포넌트(ChaosButton)와 액션(ChaosOpenUrl)을 지원한다고 가정해 보겠습니다:
+
+```graphql
+type ChaosButton implements ChaosComponent {
+	identifier: String!
+	text: String!
+	onClick: [String!]!
+}
+
+type ChaosOpenUrl implements ChaosAction {
+	identifier: String!
+	url: String!
+}
+```
+
+클라이언트의 쿼리는 조각을 사용하여 지원되는 컴포넌트와 액션 유형을 지정합니다:
+
+```graphql
+query GetChaosView($name: String!) {
+	chaosView(name: $name) {
+		views {
+			identifier
+			layout {
+				... on ChaosSingleColumn {
+					rows
+				}
+			}
+		}
+		components {
+			... on ChaosButton {
+				identifier
+				text
+				onClick
+			}
+		}
+		actions {
+			... on ChaosOpenUrl {
+				identifier
+				url
+			}
+		}
+		initialViewId
+	}
+}
+```
+
+이는 합리적인 접근 방식처럼 보이지만 실제로는 여러 가지 문제가 보입니다.
+
+1. 컴포넌트와 액션은 데이터 가져오기를 위한 기존의 GraphQL 유형과는 다릅니다. GraphQL의 주요 장점은 클라이언트가 필요한 필드만 가져온다는 점입니다. 클라이언트는 일부 버튼 필드만 쿼리하고 다른 필드는 쿼리할 수 없으며, 버튼은 onClick 없이는 작동하지 않습니다!
+2. 새 필드를 추가할 때는 신중해야 합니다. 버튼의 모양을 제어하기 위해 새로운 스타일 매개변수를 추가해 보겠습니다:
+
+```graphql
+type ChaosButton implements ChaosComponent {
+	identifier: String!
+	text: String!
+	style: ChaosButtonStyle
+	onClick: [String!]!
+}
+```
+
+안타깝게도 이미 모바일 클라이언트에 원래 버튼을 출시했으며, 스타일을 지원하지 않는 **이전 앱 버전**이 있습니다. 모바일 클라이언트가 새 필드를 지원한다는 사실을 CHAOS 백엔드에 어떻게 전달할까요?
+
+GraphQL 서버는 클라이언트의 쿼리에 새 필드가 포함되어 있는지 여부를 알고 있습니다. 아폴로 서버는 쿼리를 나타내는 추상 구문 트리(AST)와 함께 구성 요소의 리졸버에 정보 인수를 제공합니다. 하지만 스타일이 ChaosButton 조각의 일부인지 확인하기 위해 여러 개의 중첩된 배열과 객체를 탐색해야 합니다:
+
+![CHAOS](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/7.png-296166)
+
+또한 필드를 사용할 수 있다는 사실을 CHAOS 백엔드에 알려야 합니다. 필드를 지속적으로 추가하고 (덜 자주) 제거할 것입니다. 모든 컴포넌트와 액션에 대해 지원되는 필드 목록을 백엔드로 보내야 하나요? 그러면 각 요청에 상당한 양의 오버헤드가 추가됩니다.
+
+세 번째 문제는 유형을 추가할 때도 같은 문제가 발생한다는 것입니다. 스타일이 지정된 텍스트 블록을 나타내는 새 컴포넌트를 추가해 보겠습니다:
+
+```graphql
+type ChaosText implements ChaosComponent {
+	identifier: String!
+	text: String!
+	textStyle: ChaosTextStyle
+	textAlignment: ChaosTextAlignment
+}
+```
+
+또한 필드를 사용할 수 있다는 사실을 CHAOS 백엔드에 알려야 합니다.
+
+```graphql
+query GetChaosView($name: String!) {
+	chaosView(name: $name) {
+		views {
+			identifier
+			layout {
+				... on ChaosSingleColumn {
+					rows
+				}
+			}
+		}
+		components {
+			... on ChaosButton {
+				identifier
+				text
+				style
+				onClick
+			}
+			... on ChaosText {
+				identifier
+				text
+				textStyle
+				textAlignment
+			}
+		}
+		actions {
+			... on ChaosOpenUrl {
+				identifier
+				url
+			}
+		}
+		initialViewId
+	}
+}
+```
+
+쿼리에 ChaosText fragment가 포함되어 있는지 확인하려면 컴포넌트의 GraphQL 리졸버가 AST를 자세히 조사한 다음 지원되는 컴포넌트(및 작업) 목록에서 해당 정보를 CHAOS 백엔드에 전달해야 합니다:
+
+![CHAOS](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/8.png-246442)
+
+결국 저희는 명시적이고 버전이 없는 GraphQL 유형은 실용적이지 않다고 판단했습니다. 실질적인 이점 없이 GraphQL 계층을 유지 관리하는 데 너무 많은 시간과 노력을 소비하게 될 것이기 때문입니다. 클라이언트는 대용량 쿼리를 작성하고 서버는 이를 구문 분석해야 했죠. 대신 각 컴포넌트나 작업을 JSON 형식의 버전이 지정된 REST 객체로 모델링했습니다.
+
+모든 컴포넌트나 액션에는 chaos.button.v1, chaos.open-url.v1과 같이 정수 버전 번호가 포함된 고유한 유형의 문자열이 있습니다. GraphQL은 기본적으로 JSON 또는 맵 필드를 지원하지 않으므로 매개변수는 문자열화된 JSON 객체에 저장됩니다.
+
+```graphql
+type ChaosJsonComponent implements ChaosComponent {
+	identifier: String!
+	componentType: String!
+	parameters: String!
+}
+
+type ChaosJsonAction implements ChaosAction {
+	identifier: String!
+	actionType: String!
+	parameters: String!
+}
+```
+
+예를 들어, CHAOS 버튼 컴포넌트를 위한 graphql 쿼리 응답은 다음과 같은 형식을 가집니다:
+
+```json
+{
+	"identifier": "primacy-cta",
+	"componentType": "chaos.button.v1",
+	"parameters": "{\"text\": \"Find local businesses\", \"onClick\": [\"open-search-url\"]}",
+	"__typename": "ChaosJsonComponent"
+}
+```
+
+확실히, 문자열화된 JSON은 가독성이 좋지 않습니다. 그래서 우리는 CHAOS 구성을 편집하고 디버깅할 수 있는 개발자 도구를 만들었습니다.
+
+여전히 보기와 레이아웃에는 GraphQL 유형을 사용합니다. 이러한 유형은 변경 빈도가 적고 UI의 상위 수준 구조를 포함하므로 직접 가독성이 더 유용합니다. 내부적으로는 여전히 레이아웃을 고유한 버전이 지정된 유형 문자열(예: chaos.single-column.v1)과 연결하고 있으며, 레이아웃을 위해 임베디드 REST 객체로 전환할 수도 있습니다. 아직 GraphQL과 REST 간의 적절한 균형을 찾는 중이지만, 2년 넘게 프로덕션 환경에서 이 방식을 재검토하지 않고 사용하고 있습니다.
+
+다음은 모든 것이 어떻게 결합되는지 확인할 수 있는 완전한 CHAOS 구성입니다:
+
+```json
+{
+	"data": {
+		"chaosView": {
+			"views": [
+				{
+					"identifier": "consumer.welcome",
+					"layout": {
+						"__typename": "ChaosSingleColumn",
+						"rows": [
+							"welcome-to-yelp-header",
+							"welcome-to-yelp-illustration",
+							"find-local-businesses-button"
+						]
+					},
+					"__typename": "ChaosView"
+				}
+			],
+			"components": [
+				{
+					"__typename": "ChaosJsonComponent",
+					"identifier": "welcome-to-yelp-header",
+					"componentType": "chaos.text.v1",
+					"parameters": "{\"text\": \"Welcome to Yelp\", \"textStyle\": \"heading1-bold\", \"textAlignment\": \"center\"}}"
+				},
+				{
+					"__typename": "ChaosJsonComponent",
+					"identifier": "welcome-to-yelp-illustration",
+					"componentType": "chaos.illustration.v1",
+					"parameters": "{\"dimensions\": {\"width\": 375, \"height\": 300}, \"url\": \"https://media.yelp.com/welcome-to-yelp.svg\"}}"
+				},
+				{
+					"__typename": "ChaosJsonComponent",
+					"identifier": "find-local-businesses-button",
+					"componentType": "chaos.button.v1",
+					"parameters": "{\"text\": \"Find local businesses\", \"style\": \"primary\"}, \"onClick”: [\"open-search-url\"]}"
+				}
+			],
+			"actions": [
+				{
+					"__typename": "ChaosJsonAction",
+					"identifier": "open-search-url",
+					"actionType": "chaos.open-url.v1",
+					"parameters": "{\"url\": \"https://yelp.com/search\"}"
+				}
+			],
+			"initialViewId": "consumer.welcome",
+			"__typename": "ChaosConfiguration"
+		}
+	}
+}
+```
+
+## 버저닝(Versioning components & actions)
+
+컴포넌트나 액션을 변경하면 버전이 증가합니다. 예를 들어, 카오스 버튼에 스타일을 추가하면 chaos.button.v2가 됩니다.
+
+클라이언트는 자체 내부 컴포넌트 라이브러리를 가지고 있으며 각 컴포넌트 유형과 연결된 팩토리를 사용하여 CHAOS 컴포넌트를 내부 컴포넌트의 인터페이스에 매핑합니다. 액션도 비슷한 매핑 과정을 거칩니다.
+
+카오스 백엔드는 YAML 구성 파일을 사용하여 카오스 구성에서 사용할 수 있는 컴포넌트 또는 액션 유형을 결정합니다. GraphQL 계층은 플랫폼(React, iOS 또는 Android)에 대한 정보를 CHAOS 백엔드에 전달합니다. 모바일 클라이언트의 경우 GraphQL 계층은 앱 버전도 전달합니다.
+
+React 클라이언트의 경우, 프론트엔드 배포를 위해 Yelp의 PaaS인 [Gondola](https://engineeringblog.yelp.com/2023/03/gondola-an-internal-paas-architecture-for-frontend-app-deployment.html)를 사용하여 모든 React 클라이언트를 동시에 업데이트할 수 있습니다. 따라서 웹 클라이언트에서 사용할 수 있는 유형임을 나타내기 위해 web: true를 사용합니다.
+
+모바일 클라이언트의 경우 이전 버전은 업데이트할 수 없습니다. 또한 각 플랫폼에는 소비자 및 비즈니스 소유자를 위한 별도의 앱이 있습니다. 따라서 시작: "앱 버전"을 사용하여 유형을 지원하는 첫 번째 앱 버전을 나타내며, 각 앱/플랫폼 조합에는 고유한 값.g가 함께 제공됩니다:
+
+```yaml
+components:
+  - type: chaos.button.v1
+    web: true
+    consumer-ios:
+      start: 22.1.0
+    consumer-android:
+      start: 22.3.0
+    biz-ios:
+      Start: 22.1.0
+    biz-android:
+      start: 22.6.0
+
+actions:
+  - type: chaos.open-url.v1
+    web: true
+    consumer-ios:
+      start: 22.1.0
+    consumer-android:
+      start: 22.3.0
+    biz-ios:
+      start: 22.1.0
+    biz-android:
+      start: 22.6.0
+```
+
+## 사용 사례(Use cases)
+
+개발을 시작한 지 불과 몇 달 후인 2022년 초에 첫 번째 카오스 사용 사례를 프로덕션에 출시했습니다. 그 이후로 정기적으로 새로운 사용 사례를 출시하고 있습니다. 카오스 개발은 전적으로 사용 사례 중심으로 이루어집니다. 필요할 때 새로운 레이아웃, 컴포넌트, 액션을 추가합니다.
+
+**카오스는 기존 UI 개발을 대체하기 위한 것이 아닙니다**. 저희는 합당한 경우에만 카오스를 사용합니다. 일반적으로 CHAOS의 좋은 사용 사례는 다음 조건 중 하나 이상을 충족합니다:
+
+- 여러 클라이언트에서 일관성이 있어야 합니다.
+- 동적이고 컨텍스트에 맞는 콘텐츠가 있어야 합니다.
+- 모바일 클라이언트에서 빠르게 업데이트되어야 합니다.
+
+예를 들어 CHAOS는 웹 및 모바일 클라이언트에서 비즈니스용 Yelp 지원 플로우를 관리합니다. 비즈니스 소유자가 지원 플로우를 열면 지원 옵션 목록이 포함된 CHAOS 보기가 표시됩니다:
+
+![CHAOS](https://lnwblzacktgzeiihvxtu.supabase.co/storage/v1/object/public/contents/prod/9.png-187854)
+
+몇몇 비즈니스 소유자는 여러 클라이언트(웹, 모바일 등)를 사용하며, 일부 비즈니스는 서로 다른 계정으로 서로 다른 클라이언트를 사용하여 관리합니다. 따라서 모든 고객에게 일관된 지원 옵션을 제공하고자 합니다.
+
+또한 CX(Customer Experience) 옵션은 상황에 따라 달라집니다. 실시간 채팅이나 전화 지원은 연중무휴 24시간 제공되지 않으며, 전화번호는 지역에 따라 다릅니다.
+
+마지막으로, 서비스 중단과 같은 기술적 문제가 발생하면 앱 출시를 기다릴 필요 없이 모바일 클라이언트를 신속하게 업데이트하고자 합니다. 문제를 인지하고 해결 중이라는 메모를 추가하면 비즈니스 소유자에게 정보를 제공하고 불필요한 지원 요청을 피할 수 있습니다.
+
+CHAOS를 사용하면 단일 백엔드 서비스에 변경 사항을 배포하여 모든 클라이언트에서 지원 옵션을 업데이트할 수 있습니다.
+
+## 향후 프로젝트
+
+Yelp에서 CHAOS를 보다 광범위하게 도입함에 따라 향후 투자할 몇 가지 주요 분야를 확인했습니다.
+
+### 자동화된 미리 보기
+
+카오스 보기의 변경 사항을 확인하기 위해 백엔드 개발자는 각 클라이언트를 수동으로 테스트합니다.
+
+누구나 브라우저에 액세스할 수 있는 웹 클라이언트를 테스트하는 것은 비교적 간단하지만, 모바일 클라이언트를 테스트하려면 시뮬레이터나 실제 기기에 액세스해야 합니다. Yelp는 원격 근무로 전환하기 전에는 각 엔지니어링 사무실에 모바일 디바이스 라이브러리를 유지했습니다. 전환 후에는 공급업체의 클라우드 기반 테스트 솔루션과 통합했습니다. 그럼에도 불구하고 여러 플랫폼이나 앱 버전을 검증해야 하는 백엔드 개발자에게 수동 테스트는 번거로운 작업입니다.
+
+향후에는 자동화된 미리 보기를 지원할 계획입니다. 백엔드 개발자가 CHAOS 보기에 대한 변경 사항이 포함된 GitHub PR을 게시하면 각 플랫폼에 대한 미리 보기를 자동으로 생성하여 준비가 되면 PR에 첨부할 수 있도록 할 것입니다.
+
+### 노코드 설정 업데이트
+
+현재 제품 관리자나 디자이너가 CHAOS 보기를 변경하려면 백엔드 개발자에게 요청해야 합니다. 백엔드 개발자는 CHAOS 보기를 구성하는 Python 코드를 변경하고 PR을 만든 다음 승인을 받은 후 변경 사항을 프로덕션에 배포합니다. 복사본 변경과 같은 간단한 변경 사항도 30분에서 몇 시간이 걸립니다.
+
+향후에는 내부 편집 도구를 통해 제품 관리자와 디자이너가 코드 없이 구성 업데이트를 할 수 있도록 지원할 계획입니다.
+
+### 최적화 전략
+
+카오스 콘텐츠의 핵심적인 부분임에도 불구하고 카오스 콘텐츠에 대한 최적화 전략은 구현되어 있지 않습니다. 카오스 콘텐츠의 선택, 주문, 구성은 파이썬 코드에서 수동으로 수행해야 합니다.
+
+향후에는 머신러닝을 사용하여 일부 카오스 콘텐츠를 자동으로 선택, 순서 지정 및 구성할 계획입니다.
+
+## 마치며
+
+이 글은 CHAOS에 대한 블로그 포스트 시리즈 중 첫 번째 글입니다. 다음 블로그 게시물에서는 클라이언트 엔지니어가 웹, iOS, Android 클라이언트에서 CHAOS가 어떻게 작동하는지 설명하고, 백엔드 엔지니어가 Python에서 CHAOS 백엔드를 구축하는 방법을 설명할 예정입니다.
