@@ -266,92 +266,90 @@ class TitleSectionComponent : SectionComponent<TitleSection>() {
 
 몇 가지 개념을 살펴보았으므로 전체 GP 응답을 가져와 모든 것을 하나로 묶어 렌더링하는 방법을 살펴 보겠습니다.
 
-```graphql
+```json
 {
-  "screens": [
-    {
-      "id": "ROOT",
-      "screenProperties": {},
-      "layout": {
-        "wide": {},
-        "compact": {
-          "type": "SingleColumnLayout",
-          "main": {
-            "type": "MultipleSectionsPlacement",
-            "sectionDetails": [
-              {
-                "sectionId": "hero_section"
-              },
-              {
-                "sectionId": "title_section"
-              }
-            ]
-          },
-          "nav": {
-            "type": "SingleSectionPlacement",
-            "sectionDetail": {
-              "sectionId": "toolbar_section"
-            }
-          },
-          "footer": {
-            "type": "SingleSectionPlacement",
-            "sectionDetail": {
-              "sectionId": "book_bar_footer"
-            }
-          }
-        }
-      }
-    },
-  ],
-  "sections": [
-    {
-      "id": "toolbar_section",
-      "sectionComponentType": "TOOLBAR",
-      "section": {
-        "type": "ToolbarSection",
-        "nav_button": {
-          "onClickAction": {
-            "type": "NavigateBack",
-            "screenId": "previous_screen_id"
-          }
-        }
-      }
-    },
-    {
-      "id": "hero_section",
-      "sectionComponentType": "HERO",
-      "section": {
-        "type": "HeroSection",
-        "images": [
-          "api.airbnb.com/...",
-        ],
-      }
-    },
-    {
-      "id": "title_section",
-      "sectionComponentType": "TITLE",
-      "section": {
-        "type": "TitleSection",
-        "title": "Seamist Beach Cottage, Private Beach & Ocean Views",
-        "titleStyle": {}
-      }
-    },
-    {
-      "id": "book_bar_footer",
-      "sectionComponentType": "BOOK_BAR_FOOTER",
-      "section": {
-        "type": "ButtonSection",
-        "title": "$450/night",
-        "button": {
-          "text": "Check Availability",
-          "onClickAction": {
-            "type": "NavigateToScreen",
-            "screenId": "next_screen_id"
-          }
-        },
-      }
-    },
-  ]
+	"screens": [
+		{
+			"id": "ROOT",
+			"screenProperties": {},
+			"layout": {
+				"wide": {},
+				"compact": {
+					"type": "SingleColumnLayout",
+					"main": {
+						"type": "MultipleSectionsPlacement",
+						"sectionDetails": [
+							{
+								"sectionId": "hero_section"
+							},
+							{
+								"sectionId": "title_section"
+							}
+						]
+					},
+					"nav": {
+						"type": "SingleSectionPlacement",
+						"sectionDetail": {
+							"sectionId": "toolbar_section"
+						}
+					},
+					"footer": {
+						"type": "SingleSectionPlacement",
+						"sectionDetail": {
+							"sectionId": "book_bar_footer"
+						}
+					}
+				}
+			}
+		}
+	],
+	"sections": [
+		{
+			"id": "toolbar_section",
+			"sectionComponentType": "TOOLBAR",
+			"section": {
+				"type": "ToolbarSection",
+				"nav_button": {
+					"onClickAction": {
+						"type": "NavigateBack",
+						"screenId": "previous_screen_id"
+					}
+				}
+			}
+		},
+		{
+			"id": "hero_section",
+			"sectionComponentType": "HERO",
+			"section": {
+				"type": "HeroSection",
+				"images": ["api.airbnb.com/..."]
+			}
+		},
+		{
+			"id": "title_section",
+			"sectionComponentType": "TITLE",
+			"section": {
+				"type": "TitleSection",
+				"title": "Seamist Beach Cottage, Private Beach & Ocean Views",
+				"titleStyle": {}
+			}
+		},
+		{
+			"id": "book_bar_footer",
+			"sectionComponentType": "BOOK_BAR_FOOTER",
+			"section": {
+				"type": "ButtonSection",
+				"title": "$450/night",
+				"button": {
+					"text": "Check Availability",
+					"onClickAction": {
+						"type": "NavigateToScreen",
+						"screenId": "next_screen_id"
+					}
+				}
+			}
+		}
+	]
 }
 ```
 
