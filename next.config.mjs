@@ -8,6 +8,11 @@ const nextConfig = {
 	experimental: {
 		optimizeCss: true,
 	},
+	i18n: {
+		locales: ['ko', 'en'],
+		defaultLocale: 'ko',
+		localeDetection: true,
+	},
 	pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 	reactStrictMode: false,
 	images: {
