@@ -76,7 +76,7 @@ const ProfileSection = () => {
 					</Typography>
 
 					<Typography variant="p">
-						29cm 사업부 카탈로그 팀 프론트엔드 개발자(2024.05 ~ 현재)
+						29cm 사업부 카탈로그 팀 프론트엔드 개발자(2024.05 ~ 2024.12)
 					</Typography>
 					<Typography variant="p" className="text-muted-foreground">
 						29cm의 상품 상세 페이지 및 어드민 페이지를 개발합니다. 패션 커머스의 카탈로그 도메인을

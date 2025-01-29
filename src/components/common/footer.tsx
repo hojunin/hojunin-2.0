@@ -8,6 +8,12 @@ const Footer = () => {
 			<div className="grid grid-cols-2">
 				<section className="flex flex-col gap-y-2">
 					<h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">Activity</h3>
+					<Link
+						href="https://hjinn.notion.site/Full-Speed-Ahead-2d604da39fcd473d9328cf26877bb8cd?pvs=4"
+						target="_blank"
+					>
+						이력서
+					</Link>
 					<Link href="https://github.com/hojunin" target="_blank">
 						깃허브
 					</Link>
