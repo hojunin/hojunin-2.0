@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Separator } from '../ui/separator';
 import { Badge } from '../ui/badge';
-import useDevice from '@/hooks/useDevice';
+import { cn } from '@/lib/utils';
 
 const ProfileSection = () => {
 	return (
@@ -68,7 +68,15 @@ const ProfileSection = () => {
 
 				<ExperienceSection title="MUSINSA">
 					<Typography variant="p">
-						29cm 사업부 카탈로그 팀 프론트엔드 개발자(2024.07 ~ 현재)
+						코어 파트너 플랫폼 팀 프론트엔드 개발자(2025.01 ~ 현재)
+					</Typography>
+					<Typography variant="p" className="mb-10 text-muted-foreground">
+						팀무신사 공통 백오피스(무신사, 29CM,.. 통합) 구축 프로젝트에서 플랫폼 & 서비스 수준의
+						통합 플랫폼 구축을 하고 있습니다
+					</Typography>
+
+					<Typography variant="p">
+						29cm 사업부 카탈로그 팀 프론트엔드 개발자(2024.05 ~ 현재)
 					</Typography>
 					<Typography variant="p" className="text-muted-foreground">
 						29cm의 상품 상세 페이지 및 어드민 페이지를 개발합니다. 패션 커머스의 카탈로그 도메인을
@@ -126,9 +134,22 @@ const EnhancedSeparator = () => {
 	return <Separator className="my-4" />;
 };
 
-const ExperienceSection = ({ title, children }: { title: string; children: React.ReactNode }) => {
+const ExperienceSection = ({
+	title,
+	children,
+	classNames,
+}: {
+	title: string;
+	children: React.ReactNode;
+	classNames?: string;
+}) => {
 	return (
-		<div className="flex flex-col gap-y-2 rounded-md border p-4 hover:border-gray-600">
+		<div
+			className={cn(
+				'flex flex-col gap-y-2 rounded-md border p-4 hover:border-gray-600',
+				classNames,
+			)}
+		>
 			<Typography variant="h3" className="overflow-hidden whitespace-normal break-words">
 				{title}
 			</Typography>
