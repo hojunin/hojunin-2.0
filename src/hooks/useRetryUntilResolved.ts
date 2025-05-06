@@ -2,17 +2,17 @@ import useInterval from '@/hooks/useInterval';
 import { useState } from 'react';
 
 const useRetryUntilResolved = (callback: () => any, interval = 100) => {
-  const [hasResolved, setHasResolved] = useState(false);
+	const [hasResolved, setHasResolved] = useState(false);
 
-  const checkIsResolved = () => {
-    const result = callback();
-    if (result) {
-      setHasResolved(true);
-    }
-  };
+	const checkIsResolved = () => {
+		const result = callback();
+		if (result) {
+			setHasResolved(true);
+		}
+	};
 
-  useInterval(checkIsResolved, hasResolved ? null : interval);
+	useInterval(checkIsResolved, hasResolved ? null : interval);
 
-  return hasResolved;
+	return hasResolved;
 };
 export default useRetryUntilResolved;

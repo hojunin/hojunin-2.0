@@ -1,0 +1,16 @@
+# 콘텐츠 발행 시스템 UI 개선
+
+## Scratchpad
+
+[X] API 키를 환경변수로 관리하도록 수정
+[X] 기본 프롬프트에 예시 글 추가
+[X] 플랫폼 비활성화 버튼 제거
+[X] 발행하기 버튼을 primary(default)로 변경
+[X] 전체선택/해제, 설정 초기화 버튼 제거
+[X] 플랫폼 아이콘 및 목록 표시 문제 수정
+
+## Lessons
+
+- 버튼 variant는 "primary"가 없으며, "default", "outline", "secondary", "ghost", "link", "destructive" 등의 variant를 사용해야 함
+- PlatformConfig 인터페이스를 수정할 때는 타입 정의 파일(src/types/publish.ts)을 확인하고 필요한 속성을 추가해야 함
+- 문자열 리터럴이 매우 길 경우(예: 프롬프트), 문법 오류가 발생하지 않도록 주의해야 함 
