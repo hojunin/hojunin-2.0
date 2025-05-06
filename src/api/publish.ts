@@ -185,6 +185,104 @@ export async function generatePlatformContent(
 	}
 }
 
+// 스트리밍 방식으로 AI 콘텐츠 생성 (서버 API 엔드포인트 사용)
+export async function streamGeneratePlatformContent(
+	originalContent: string,
+	platform: PlatformType,
+	prompt: string,
+	onChunk: (chunk: string, status?: string) => void,
+	onDone: () => void,
+	onError: (error: string) => void,
+): Promise<void> {
+	try {
+		const response = await fetch('/api/ai-generate', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				originalContent,
+				platform,
+				prompt,
+			}),
+		});
+
+		if (!response.ok) {
+			throw new Error(`API 요청 실패: ${response.status}`);
+		}
+
+		// 응답이 스트림인지 확인
+		if (!response.body) {
+			throw new Error('응답 스트림을 받을 수 없습니다.');
+		}
+
+		const reader = response.body.getReader();
+		const decoder = new TextDecoder();
+
+		let buffer = '';
+
+		while (true) {
+			const { done, value } = await reader.read();
+
+			if (done) {
+				break;
+			}
+
+			// 청크를 텍스트로 변환하고 버퍼에 추가
+			buffer += decoder.decode(value, { stream: true });
+
+			// 버퍼에서 완전한 JSON 객체 찾기
+			const chunks = buffer.split('\n\n');
+			buffer = chunks.pop() || ''; // 불완전한 마지막 청크는 버퍼에 남김
+
+			for (const chunk of chunks) {
+				if (!chunk.trim()) continue;
+
+				try {
+					const parsed = JSON.parse(chunk);
+
+					if (parsed.status === 'thinking') {
+						// 사고 중 상태 - 진행 중임을 표시
+						onChunk('', 'thinking');
+					} else if (parsed.status === 'done') {
+						// 완료 상태
+						onDone();
+					} else if (parsed.error) {
+						// 오류 발생
+						onError(parsed.error);
+					} else if (parsed.content) {
+						// 콘텐츠 청크 전달
+						onChunk(parsed.content);
+					}
+				} catch (e) {
+					console.error('JSON 파싱 오류:', e, 'raw:', chunk);
+				}
+			}
+		}
+
+		// 남은 버퍼 처리
+		if (buffer.trim()) {
+			try {
+				const parsed = JSON.parse(buffer);
+				if (parsed.content) {
+					onChunk(parsed.content);
+				} else if (parsed.status === 'done') {
+					onDone();
+				} else if (parsed.error) {
+					onError(parsed.error);
+				}
+			} catch (e) {
+				console.error('최종 JSON 파싱 오류:', e, 'raw:', buffer);
+			}
+		}
+
+		onDone();
+	} catch (error) {
+		console.error('AI 콘텐츠 스트리밍 오류:', error);
+		onError(error instanceof Error ? error.message : String(error));
+	}
+}
+
 // 각 플랫폼별 발행 함수들
 export async function publishToInstagram(
 	content: string,

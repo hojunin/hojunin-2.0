@@ -15,7 +15,8 @@ export async function POST(request: NextRequest) {
 			return NextResponse.json({ error: '필수 파라미터가 누락되었습니다.' }, { status: 400 });
 		}
 
-		const completion = await openai.chat.completions.create({
+		// 스트리밍 응답 생성
+		const stream = await openai.chat.completions.create({
 			model: 'deepseek-chat',
 			messages: [
 				{
@@ -29,10 +30,43 @@ export async function POST(request: NextRequest) {
 			],
 			temperature: 0.7,
 			max_tokens: 2000,
+			stream: true, // 스트리밍 활성화
 		});
 
-		return NextResponse.json({
-			content: completion.choices[0].message.content,
+		// 스트리밍 응답 반환
+		const encoder = new TextEncoder();
+		const customReadable = new ReadableStream({
+			async start(controller) {
+				// 첫 번째 응답에 약간의 지연을 추가하여 사용자에게 "생각 중" 메시지를 표시할 시간을 줍니다
+				controller.enqueue(encoder.encode('{"status":"thinking"}\n\n'));
+
+				try {
+					for await (const chunk of stream) {
+						const content = chunk.choices[0]?.delta?.content || '';
+						if (content) {
+							// 각 청크는 JSON 형식으로 반환되며, 여러 줄 구분은 \n\n을 사용합니다
+							controller.enqueue(
+								encoder.encode(`{"content":"${content.replace(/"/g, '\\"')}"}\n\n`),
+							);
+						}
+					}
+					controller.enqueue(encoder.encode('{"status":"done"}\n\n'));
+				} catch (error: unknown) {
+					controller.enqueue(
+						encoder.encode(`{"error":"${(error as Error).message.replace(/"/g, '\\"')}"}\n\n`),
+					);
+				} finally {
+					controller.close();
+				}
+			},
+		});
+
+		return new Response(customReadable, {
+			headers: {
+				'Content-Type': 'text/event-stream',
+				'Cache-Control': 'no-cache',
+				Connection: 'keep-alive',
+			},
 		});
 	} catch (error) {
 		console.error('AI 콘텐츠 생성 오류:', error);

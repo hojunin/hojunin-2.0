@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,39 +11,39 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { Search } from 'lucide-react';
-import { fetchContents } from '@/api/contents';
+import { Loader2, Search } from 'lucide-react';
 import { Content } from '@/types/contents';
+import { createClient } from '@/lib/supabase/client';
+import { useQuery } from '@tanstack/react-query';
 
 interface ContentSelectorProps {
 	onSelect: (content: Content) => void;
 }
 
 const ContentSelector: React.FC<ContentSelectorProps> = ({ onSelect }) => {
-	const [contents, setContents] = useState<Content[]>([]);
 	const [selectedContent, setSelectedContent] = useState<Content | null>(null);
 	const [searchQuery, setSearchQuery] = useState('');
-	const [isLoading, setIsLoading] = useState(true);
 	const [open, setOpen] = useState(false);
 
-	// 콘텐츠 목록 불러오기
-	useEffect(() => {
-		const loadContents = async () => {
-			try {
-				setIsLoading(true);
-				const data = await fetchContents({ page: 1, sort: 'newest' });
-				setContents(data);
-			} catch (error) {
-				console.error('콘텐츠 목록 로드 실패:', error);
-			} finally {
-				setIsLoading(false);
-			}
-		};
+	// react-query를 사용하여 콘텐츠 목록 가져오기
+	const { data: contents = [], isLoading } = useQuery({
+		queryKey: ['contents'],
+		queryFn: async () => {
+			const supabase = createClient();
+			const { data, error } = await supabase
+				.from('contents')
+				.select('*')
+				.order('created_at', { ascending: false });
 
-		if (open) {
-			loadContents();
-		}
-	}, [open]);
+			if (error) {
+				throw error;
+			}
+
+			return data || [];
+		},
+		enabled: open, // Dialog가 열렸을 때만 쿼리 실행
+		staleTime: 1000 * 60 * 5, // 5분 동안 데이터 캐시
+	});
 
 	// 검색 필터링
 	const filteredContents = contents.filter(
@@ -84,7 +84,9 @@ const ContentSelector: React.FC<ContentSelectorProps> = ({ onSelect }) => {
 						/>
 
 						{isLoading ? (
-							<div className="py-8 text-center">로딩 중...</div>
+							<div className="py-8 text-center">
+								<Loader2 className="h-4 w-4 animate-spin" />
+							</div>
 						) : filteredContents.length === 0 ? (
 							<div className="py-8 text-center">검색 결과가 없습니다</div>
 						) : (

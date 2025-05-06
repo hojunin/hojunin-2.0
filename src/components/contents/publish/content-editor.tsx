@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, memo, useCallback } from 'react';
 import { Color } from '@tiptap/extension-color';
 import ListItem from '@tiptap/extension-list-item';
 import TextStyle from '@tiptap/extension-text-style';
-import { useEditor, EditorContent, Editor } from '@tiptap/react';
+import { useEditor, EditorContent } from '@tiptap/react';
 import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import StarterKit from '@tiptap/starter-kit';
 import Blockquote from '@tiptap/extension-blockquote';
@@ -19,27 +19,22 @@ import Placeholder from '@tiptap/extension-placeholder';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { uploadFile } from '@/api/file-upload';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Platform, PlatformType } from '@/types/publish';
 import { marked } from 'marked';
+import { Control, useFormContext, useWatch } from 'react-hook-form';
+import { Loader2 } from 'lucide-react';
 
 interface ContentEditorProps {
 	content: string;
 	onChange: (html: string) => void;
-	platformContents: Record<PlatformType, string>;
-	onPlatformContentChange: (platform: PlatformType, content: string) => void;
-	platforms: PlatformType[];
+	control: Control<any>;
 }
 
-const ContentEditor: React.FC<ContentEditorProps> = ({
-	content,
-	onChange,
-	platformContents,
-	onPlatformContentChange,
-	platforms,
-}) => {
+const ContentEditor: React.FC<ContentEditorProps> = memo(({ content, onChange, control }) => {
+	// react-hook-form의 컨텍스트에서 필요한 데이터 가져오기
+	const { setValue } = useFormContext();
+
 	// 마크다운을 HTML로 변환하는 함수
-	const convertMarkdownToHTML = (markdown: string): string => {
+	const convertMarkdownToHTML = useCallback((markdown: string): string => {
 		try {
 			// 마크다운에서 HTML로 변환
 			return String(marked(markdown));
@@ -47,7 +42,7 @@ const ContentEditor: React.FC<ContentEditorProps> = ({
 			console.error('마크다운 변환 오류:', error);
 			return markdown;
 		}
-	};
+	}, []);
 
 	const editor = useEditor({
 		extensions: [
@@ -78,14 +73,16 @@ const ContentEditor: React.FC<ContentEditorProps> = ({
 				class: 'prose prose-sm sm:prose dark:prose-invert focus:outline-none min-h-[300px] p-4',
 			},
 			handleDOMEvents: {
-				keydown: (view, event) => {
+				keydown: () => {
 					// 에디터 키 이벤트를 처리하여 엔터키 문제 해결
 					return false; // 기본 처리 방식 유지
 				},
 			},
 		},
 		onUpdate: ({ editor }) => {
-			onChange(editor.getHTML());
+			const html = editor.getHTML();
+			onChange(html);
+			setValue('content', html, { shouldDirty: true });
 		},
 	});
 
@@ -108,118 +105,88 @@ const ContentEditor: React.FC<ContentEditorProps> = ({
 				editor.commands.focus('start');
 			}
 		}
-	}, [content, editor]);
-
-	const [activeTab, setActiveTab] = useState<string>('main');
+	}, [content, editor, convertMarkdownToHTML]);
 
 	if (!editor) {
-		return <div>로딩 중...</div>;
+		return <Loader2 className="h-4 w-4 animate-spin" />;
 	}
 
 	return (
-		<div className="w-full space-y-4">
-			<Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-				<TabsList className="w-full">
-					<TabsTrigger value="main" className="flex-1">
-						원본 콘텐츠
-					</TabsTrigger>
-					{platforms.map(platform => (
-						<TabsTrigger key={platform} value={platform} className="flex-1">
-							{platform === Platform.INSTAGRAM && '인스타그램'}
-							{platform === Platform.THREAD && '스레드'}
-							{platform === Platform.LINKEDIN && '링크드인'}
-							{platform === Platform.TELEGRAM && '텔레그램'}
-							{platform === Platform.NEWSLETTER && '뉴스레터'}
-							{platform === Platform.BLOG && '블로그'}
-							{platform === Platform.DISCORD && '디스코드'}
-							{platform === Platform.TWITTER && '트위터(X)'}
-						</TabsTrigger>
-					))}
-				</TabsList>
+		<div className="w-full">
+			<div className="rounded-md border">
+				<div className="mb-4 flex flex-wrap gap-2 border-b p-4 pb-4">
+					<Button
+						type="button"
+						onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+						variant={editor.isActive('heading', { level: 1 }) ? 'secondary' : 'outline'}
+						size="sm"
+					>
+						H1
+					</Button>
+					<Button
+						type="button"
+						onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+						variant={editor.isActive('heading', { level: 2 }) ? 'secondary' : 'outline'}
+						size="sm"
+					>
+						H2
+					</Button>
+					<Button
+						type="button"
+						onClick={() => editor.chain().focus().toggleBold().run()}
+						variant={editor.isActive('bold') ? 'secondary' : 'outline'}
+						size="sm"
+					>
+						굵게
+					</Button>
+					<Button
+						type="button"
+						onClick={() => editor.chain().focus().toggleItalic().run()}
+						variant={editor.isActive('italic') ? 'secondary' : 'outline'}
+						size="sm"
+					>
+						기울임
+					</Button>
+					<Button
+						type="button"
+						onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+						variant={editor.isActive('codeBlock') ? 'secondary' : 'outline'}
+						size="sm"
+					>
+						코드 블록
+					</Button>
+					<Button
+						type="button"
+						onClick={() => editor.chain().focus().toggleBlockquote().run()}
+						variant={editor.isActive('blockquote') ? 'secondary' : 'outline'}
+						size="sm"
+					>
+						인용구
+					</Button>
+					<Input
+						type="file"
+						className="max-w-xs"
+						onChange={async e => {
+							const fileInput = e.target;
+							const file = fileInput.files?.[0];
+							if (!file) return;
 
-				<TabsContent value="main" className="mt-4">
-					<div className="rounded-md border">
-						<div className="mb-4 flex flex-wrap gap-2 border-b p-4 pb-4">
-							<Button
-								onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-								variant={editor.isActive('heading', { level: 1 }) ? 'secondary' : 'outline'}
-								size="sm"
-							>
-								H1
-							</Button>
-							<Button
-								onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-								variant={editor.isActive('heading', { level: 2 }) ? 'secondary' : 'outline'}
-								size="sm"
-							>
-								H2
-							</Button>
-							<Button
-								onClick={() => editor.chain().focus().toggleBold().run()}
-								variant={editor.isActive('bold') ? 'secondary' : 'outline'}
-								size="sm"
-							>
-								굵게
-							</Button>
-							<Button
-								onClick={() => editor.chain().focus().toggleItalic().run()}
-								variant={editor.isActive('italic') ? 'secondary' : 'outline'}
-								size="sm"
-							>
-								기울임
-							</Button>
-							<Button
-								onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-								variant={editor.isActive('codeBlock') ? 'secondary' : 'outline'}
-								size="sm"
-							>
-								코드 블록
-							</Button>
-							<Button
-								onClick={() => editor.chain().focus().toggleBlockquote().run()}
-								variant={editor.isActive('blockquote') ? 'secondary' : 'outline'}
-								size="sm"
-							>
-								인용구
-							</Button>
-							<Input
-								type="file"
-								className="max-w-xs"
-								onChange={async e => {
-									const fileInput = e.target;
-									const file = fileInput.files?.[0];
-									if (!file) return;
-
-									try {
-										const uploadedUrl = await uploadFile(file);
-										editor.chain().focus().setImage({ src: uploadedUrl }).run();
-										fileInput.value = ''; // 이미지 업로드 후 초기화
-									} catch (error) {
-										console.error('이미지 업로드 실패:', error);
-									}
-								}}
-							/>
-						</div>
-						<EditorContent editor={editor} className="prose max-w-none p-4" />
-					</div>
-				</TabsContent>
-
-				{platforms.map(platform => (
-					<TabsContent key={platform} value={platform} className="mt-4">
-						<div className="rounded-md border p-4">
-							<textarea
-								className="min-h-[300px] w-full resize-none rounded-md border p-2"
-								value={platformContents[platform] || ''}
-								onChange={e => onPlatformContentChange(platform, e.target.value)}
-								placeholder={`${platform} 플랫폼에 맞는 콘텐츠를 작성하세요`}
-								rows={12}
-							/>
-						</div>
-					</TabsContent>
-				))}
-			</Tabs>
+							try {
+								const uploadedUrl = await uploadFile(file);
+								editor.chain().focus().setImage({ src: uploadedUrl }).run();
+								fileInput.value = ''; // 이미지 업로드 후 초기화
+							} catch (error) {
+								console.error('이미지 업로드 실패:', error);
+							}
+						}}
+					/>
+				</div>
+				<EditorContent editor={editor} className="prose max-w-none p-4" />
+			</div>
 		</div>
 	);
-};
+});
+
+ContentEditor.displayName = 'ContentEditor';
 
 export default ContentEditor;
