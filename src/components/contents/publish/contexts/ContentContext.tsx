@@ -41,6 +41,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 
 	// 컨텐츠 선택 처리
 	const handleContentSelect = useCallback(async (content: Content) => {
+		console.log('🚀 ~ handleContentSelect ~ content:', content);
+
 		setSelectedContent(content);
 		setTitle(content.title || '');
 
@@ -60,6 +62,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
 					const response = await fetch(`/api/posts/${content.slug}`);
 					if (response.ok) {
 						const { mdxContent } = await response.json();
+						console.log('🚀 ~ handleContentSelect ~ mdxContent:', mdxContent);
+
 						setContent(mdxContent || `<h1>${content.title || ''}</h1>`);
 					} else {
 						// 실패 시 제목만 표시

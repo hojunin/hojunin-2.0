@@ -25,14 +25,14 @@ const ContentSelector: React.FC<ContentSelectorProps> = ({ onSelect }) => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [open, setOpen] = useState(false);
 
-	// react-query를 사용하여 콘텐츠 목록 가져오기
+	// useQuery로 Supabase에서 콘텐츠 목록 직접 가져오기
 	const { data: contents = [], isLoading } = useQuery({
 		queryKey: ['contents'],
 		queryFn: async () => {
 			const supabase = createClient();
 			const { data, error } = await supabase
 				.from('contents')
-				.select('*')
+				.select('*, tag(*), views(*)')
 				.order('created_at', { ascending: false });
 
 			if (error) {

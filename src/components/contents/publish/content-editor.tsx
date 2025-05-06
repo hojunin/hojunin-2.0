@@ -20,23 +20,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { uploadFile } from '@/api/file-upload';
 import { marked } from 'marked';
-import { Control, useFormContext, useWatch } from 'react-hook-form';
+import { Control, useFormContext } from 'react-hook-form';
 import { Loader2 } from 'lucide-react';
 
 interface ContentEditorProps {
 	content: string;
 	onChange: (html: string) => void;
-	control: Control<any>;
 }
 
-const ContentEditor: React.FC<ContentEditorProps> = memo(({ content, onChange, control }) => {
-	// react-hook-form의 컨텍스트에서 필요한 데이터 가져오기
+const ContentEditor = memo(({ content, onChange }: ContentEditorProps) => {
 	const { setValue } = useFormContext();
-
-	// 마크다운을 HTML로 변환하는 함수
 	const convertMarkdownToHTML = useCallback((markdown: string): string => {
 		try {
-			// 마크다운에서 HTML로 변환
 			return String(marked(markdown));
 		} catch (error) {
 			console.error('마크다운 변환 오류:', error);

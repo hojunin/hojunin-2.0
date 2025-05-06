@@ -35,7 +35,6 @@ interface PublishFormValues {
 const PublishPageContent: React.FC = () => {
 	const {
 		content,
-		contentStatus,
 		selectedContent,
 		isPublishing,
 		publishError,
@@ -45,9 +44,9 @@ const PublishPageContent: React.FC = () => {
 		setTitle,
 		setContent,
 	} = useContent();
+	console.log('🚀 ~ content:', content);
 
 	const {
-		platforms,
 		selectedPlatforms,
 		publishedPlatforms,
 		platformContents,
@@ -270,9 +269,7 @@ const ContentEditorSection = memo(({ control }: { control: any }) => {
 				<Controller
 					name="content"
 					control={control}
-					render={({ field }) => (
-						<ContentEditor content={field.value} onChange={field.onChange} control={control} />
-					)}
+					render={({ field }) => <ContentEditor content={field.value} onChange={field.onChange} />}
 				/>
 			</CardContent>
 		</Card>
