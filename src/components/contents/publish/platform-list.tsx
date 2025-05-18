@@ -287,7 +287,7 @@ const PlatformItem = memo(
 				<CardContent className="flex items-center justify-between p-4">
 					<div className="flex items-center space-x-3">
 						<div className="rounded-full bg-primary/10 p-2">
-							{PlatformIcon[platform.icon] || <Globe className="h-5 w-5" />}
+							{PlatformIcon[platform.id] || <Globe className="h-5 w-5" />}
 						</div>
 						<div>
 							<h3 className="font-medium">{platform.name}</h3>

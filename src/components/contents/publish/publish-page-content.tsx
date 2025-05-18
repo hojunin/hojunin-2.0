@@ -44,7 +44,6 @@ const PublishPageContent: React.FC = () => {
 		setTitle,
 		setContent,
 	} = useContent();
-	console.log('🚀 ~ content:', content);
 
 	const {
 		selectedPlatforms,
