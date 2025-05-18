@@ -12,6 +12,9 @@ function NextImage(props: HTMLProps<HTMLImageElement>) {
 	const width = isNaN(Number(props.width)) ? 1000 : Number(props.width);
 	const height = isNaN(Number(props.height)) ? 600 : Number(props.height);
 
+	// TODO : vercel 비싸서 일반이미지
+	return <img src={src} alt={src} width={width} height={height} className="rounded-lg" />;
+
 	if (!src) {
 		return <p> 이미지에 문제가 있어요 - {src}</p>;
 	}
