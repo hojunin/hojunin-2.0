@@ -13,6 +13,13 @@ export type Metadata = {
 		path: string;
 	};
 	description: string;
+	slug?: string;
+};
+
+export type HeadingItem = {
+	level: number;
+	text: string;
+	slug: string;
 };
 
 type TokenType =
@@ -68,26 +75,35 @@ function parseFrontmatter(fileContent: string) {
 		let [key, ...valueArr] = line.split(': ');
 		let value = valueArr.join(': ').trim();
 		value = value.replace(/^['"](.*)['"]$/, '$1'); // Remove quotes
-		metadata[key.trim() as keyof Metadata] = value;
+		
+		if (key.trim() === 'tag') {
+			// tag는 문자열로 받아서 객체로 변환
+			metadata[key.trim() as keyof Metadata] = {
+				label: value,
+				path: value.toLowerCase().replace(/\s+/g, '-')
+			} as any;
+		} else {
+			metadata[key.trim() as keyof Metadata] = value as any;
+		}
 	});
 
 	return { metadata: metadata as Metadata, content };
 }
 
-function getMDXFiles(dir) {
+function getMDXFiles(dir: string) {
 	return fs.readdirSync(dir).filter(file => path.extname(file) === '.mdx');
 }
 
-function readMDXFile(filePath) {
+function readMDXFile(filePath: string) {
 	let rawContent = fs.readFileSync(filePath, 'utf-8');
 	return parseFrontmatter(rawContent);
 }
 
-function getMDXData(dir) {
+function getMDXData(dir: string) {
 	let mdxFiles = getMDXFiles(dir);
 	return mdxFiles.map(file => {
 		let { metadata, content } = readMDXFile(path.join(dir, file));
-		let slug = metadata.slug;
+		let slug = (metadata as Metadata).slug || path.basename(file, '.mdx'); // 타입 캐스팅 추가
 		return {
 			metadata,
 			slug,
@@ -102,4 +118,38 @@ export function getBlogPosts() {
 
 export function getPostContent(slug: string) {
 	return getBlogPosts().find(post => post.slug === slug);
+}
+
+// 텍스트를 URL 친화적인 slug로 변환하는 함수 (heading-with-anchor.tsx와 동일)
+function createSlug(text: string): string {
+	return text
+		.toLowerCase()
+		.replace(/[^a-z0-9가-힣\s-]/g, '') // 특수문자 제거 (한글 유지)
+		.replace(/\s+/g, '-') // 공백을 하이픈으로
+		.replace(/-+/g, '-') // 연속된 하이픈을 하나로
+		.trim()
+		.replace(/^-|-$/g, ''); // 시작과 끝의 하이픈 제거
+}
+
+// MDX 콘텐츠에서 heading 요소들을 추출하는 함수
+export function extractHeadings(content: string): HeadingItem[] {
+	const headings: HeadingItem[] = [];
+	const lines = content.split('\n');
+	
+	lines.forEach(line => {
+		const headingMatch = line.match(/^(#{1,6})\s+(.+)$/);
+		if (headingMatch) {
+			const level = headingMatch[1].length;
+			const text = headingMatch[2].trim();
+			const slug = createSlug(text);
+			
+			headings.push({
+				level,
+				text,
+				slug,
+			});
+		}
+	});
+	
+	return headings;
 }

@@ -49,7 +49,13 @@ export default function HeadingWithAnchor({
 		if (hash === slug) {
 			const element = document.getElementById(slug);
 			if (element) {
-				element.scrollIntoView({ behavior: 'smooth' });
+				const elementPosition = element.offsetTop;
+				const offsetPosition = elementPosition - 90;
+				
+				window.scrollTo({
+					top: offsetPosition,
+					behavior: 'smooth'
+				});
 			}
 		}
 	}, [slug]);
@@ -71,7 +77,13 @@ export default function HeadingWithAnchor({
 		// 해당 요소로 스크롤
 		const element = document.getElementById(slug);
 		if (element) {
-			element.scrollIntoView({ behavior: 'smooth' });
+			const elementPosition = element.offsetTop;
+			const offsetPosition = elementPosition - 90;
+			
+			window.scrollTo({
+				top: offsetPosition,
+				behavior: 'smooth'
+			});
 		}
 	};
 
@@ -79,7 +91,7 @@ export default function HeadingWithAnchor({
 		<div className="group" id={slug}>
 			<button
 				onClick={handleAnchorClick}
-				className="flex w-full cursor-pointer items-center gap-2 text-left transition-colors hover:text-primary"
+				className="flex w-full cursor-pointer items-center gap-2 text-left transition-colors hover:text-gray-600 dark:hover:text-gray-300"
 				aria-label="앵커 링크 복사"
 			>
 				<Typography variant={variant} className={className}>
