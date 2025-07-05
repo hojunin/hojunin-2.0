@@ -91,16 +91,16 @@ export default function HeadingWithAnchor({
 		<div className="group" id={slug}>
 			<button
 				onClick={handleAnchorClick}
-				className="flex w-full cursor-pointer items-center gap-2 text-left transition-colors hover:text-gray-600 dark:hover:text-gray-300"
+				className="w-full cursor-pointer text-left transition-colors hover:text-gray-600 dark:hover:text-gray-300"
 				aria-label="앵커 링크 복사"
 			>
-				<Typography variant={variant} className={className}>
+				<Typography variant={variant} className={`${className} inline-flex items-center gap-2`}>
 					{children}
+					<LinkIcon
+						size={16}
+						className="opacity-0 transition-opacity group-hover:opacity-100 inline-block"
+					/>
 				</Typography>
-				<LinkIcon
-					size={16}
-					className="flex-shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
-				/>
 			</button>
 		</div>
 	);
