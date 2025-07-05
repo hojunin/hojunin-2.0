@@ -77,7 +77,7 @@ export default function TableOfContents({ headings }: TableOfContentsProps) {
 		<div 
 			className="fixed top-1/2 z-50 -translate-y-1/2"
 			style={{
-				left: `calc((100vw - 768px) / 2 - 30px)`,
+				left: `calc((100vw - 768px) / 2 - 100px)`,
 				transform: 'translateX(-100%) translateY(-50%)',
 				maxHeight: 'calc(100vh - 120px)' // 상하 여백을 줄여서 더 많은 공간 확보
 			}}
