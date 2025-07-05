@@ -49,13 +49,12 @@ const ContentsDetailHeader = ({ tags, metaData }: Props) => {
 						</Typography>
 					</div>
 				</Link>
-				<Typography
-					variant={'time'}
-					className="text-muted-foreground"
-					datetime={dayjs(metaData.created_at).format('YYYY-MM-DD HH:mm:ss')}
+				<time
+					className="text-sm text-muted-foreground"
+					dateTime={dayjs(metaData.created_at).format('YYYY-MM-DD HH:mm:ss')}
 				>
 					{getElapsedTime(metaData.created_at)}
-				</Typography>
+				</time>
 			</div>
 		</section>
 	);
