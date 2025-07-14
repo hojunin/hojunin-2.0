@@ -3,6 +3,7 @@
 import { ReactNode, useEffect } from 'react';
 import { Link as LinkIcon } from 'lucide-react';
 import Typography from './typography';
+import { twMerge } from 'tailwind-merge';
 
 interface HeadingWithAnchorProps {
 	children: ReactNode;
@@ -51,10 +52,10 @@ export default function HeadingWithAnchor({
 			if (element) {
 				const elementPosition = element.offsetTop;
 				const offsetPosition = elementPosition - 90;
-				
+
 				window.scrollTo({
 					top: offsetPosition,
-					behavior: 'smooth'
+					behavior: 'smooth',
 				});
 			}
 		}
@@ -69,7 +70,6 @@ export default function HeadingWithAnchor({
 		// 클립보드에 복사
 		try {
 			await navigator.clipboard.writeText(url);
-			// TODO: 토스트 메시지로 복사 완료 알림 (선택사항)
 		} catch (err) {
 			console.error('클립보드 복사 실패:', err);
 		}
@@ -79,26 +79,29 @@ export default function HeadingWithAnchor({
 		if (element) {
 			const elementPosition = element.offsetTop;
 			const offsetPosition = elementPosition - 90;
-			
+
 			window.scrollTo({
 				top: offsetPosition,
-				behavior: 'smooth'
+				behavior: 'smooth',
 			});
 		}
 	};
 
 	return (
-		<div className="group" id={slug}>
+		<div className={'group'} id={slug}>
 			<button
 				onClick={handleAnchorClick}
 				className="w-full cursor-pointer text-left transition-colors hover:text-gray-600 dark:hover:text-gray-300"
-				aria-label="앵커 링크 복사"
+				aria-label={`${children} 앵커 링크 복사`}
 			>
-				<Typography variant={variant} className={`${className} inline-flex items-center gap-2`}>
+				<Typography
+					variant={variant}
+					className={twMerge('inline-flex items-center gap-2', className)}
+				>
 					{children}
 					<LinkIcon
 						size={16}
-						className="opacity-0 transition-opacity group-hover:opacity-100 inline-block"
+						className="inline-block opacity-0 transition-opacity group-hover:opacity-100"
 					/>
 				</Typography>
 			</button>

@@ -8,7 +8,7 @@ const typoVariants = cva(
 		variants: {
 			variant: {
 				h1: 'scroll-m-20 text-2xl font-bold tracking-tight sm:text-4xl sm:font-extrabold lg:text-5xl',
-				h2: 'scroll-m-20 pb-2 text-xl font-medium tracking-tight first:mt-0 sm:text-3xl sm:font-semibold',
+				h2: 'scroll-m-20 text-xl font-medium tracking-tight first:mt-0 sm:text-3xl sm:font-semibold',
 				h3: 'scroll-m-20 text-lg font-semibold tracking-tight',
 				h4: 'scroll-m-20 text-md font-semibold tracking-tight',
 				p: 'whitespace-pre-line leading-7',
