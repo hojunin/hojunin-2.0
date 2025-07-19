@@ -8,11 +8,6 @@ const nextConfig = {
 	experimental: {
 		optimizeCss: true,
 	},
-	i18n: {
-		locales: ['ko', 'en'],
-		defaultLocale: 'ko',
-		localeDetection: true,
-	},
 	pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
 	reactStrictMode: false,
 	images: {
@@ -55,7 +50,13 @@ const nextConfig = {
 				destination: '/',
 				permanent: true,
 			},
-		];
+		].concat(
+			{
+				source: '/',
+				destination: '/contents',
+				permanent: false,
+			},
+		);
 	},
 	headers: async () => {
 		return [

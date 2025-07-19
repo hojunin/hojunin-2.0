@@ -6,11 +6,11 @@ export default function Home() {
 	return (
 		<>
 			<div className="container mt-6">
-				<HomeRollingCarousel />
+				{/* <HomeRollingCarousel />
 
 				<BestContents />
 
-				<NewContents />
+				<NewContents /> */}
 			</div>
 		</>
 	);
